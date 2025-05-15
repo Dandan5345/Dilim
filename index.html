@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="נופש לי ולך - דילים מיוחדים לטיסות, מלונות וחבילות נופש. הזמינו לבד או פנו אלינו לשירות אישי.">
+    <title>נופש לי ולך - דף הבית</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1><a href="index.html">נופש לי ולך</a></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li class="current"><a href="index.html">דף הבית</a></li>
+                    <li><a href="deals.html">כל הדילים</a></li>
+                    <li><a href="admin.html">ניהול (מנהלים)</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="showcase">
+        <div class="container">
+            <h1>מצא את החופשה המושלמת שלך</h1>
+            <p>דילים בלעדיים לטיסות, מלונות וחבילות. הזמן ישירות או קבל שירות אישי מאיתנו!</p>
+        </div>
+    </section>
+
+    <section id="featured-deals" class="container">
+        <h2>דילים מומלצים</h2>
+        <div class="deal-item">
+            <img src="https://via.placeholder.com/200x150?text=רודוס" alt="רודוס">
+            <div class="deal-item-content">
+                <h3>רודוס החל מ-100 ₪</h3>
+                <p>חופשה חלומית ברודוס במחירים שאסור לפספס. כולל טיסות ומלונות מומלצים.</p>
+                <p class="price">מחיר פתיחה לטיסה.</p>
+                <a href="deal-details.html?dealId=rhodes_example" class="button">פרטים נוספים</a>
+            </div>
+        </div>
+        <div class="deal-item">
+            <img src="https://via.placeholder.com/200x150?text=ברצלונה" alt="ברצלונה">
+            <div class="deal-item-content">
+                <h3>ברצלונה החל מ-299 ₪</h3>
+                <p>גלו את ברצלונה התוססת עם דילים משתלמים במיוחד לחופשה אורבנית.</p>
+                <p class="price">מחיר פתיחה לחבילה.</p>
+                <a href="deal-details.html?dealId=barcelona_example" class="button">פרטים נוספים</a>
+            </div>
+        </div>
+         <div style="text-align: center; margin-top: 20px;">
+            <a href="deals.html" class="button">לכל הדילים</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>נופש לי ולך &copy; <span id="currentYear"></span></p>
+    </footer>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
