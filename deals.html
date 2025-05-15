@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>כל הדילים - נופש לי ולך</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1><a href="index.html">נופש לי ולך</a></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">דף הבית</a></li>
+                    <li class="current"><a href="deals.html">כל הדילים</a></li>
+                    <li><a href="admin.html">ניהול (מנהלים)</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="all-deals" class="container">
+        <h2>כל הדילים שלנו</h2>
+        <p>כאן תוכלו למצוא את כל הדילים המעודכנים לטיסות, מלונות וחבילות נופש. בחרו את היעד הבא שלכם!</p>
+
+        <div id="deals-list">
+            <div class="deal-item">
+                <img src="https://via.placeholder.com/200x150?text=אילת" alt="אילת">
+                <div class="deal-item-content">
+                    <h3>אילת החל מ-120 ₪ ללילה</h3>
+                    <p>חופשה מפנקת באילת במלונות מובילים. המחיר הנמוך ביותר שמצאנו עבורכם.</p>
+                    <p class="price">סוג דיל: מלון</p>
+                    <a href="deal-details.html?dealId=eilat_example" class="button">פרטים והזמנה</a>
+                </div>
+            </div>
+             <div class="deal-item">
+                <img src="https://via.placeholder.com/200x150?text=רומא+טיסה" alt="רומא טיסה">
+                <div class="deal-item-content">
+                    <h3>טיסה לרומא החל מ-150 €</h3>
+                    <p>גלו את עיר הנצח במחיר מדהים! הצעות לטיסות ישירות ועם קונקשנים.</p>
+                    <p class="price">סוג דיל: טיסה</p>
+                    <a href="deal-details.html?dealId=rome_flight_example" class="button">פרטים והזמנה</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>נופש לי ולך &copy; <span id="currentYear"></span></p>
+    </footer>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // --- התחלה: קוד JavaScript לטעינת דילים (דוגמה) ---
+        const dealsListContainer = document.getElementById('deals-list');
+
+        // פונקציה לדוגמה שתקבל דילים (בפועל, תתחבר ל-Firebase)
+        async function fetchDeals() {
+            // כאן תהיה לוגיקה לקריאת הדילים מ-Firebase Firestore
+            // לדוגמה:
+            // const snapshot = await firebase.firestore().collection('deals').get();
+            // const deals = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+            // נתונים מדומים לצורך הדגמה:
+            const mockDeals = [
+                { id: 'paris_hotel_1', name: 'מלון בפריז החל מ-€80 ללילה', description: 'מלון מקסים בלב פריז, קרוב לאתרים המרכזיים.', type: 'hotel', price_text: 'החל מ-€80', imageUrl: 'https://via.placeholder.com/200x150?text=Paris+Hotel' },
+                { id: 'london_package_1', name: 'חבילת נופש ללונדון החל מ-£350', description: 'כולל טיסה ומלון 3 כוכבים במרכז לונדון ל-3 לילות.', type: 'package', price_text: 'החל מ-£350', imageUrl: 'https://via.placeholder.com/200x150?text=London+Package' }
+            ];
+
+            // נקה דילים קיימים (אם יש דילים סטטיים ב-HTML)
+            // dealsListContainer.innerHTML = ''; // בטל את ההערה אם אתה טוען רק דינמית
+
+            mockDeals.forEach(deal => {
+                const dealElement = `
+                    <div class="deal-item">
+                        <img src="${deal.imageUrl}" alt="${deal.name}">
+                        <div class="deal-item-content">
+                            <h3>${deal.name}</h3>
+                            <p>${deal.description}</p>
+                            <p class="price">סוג דיל: ${deal.type === 'hotel' ? 'מלון' : deal.type === 'flight' ? 'טיסה' : 'חבילה'} | ${deal.price_text}</p>
+                            <a href="deal-details.html?dealId=${deal.id}" class="button">פרטים והזמנה</a>
+                        </div>
+                    </div>
+                `;
+                dealsListContainer.insertAdjacentHTML('beforeend', dealElement);
+            });
+        }
+
+        // קריאה לפונקציה לטעינת הדילים כשהדף נטען
+        // window.addEventListener('DOMContentLoaded', fetchDeals); // בטל הערה כשתהיה מוכן עם Firebase
+        // --- סוף: קוד JavaScript לטעינת דילים ---
+
+        function filterDeals() {
+            // לוגיקה לסינון דילים (יכולה להיות מורכבת יותר עם חיפוש ב-Firebase)
+            alert('פונקציית סינון טרם מומשה במלואה.');
+        }
+    </script>
+</body>
+</html>
