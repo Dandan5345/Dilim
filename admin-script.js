@@ -1,14 +1,35 @@
 // admin-script.js
+import { auth, db } from './firebase-init.js'; // ייבוא משירותי Firebase שהוגדרו
+import {
+    onAuthStateChanged,
+    signInWithEmailAndPassword,
+    signOut
+} from "https://www.gstatic.com/firebasejs/11.7.3/firebase-auth.js";
+import {
+    collection,
+    addDoc,
+    getDocs,
+    doc,
+    updateDoc,
+    deleteDoc,
+    serverTimestamp,
+    query,
+    orderBy,
+    getDoc
+} from "https://www.gstatic.com/firebasejs/11.7.3/firebase-firestore.js";
+
 document.addEventListener('DOMContentLoaded', function () {
     const loginSection = document.getElementById('admin-login');
     const dashboardSection = document.getElementById('admin-dashboard');
     const loginButton = document.getElementById('login-button');
     const logoutButton = document.getElementById('logout-button');
     const loginError = document.getElementById('login-error');
+    const adminUserEmailEl = document.getElementById('admin-user-email');
+
 
     const dealForm = document.getElementById('deal-form');
     const formTitle = document.getElementById('form-title');
-    const dealIdInput = document.getElementById('deal-id');
+    const dealIdInput = document.getElementById('deal-id'); // input hidden
     const dealNameInput = document.getElementById('deal-name');
     const dealDescriptionInput = document.getElementById('deal-description');
     const dealPriceTextInput = document.getElementById('deal-price-text');
@@ -17,102 +38,136 @@ document.addEventListener('DOMContentLoaded', function () {
     const affiliateBookingInput = document.getElementById('affiliate-booking');
     const affiliateAgodaInput = document.getElementById('affiliate-agoda');
     const affiliateExpediaInput = document.getElementById('affiliate-expedia');
-    const saveDealButton = document.getElementById('save-deal-button');
+    const saveDealButton = document.getElementById('save-deal-button'); // שונה ל-type=submit ב-HTML
     const cancelEditButton = document.getElementById('cancel-edit-button');
     const adminDealsOutput = document.getElementById('admin-deals-output');
 
+    const dealsCollectionRef = collection(db, 'deals');
+
     // בדוק אם המשתמש כבר מחובר
-    auth.onAuthStateChanged(user => {
+    onAuthStateChanged(auth, user => {
         if (user) {
             loginSection.style.display = 'none';
             dashboardSection.style.display = 'block';
-            loadDeals();
+            if (adminUserEmailEl) adminUserEmailEl.textContent = user.email;
+            loadAdminDeals();
         } else {
             loginSection.style.display = 'block';
             dashboardSection.style.display = 'none';
+            if (adminUserEmailEl) adminUserEmailEl.textContent = '';
         }
     });
 
     // התחברות
-    loginButton.addEventListener('click', () => {
-        const email = document.getElementById('admin-email').value;
-        const password = document.getElementById('admin-password').value;
-        loginError.textContent = '';
+    if (loginButton) {
+        loginButton.addEventListener('click', () => {
+            const email = document.getElementById('admin-email').value;
+            const password = document.getElementById('admin-password').value;
+            loginError.textContent = '';
 
-        auth.signInWithEmailAndPassword(email, password)
-            .then(userCredential => {
-                console.log('User logged in:', userCredential.user);
-            })
-            .catch(error => {
-                loginError.textContent = error.message;
-                console.error('Login error:', error);
-            });
-    });
+            signInWithEmailAndPassword(auth, email, password)
+                .then(userCredential => {
+                    console.log('User logged in:', userCredential.user);
+                    // onAuthStateChanged יטפל בהצגת/הסתרת החלקים
+                })
+                .catch(error => {
+                    loginError.textContent = "שגיאת התחברות: " + error.message;
+                    console.error('Login error:', error);
+                });
+        });
+    }
 
     // התנתקות
-    logoutButton.addEventListener('click', () => {
-        auth.signOut().then(() => {
-            console.log('User logged out');
-        }).catch(error => {
-            console.error('Logout error:', error);
+    if (logoutButton) {
+        logoutButton.addEventListener('click', () => {
+            signOut(auth).then(() => {
+                console.log('User logged out');
+            }).catch(error => {
+                console.error('Logout error:', error);
+            });
         });
-    });
+    }
 
     // שמירת דיל (הוספה או עדכון)
-    dealForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const dealId = dealIdInput.value;
-        const dealData = {
-            name: dealNameInput.value,
-            description: dealDescriptionInput.value,
-            price_text: dealPriceTextInput.value,
-            type: dealTypeSelect.value,
-            imageUrl: dealImageUrlInput.value,
-            affiliateLinks: {
-                booking: affiliateBookingInput.value || null,
-                agoda: affiliateAgodaInput.value || null,
-                expedia: affiliateExpediaInput.value || null,
-            },
-            createdAt: firebase.firestore.FieldValue.serverTimestamp() // הוספת חותמת זמן
-        };
+    if (dealForm) {
+        dealForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const dealId = dealIdInput.value; // ערך מ-input hidden
+            const dealData = {
+                name: dealNameInput.value,
+                description: dealDescriptionInput.value,
+                price_text: dealPriceTextInput.value,
+                type: dealTypeSelect.value,
+                imageUrl: dealImageUrlInput.value,
+                affiliateLinks: {
+                    booking: affiliateBookingInput.value || null,
+                    agoda: affiliateAgodaInput.value || null,
+                    expedia: affiliateExpediaInput.value || null,
+                },
+                // הוספת חותמת זמן רק אם זה דיל חדש, או עדכון חותמת זמן של עדכון
+                updatedAt: serverTimestamp()
+            };
 
-        try {
-            if (dealId) { // עדכון דיל קיים
-                await db.collection('deals').doc(dealId).update(dealData);
-                alert('הדיל עודכן בהצלחה!');
-            } else { // הוספת דיל חדש
-                await db.collection('deals').add(dealData);
-                alert('הדיל נוסף בהצלחה!');
+            if (!dealId) { // אם אין ID, זה דיל חדש, הוסף createdAt
+                dealData.createdAt = serverTimestamp();
             }
-            dealForm.reset();
-            dealIdInput.value = '';
-            formTitle.textContent = 'הוסף דיל חדש';
-            saveDealButton.textContent = 'שמור דיל';
-            cancelEditButton.style.display = 'none';
-            loadDeals(); // טען מחדש את רשימת הדילים
-        } catch (error) {
-            console.error('Error saving deal:', error);
-            alert('שגיאה בשמירת הדיל: ' + error.message);
-        }
-    });
+
+
+            try {
+                saveDealButton.disabled = true;
+                saveDealButton.textContent = 'שומר...';
+
+                if (dealId) { // עדכון דיל קיים
+                    const dealDocRef = doc(db, 'deals', dealId);
+                    await updateDoc(dealDocRef, dealData);
+                    alert('הדיל עודכן בהצלחה!');
+                } else { // הוספת דיל חדש
+                    await addDoc(dealsCollectionRef, dealData);
+                    alert('הדיל נוסף בהצלחה!');
+                }
+                dealForm.reset();
+                dealIdInput.value = ''; // נקה את ה-ID הנסתר
+                formTitle.textContent = 'הוסף דיל חדש';
+                saveDealButton.textContent = 'שמור דיל';
+                cancelEditButton.style.display = 'none';
+                loadAdminDeals(); // טען מחדש את רשימת הדילים
+            } catch (error) {
+                console.error('Error saving deal:', error);
+                alert('שגיאה בשמירת הדיל: ' + error.message);
+            } finally {
+                saveDealButton.disabled = false;
+                saveDealButton.textContent = dealId ? 'עדכן דיל' : 'שמור דיל';
+            }
+        });
+    }
 
     // טעינת דילים להצגה בניהול
-    async function loadDeals() {
-        adminDealsOutput.innerHTML = 'טוען דילים...';
+    async function loadAdminDeals() {
+        if (!adminDealsOutput) return;
+        adminDealsOutput.innerHTML = '<p>טוען דילים...</p>';
         try {
-            const snapshot = await db.collection('deals').orderBy('createdAt', 'desc').get();
-            if (snapshot.empty) {
-                adminDealsOutput.innerHTML = '<p>אין דילים להצגה.</p>';
+            const q = query(dealsCollectionRef, orderBy('createdAt', 'desc'));
+            const querySnapshot = await getDocs(q);
+
+            if (querySnapshot.empty) {
+                adminDealsOutput.innerHTML = '<p>אין דילים להצגה. הוסף דיל חדש!</p>';
                 return;
             }
             let html = '<ul>';
-            snapshot.forEach(doc => {
-                const deal = doc.data();
+            querySnapshot.forEach((docSnapshot) => { // שיניתי את שם המשתנה כדי למנוע בלבול עם doc()
+                const deal = docSnapshot.data();
+                const id = docSnapshot.id;
                 html += `
                     <li>
-                        <strong>${deal.name}</strong> (${deal.type}) - ${deal.price_text}
-                        <button data-id="${doc.id}" class="edit-deal">ערוך</button>
-                        <button data-id="${doc.id}" class="delete-deal">מחק</button>
+                        <div>
+                            <strong>${deal.name}</strong> <br>
+                            <small>סוג: ${getDealTypeDisplay(deal.type)} | מחיר: ${deal.price_text}</small><br>
+                            <small>נוצר: ${deal.createdAt?.toDate().toLocaleString('he-IL') || 'לא זמין'}</small>
+                        </div>
+                        <div>
+                            <button data-id="${id}" class="edit-deal button-secondary" style="padding:5px 10px; font-size:0.8em;">ערוך</button>
+                            <button data-id="${id}" class="delete-deal" style="background-color:#dc3545; padding:5px 10px; font-size:0.8em;">מחק</button>
+                        </div>
                     </li>
                 `;
             });
@@ -128,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
         } catch (error) {
-            console.error('Error loading deals:', error);
+            console.error('Error loading admin deals:', error);
             adminDealsOutput.innerHTML = '<p>שגיאה בטעינת הדילים.</p>';
         }
     }
@@ -137,11 +192,13 @@ document.addEventListener('DOMContentLoaded', function () {
     async function handleEditDeal(e) {
         const id = e.target.dataset.id;
         try {
-            const doc = await db.collection('deals').doc(id).get();
-            if (doc.exists) {
-                const deal = doc.data();
+            const dealDocRef = doc(db, 'deals', id);
+            const docSnap = await getDoc(dealDocRef);
+
+            if (docSnap.exists()) {
+                const deal = docSnap.data();
                 formTitle.textContent = 'ערוך דיל קיים';
-                dealIdInput.value = id;
+                dealIdInput.value = id; // שמור את ה-ID ב-input הנסתר
                 dealNameInput.value = deal.name;
                 dealDescriptionInput.value = deal.description;
                 dealPriceTextInput.value = deal.price_text;
@@ -150,38 +207,49 @@ document.addEventListener('DOMContentLoaded', function () {
                 affiliateBookingInput.value = deal.affiliateLinks?.booking || '';
                 affiliateAgodaInput.value = deal.affiliateLinks?.agoda || '';
                 affiliateExpediaInput.value = deal.affiliateLinks?.expedia || '';
+
                 saveDealButton.textContent = 'עדכן דיל';
                 cancelEditButton.style.display = 'inline-block';
-                window.scrollTo(0, dealFormContainer.offsetTop); // גלול לטופס
+                dealForm.scrollIntoView({ behavior: 'smooth' }); // גלול לטופס
             }
         } catch (error) {
             console.error("Error fetching deal for edit:", error);
+            alert("שגיאה בטעינת הדיל לעריכה.");
         }
     }
 
     // ביטול עריכה
-    cancelEditButton.addEventListener('click', () => {
-        dealForm.reset();
-        dealIdInput.value = '';
-        formTitle.textContent = 'הוסף דיל חדש';
-        saveDealButton.textContent = 'שמור דיל';
-        cancelEditButton.style.display = 'none';
-    });
-
+    if(cancelEditButton) {
+        cancelEditButton.addEventListener('click', () => {
+            dealForm.reset();
+            dealIdInput.value = '';
+            formTitle.textContent = 'הוסף דיל חדש';
+            saveDealButton.textContent = 'שמור דיל';
+            cancelEditButton.style.display = 'none';
+        });
+    }
 
     // טיפול במחיקת דיל
     async function handleDeleteDeal(e) {
         const id = e.target.dataset.id;
-        if (confirm('האם אתה בטוח שברצונך למחוק דיל זה?')) {
+        if (confirm('האם אתה בטוח שברצונך למחוק דיל זה? הפעולה אינה הפיכה.')) {
             try {
-                await db.collection('deals').doc(id).delete();
+                const dealDocRef = doc(db, 'deals', id);
+                await deleteDoc(dealDocRef);
                 alert('הדיל נמחק בהצלחה!');
-                loadDeals(); // טען מחדש את רשימת הדילים
+                loadAdminDeals(); // טען מחדש את רשימת הדילים
             } catch (error) {
                 console.error('Error deleting deal:', error);
                 alert('שגיאה במחיקת הדיל.');
             }
         }
+    }
+
+    function getDealTypeDisplay(typeKey) {
+        if (typeKey === 'flight') return 'טיסה';
+        if (typeKey === 'hotel') return 'מלון';
+        if (typeKey === 'package') return 'חבילה';
+        return typeKey;
     }
 
 }); // סוף DOMContentLoaded
