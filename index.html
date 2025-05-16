@@ -11,13 +11,13 @@
     <header>
         <div class="container">
             <div id="branding">
-                <h1><a href="index.html">נופש לי ולך</a></h1>
+                <h1><a href="index.html">✈️ נופש לי ולך</a></h1>
             </div>
             <nav>
                 <ul>
                     <li class="current"><a href="index.html">דף הבית</a></li>
                     <li><a href="deals.html">כל הדילים</a></li>
-                    <li><a href="admin.html">ניהול (מנהלים)</a></li>
+                    <li><a href="admin.html">ניהול</a></li>
                 </ul>
             </nav>
         </div>
@@ -27,31 +27,14 @@
         <div class="container">
             <h1>מצא את החופשה המושלמת שלך</h1>
             <p>דילים בלעדיים לטיסות, מלונות וחבילות. הזמן ישירות או קבל שירות אישי מאיתנו!</p>
+            <a href="deals.html" class="button">צפה בכל הדילים</a>
         </div>
     </section>
 
     <section id="featured-deals" class="container">
-        <h2>דילים מומלצים</h2>
-        <div class="deal-item">
-            <img src="https://via.placeholder.com/200x150?text=רודוס" alt="רודוס">
-            <div class="deal-item-content">
-                <h3>רודוס החל מ-100 ₪</h3>
-                <p>חופשה חלומית ברודוס במחירים שאסור לפספס. כולל טיסות ומלונות מומלצים.</p>
-                <p class="price">מחיר פתיחה לטיסה.</p>
-                <a href="deal-details.html?dealId=rhodes_example" class="button">פרטים נוספים</a>
-            </div>
-        </div>
-        <div class="deal-item">
-            <img src="https://via.placeholder.com/200x150?text=ברצלונה" alt="ברצלונה">
-            <div class="deal-item-content">
-                <h3>ברצלונה החל מ-299 ₪</h3>
-                <p>גלו את ברצלונה התוססת עם דילים משתלמים במיוחד לחופשה אורבנית.</p>
-                <p class="price">מחיר פתיחה לחבילה.</p>
-                <a href="deal-details.html?dealId=barcelona_example" class="button">פרטים נוספים</a>
-            </div>
-        </div>
-         <div style="text-align: center; margin-top: 20px;">
-            <a href="deals.html" class="button">לכל הדילים</a>
+        <h2>דילים מומלצים 🔥</h2>
+        <div id="featured-deals-list" class="deals-grid">
+            <p>טוען דילים מומלצים...</p>
         </div>
     </section>
 
@@ -59,8 +42,56 @@
         <p>נופש לי ולך &copy; <span id="currentYear"></span></p>
     </footer>
 
-    <script>
+    <script type="module">
+        import { db } from './firebase-init.js';
+        import { collection, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-firestore.js";
+
         document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        const featuredDealsListContainer = document.getElementById('featured-deals-list');
+
+        async function fetchFeaturedDeals() {
+            if (!featuredDealsListContainer) return;
+            featuredDealsListContainer.innerHTML = '<p>טוען דילים מומלצים...</p>'; // הודעת טעינה
+
+            try {
+                const dealsRef = collection(db, 'deals');
+                // כאן אפשר להוסיף לוגיקה לבחירת דילים "מומלצים", למשל לפי תאריך הוספה או שדה 'isFeatured'
+                const q = query(dealsRef, orderBy('createdAt', 'desc'), limit(3)); // מציג 3 דילים אחרונים כמומלצים
+                const querySnapshot = await getDocs(q);
+
+                if (querySnapshot.empty) {
+                    featuredDealsListContainer.innerHTML = '<p>לא נמצאו דילים מומלצים כרגע.</p>';
+                    return;
+                }
+
+                let dealsHTML = '';
+                querySnapshot.forEach((doc) => {
+                    const deal = doc.data();
+                    const dealId = doc.id;
+                    dealsHTML += `
+                        <div class="deal-item">
+                            <img src="${deal.imageUrl || 'https://via.placeholder.com/300x200?text=תמונה+חסרה'}" alt="${deal.name}">
+                            <div class="deal-item-content">
+                                <h3>${deal.name}</h3>
+                                <p class="price">${deal.price_text}</p>
+                                <p>${deal.description.substring(0, 100)}...</p>
+                                <a href="deal-details.html?dealId=${dealId}" class="button">פרטים נוספים</a>
+                            </div>
+                        </div>
+                    `;
+                });
+                featuredDealsListContainer.innerHTML = dealsHTML;
+                // שינוי פריסה ל-grid אחרי טעינת הדילים
+                featuredDealsListContainer.id = 'deals-list'; // שימוש באותו ID כמו בדף הדילים לטובת עיצוב עקבי
+
+            } catch (error) {
+                console.error("Error fetching featured deals: ", error);
+                featuredDealsListContainer.innerHTML = '<p>שגיאה בטעינת הדילים המומלצים.</p>';
+            }
+        }
+
+        fetchFeaturedDeals();
     </script>
 </body>
 </html>
