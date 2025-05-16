@@ -6,10 +6,70 @@
     <title>ניהול דילים - נופש לי ולך</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* סגנונות נוספים לדף ניהול */
+        /* עיצוב כללי לדף ניהול משופר */
+        #admin-dashboard { background-color: #f9f9f9; padding: 20px; border-radius: 8px; }
+        .admin-actions-container { display: flex; justify-content: space-around; margin-bottom: 30px; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .admin-actions-container .button {
+            font-size: 1.2em;
+            padding: 15px 30px;
+            flex-grow: 1;
+            margin: 0 10px;
+            text-align: center;
+        }
+
+        /* עיצוב מודאלים */
+        .modal {
+            display: none; /* מוסתר כברירת מחדל */
+            position: fixed;
+            z-index: 1001; /* מעל ה-header הדביק */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6); /* רקע שחור חצי שקוף */
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 25px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 700px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        .modal-content h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .close-modal-btn {
+            color: #aaa;
+            float: left; /* שינוי ל-float left כדי שיופיע בצד שמאל (בהתאם לכיווניות RTL) */
+            font-size: 28px;
+            font-weight: bold;
+            line-height: 1;
+        }
+        .close-modal-btn:hover,
+        .close-modal-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .modal-form .form-group { margin-bottom: 18px; } /* ריווח קצת יותר גדול בטפסי המודאל */
+        .modal-form label { font-weight: 600; }
+
+        /* הסתרת טופס ישן אם קיים */
+        #deal-form-container.old-form { display: none; }
+
+        /* סגנונות נוספים מהפעם הקודמת */
         .hidden-field { display: none; }
-        .trip-types-container, .availability-months-container { margin-bottom: 15px; border: 1px solid #eee; padding: 10px; border-radius: 5px; }
-        .trip-types-container label, .availability-months-container label { margin-right: 10px; }
+        .trip-types-container, .availability-months-container { margin-bottom: 15px; border: 1px solid #eee; padding: 10px; border-radius: 5px; max-height: 150px; overflow-y: auto; }
+        .trip-types-container label, .availability-months-container label { margin-right: 10px; display: block; }
         .hotel-entry { border: 1px dashed #ccc; padding: 15px; margin-bottom: 15px; border-radius: 5px; background-color: #f9f9f9; }
         .hotel-entry h5 { margin-top: 0; color: var(--secondary-color); }
         .remove-hotel-btn { background-color: #e74c3c; color: white; padding: 5px 10px; font-size: 0.8em; margin-top: 10px;}
@@ -32,8 +92,7 @@
     </header>
 
     <section id="admin-section" class="container">
-        <div id="admin-login">
-            <h2>התחברות מנהל</h2>
+        <div id="admin-login" style="display: block;"> <h2>התחברות מנהל</h2>
             <div class="form-group">
                 <label for="admin-email">אימייל:</label>
                 <input type="email" id="admin-email" required>
@@ -47,93 +106,221 @@
         </div>
 
         <div id="admin-dashboard" style="display:none;">
-            <h2>לוח ניהול דילים</h2>
-            <p>ברוך הבא, <span id="admin-user-email"></span>! <button id="logout-button" type="button" class="button-secondary" style="padding: 8px 15px; font-size:0.9em; margin-right:10px;">התנתק</button></p>
-
-            <div id="deal-form-container">
-                <h3 id="form-title">הוסף דיל חדש</h3>
-                <form id="deal-form">
-                    <input type="hidden" id="deal-id">
-
-                    <div class="form-group">
-                        <label for="deal-name">שם הדיל (כותרת):</label>
-                        <input type="text" id="deal-name" placeholder="לדוגמה: רודוס החל מ-100 ₪" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="deal-description">תיאור הדיל:</label>
-                        <textarea id="deal-description" rows="5" required placeholder="פרט את הדיל, תנאים, מה כלול..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="deal-price-text">טקסט מחיר (כמו שיוצג):</label>
-                        <input type="text" id="deal-price-text" placeholder="לדוגמה: החל מ-100 ₪ לאדם" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="deal-type-select">סוג הדיל המרכזי:</label>
-                        <select id="deal-type-select">
-                            <option value="package">חבילה (טיסה + מלון/ות)</option>
-                            <option value="hotel">מלון בלבד</option>
-                            <option value="flight">טיסה בלבד</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="deal-image-url">קישור לתמונה ראשית לדיל:</label>
-                        <input type="text" id="deal-image-url" placeholder="https://example.com/image.jpg" required>
-                    </div>
-
-                    <div class="form-group">
-                        <h4>בחר סוגי טיול (אפשר לבחור מספר אפשרויות):</h4>
-                        <div id="trip-types-checkboxes" class="trip-types-container">
-                            </div>
-                    </div>
-
-                    <div class="form-group">
-                        <h4>חודשי זמינות (בחר חודשים רלוונטיים):</h4>
-                        <div id="availability-months-checkboxes" class="availability-months-container">
-                            </div>
-                    </div>
-
-                    <div id="flight-details-section" class="form-group hidden-field">
-                        <h4>פרטי טיסה (אם רלוונטי לחבילה/טיסה):</h4>
-                        <label for="flight-notes">הערות לטיסה (לדוגמה: ישירה/קונקשן, חברת תעופה, כבודה):</label>
-                        <textarea id="flight-notes" rows="3"></textarea>
-                    </div>
-                    
-                    <div id="single-hotel-affiliates-section" class="form-group hidden-field">
-                        <h4>קישורי Affiliate למלון (לדיל "מלון בלבד"):</h4>
-                        <div class="form-group">
-                            <label for="single-affiliate-booking">Booking.com:</label>
-                            <input type="text" id="single-affiliate-booking" placeholder="קישור שותף מבוקינג">
-                        </div>
-                         <div class="form-group">
-                            <label for="single-affiliate-agoda">Agoda:</label>
-                            <input type="text" id="single-affiliate-agoda" placeholder="קישור שותף מאגודה">
-                        </div>
-                         <div class="form-group">
-                            <label for="single-affiliate-expedia">Expedia:</label>
-                            <input type="text" id="single-affiliate-expedia" placeholder="קישור שותף מאקספדיה">
-                        </div>
-                    </div>
-
-                    <div id="multiple-hotels-section" class="form-group hidden-field">
-                        <h4>מלונות בדיל (רלוונטי לחבילות, או אם רוצים להציע מספר אופציות מלון):</h4>
-                        <div id="hotels-container">
-                            </div>
-                        <button type="button" id="add-hotel-btn" class="button-secondary" style="margin-top:10px;">+ הוסף מלון לחבילה</button>
-                    </div>
-
-                    <button type="submit" id="save-deal-button">שמור דיל</button>
-                    <button type="button" id="cancel-edit-button" style="display:none;" class="button-secondary">בטל עריכה</button>
-                </form>
+            <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2>לוח ניהול דילים</h2>
+                <p>ברוך הבא, <span id="admin-user-email"></span>! <button id="logout-button" type="button" class="button-secondary" style="padding: 8px 15px; font-size:0.9em;">התנתק</button></p>
             </div>
 
+            <div class="admin-actions-container">
+                <button id="open-package-deal-modal-btn" class="button">➕ יצירת דיל (חבילה)</button>
+                <button id="open-flight-deal-modal-btn" class="button button-secondary">✈️ הוסף טיסה שווה</button>
+                <button id="open-hotel-deal-modal-btn" class="button button-secondary" style="background-color: var(--primary-color)">🏨 הוסף מלון שווה</button>
+            </div>
+
+            <div id="package-deal-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close-modal-btn" data-modal-id="package-deal-modal">&times;</span>
+                    <h3>יצירת דיל חדש (חבילה)</h3>
+                    <form id="package-deal-form" class="modal-form">
+                        <input type="hidden" id="package-deal-id"> <div class="form-group">
+                            <label for="package-deal-name">שם הדיל (כותרת):</label>
+                            <input type="text" id="package-deal-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="package-deal-description">תיאור הדיל:</label>
+                            <textarea id="package-deal-description" rows="3" required></textarea>
+                        </div>
+                         <div class="form-group">
+                            <label for="package-price-text">טקסט מחיר (כמו שיוצג):</label>
+                            <input type="text" id="package-price-text" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="package-start-date">תאריך התחלה מדויק:</label>
+                            <input type="date" id="package-start-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="package-end-date">תאריך סיום מדויק:</label>
+                            <input type="date" id="package-end-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="package-country">מדינה:</label>
+                            <input type="text" id="package-country" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="package-city">עיר:</label>
+                            <input type="text" id="package-city" required>
+                        </div>
+                        <hr>
+                        <h4>פרטי טיסה:</h4>
+                        <div class="form-group">
+                            <label for="package-flight-departure-airline">טיסת הלוך עם:</label>
+                            <input type="text" id="package-flight-departure-airline" placeholder="לדוגמה: אלעל">
+                        </div>
+                        <div class="form-group">
+                            <label for="package-flight-departure-time">בשעה (הלוך):</label>
+                            <input type="time" id="package-flight-departure-time">
+                        </div>
+                        <div class="form-group">
+                            <label for="package-flight-return-airline">טיסת חזור עם:</label>
+                            <input type="text" id="package-flight-return-airline" placeholder="לדוגמה: ישראייר">
+                        </div>
+                        <div class="form-group">
+                            <label for="package-flight-return-time">בשעה (חזור):</label>
+                            <input type="time" id="package-flight-return-time">
+                        </div>
+                        <div class="form-group">
+                            <label for="package-flight-notes">פרטים נוספים על הטיסה:</label>
+                            <textarea id="package-flight-notes" rows="2"></textarea>
+                        </div>
+                        <hr>
+                        <h4>מלונות בחבילה:</h4>
+                        <div id="package-hotels-container">
+                            </div>
+                        <button type="button" id="add-package-hotel-btn" class="button-secondary" style="margin-top:10px;">+ הוסף מלון לחבילה</button>
+                        <hr>
+                        <div class="form-group">
+                            <label for="package-extra-addons">הוספת נושא נוסף (למשל: כרטיס למשחק, הופעה):</label>
+                            <input type="text" id="package-extra-addons" placeholder="הפרד פריטים בפסיק">
+                        </div>
+                         <div class="form-group">
+                            <label for="package-image-url">קישור לתמונה ראשית לדיל:</label>
+                            <input type="text" id="package-image-url" required>
+                        </div>
+                        <div class="form-group">
+                            <h4>בחר סוגי טיול (אפשר לבחור מספר אפשרויות):</h4>
+                            <div id="package-trip-types-checkboxes" class="trip-types-container"></div>
+                        </div>
+                        <div class="form-group">
+                            <h4>חודשי זמינות נוספים (לסינון כללי):</h4>
+                            <div id="package-availability-months-checkboxes" class="availability-months-container"></div>
+                        </div>
+                        <button type="submit" class="button">שמור דיל חבילה</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="flight-deal-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close-modal-btn" data-modal-id="flight-deal-modal">&times;</span>
+                    <h3>הוספת טיסה שווה</h3>
+                    <form id="flight-deal-form" class="modal-form">
+                        <input type="hidden" id="flight-deal-id"> <div class="form-group">
+                            <label for="flight-title">כותרת (למשל: טיסה זולה לפריז בתאריכים...):</label>
+                            <input type="text" id="flight-title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="flight-origin">מאיפה (מוצא):</label>
+                            <input type="text" id="flight-origin" placeholder="לדוגמה: תל אביב (TLV)" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="flight-destination">לאיפה (יעד):</label>
+                            <input type="text" id="flight-destination" placeholder="לדוגמה: פריז (CDG)" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="flight-start-date">תאריך יציאה:</label>
+                            <input type="date" id="flight-start-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="flight-end-date">תאריך חזרה:</label>
+                            <input type="date" id="flight-end-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="flight-airline">חברת תעופה:</label>
+                            <input type="text" id="flight-airline" placeholder="לדוגמה: Ryanair" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="flight-price-text">מחיר החל מ:</label>
+                            <input type="text" id="flight-price-text" placeholder="לדוגמה: €99" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="flight-image-url">קישור לתמונה (אופציונלי):</label>
+                            <input type="text" id="flight-image-url">
+                        </div>
+                         <div class="form-group">
+                            <label for="flight-notes-standalone">פרטים נוספים על הטיסה (אופציונלי):</label>
+                            <textarea id="flight-notes-standalone" rows="2"></textarea>
+                        </div>
+                        <button type="submit" class="button">שמור טיסה</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="hotel-deal-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close-modal-btn" data-modal-id="hotel-deal-modal">&times;</span>
+                    <h3>הוספת מלון שווה</h3>
+                    <form id="hotel-deal-form" class="modal-form">
+                        <input type="hidden" id="hotel-deal-id"> <div class="form-group">
+                            <label for="hotel-name">שם המלון:</label>
+                            <input type="text" id="hotel-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hotel-description">תיאור קצר של המלון/הדיל:</label>
+                            <textarea id="hotel-description" rows="3" required></textarea>
+                        </div>
+                         <div class="form-group">
+                            <label for="hotel-stars">כוכבים (1-5):</label>
+                            <select id="hotel-stars">
+                                <option value="">לא צוין</option>
+                                <option value="1">⭐</option>
+                                <option value="2">⭐⭐</option>
+                                <option value="3">⭐⭐⭐</option>
+                                <option value="4">⭐⭐⭐⭐</option>
+                                <option value="5">⭐⭐⭐⭐⭐</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="hotel-country">מדינה:</label>
+                            <input type="text" id="hotel-country" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hotel-city">עיר:</label>
+                            <input type="text" id="hotel-city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hotel-start-date">תאריך צ'ק-אין:</label>
+                            <input type="date" id="hotel-start-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hotel-end-date">תאריך צ'ק-אאוט:</label>
+                            <input type="date" id="hotel-end-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hotel-price-text">מחיר ללילה/לתקופה החל מ:</label>
+                            <input type="text" id="hotel-price-text" placeholder="לדוגמה: ₪350 ללילה" required>
+                        </div>
+                        <h4>קישורי Affiliate:</h4>
+                        <div class="form-group">
+                            <label for="hotel-affiliate-booking">Booking.com:</label>
+                            <input type="text" id="hotel-affiliate-booking">
+                        </div>
+                         <div class="form-group">
+                            <label for="hotel-affiliate-agoda">Agoda:</label>
+                            <input type="text" id="hotel-affiliate-agoda">
+                        </div>
+                         <div class="form-group">
+                            <label for="hotel-affiliate-expedia">Expedia:</label>
+                            <input type="text" id="hotel-affiliate-expedia">
+                        </div>
+                         <div class="form-group">
+                            <label for="hotel-image-url">קישור לתמונה:</label>
+                            <input type="text" id="hotel-image-url" required>
+                        </div>
+                        <div class="form-group">
+                            <h4>בחר סוגי טיול מתאימים (אפשר לבחור מספר אפשרויות):</h4>
+                            <div id="hotel-trip-types-checkboxes" class="trip-types-container"></div>
+                        </div>
+                        <button type="submit" class="button">שמור מלון</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div id="deal-form-container" class="old-form"></div>
+
             <div id="deals-list-admin">
-                <h3>רשימת הדילים הקיימים</h3>
+                <h3>רשימת הפריטים הקיימים (דילים, טיסות, מלונות)</h3>
                 <div id="admin-deals-output">
-                    <p>טוען דילים...</p>
+                    <p>טוען פריטים...</p>
                 </div>
             </div>
         </div>
