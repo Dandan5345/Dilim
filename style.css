@@ -1,134 +1,216 @@
 /* General Styles */
+:root {
+    --primary-color: #0077cc; /* כחול מרכזי */
+    --secondary-color: #005fa3; /* כחול כהה יותר */
+    --accent-color: #ff8c00; /* כתום להדגשות וכפתורים */
+    --light-gray: #f8f9fa;
+    --medium-gray: #e9ecef;
+    --dark-gray: #343a40;
+    --text-color: #333;
+    --font-family: 'Rubik', 'Arial', sans-serif; /* פונט עברי מודרני */
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap');
+
 body {
-    font-family: 'Arial', sans-serif;
-    line-height: 1.6;
+    font-family: var(--font-family);
+    line-height: 1.7;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
-    direction: rtl; /* עיצוב מימין לשמאל עבור עברית */
-}
-
-.container {
-    width: 80%;
-    margin: auto;
-    overflow: hidden;
-    padding: 0 20px;
-}
-
-header {
-    background: #35424a;
-    color: #ffffff;
-    padding-top: 30px;
-    min-height: 70px;
-    border-bottom: #e8491d 3px solid;
-}
-
-header a {
-    color: #ffffff;
-    text-decoration: none;
-    text-transform: uppercase;
+    background-color: var(--light-gray);
+    color: var(--text-color);
+    direction: rtl;
     font-size: 16px;
 }
 
-header ul {
-    padding: 0;
-    list-style: none;
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    overflow: hidden;
+    padding: 20px;
 }
 
-header li {
-    float: right; /* שינוי ליישור התפריט לימין */
-    display: inline;
-    padding: 0 20px 0 20px;
+/* Header */
+header {
+    background: #ffffff;
+    color: var(--primary-color);
+    padding: 20px 0;
+    border-bottom: 4px solid var(--primary-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-header #branding {
-    float: right; /* שינוי ליישור הלוגו לימין */
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 header #branding h1 {
     margin: 0;
+    font-size: 2em; /* גודל לוגו */
+    font-weight: 700;
 }
 
-header nav {
-    float: left; /* שינוי ליישור הניווט לשמאל */
-    margin-top: 10px;
+header #branding a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+header nav ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+header nav li {
+    display: inline;
+    margin-left: 25px; /* רווח בין פריטי תפריט */
+}
+
+header nav a {
+    color: var(--dark-gray);
+    text-decoration: none;
+    font-size: 1.1em;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+header nav a:hover, header nav a.current {
+    color: var(--accent-color);
 }
 
 /* Showcase Area (דף ראשי) */
 #showcase {
-    min-height: 400px;
-    background: url('https://via.placeholder.com/1500x400?text=Travel+Showcase') no-repeat 0 -400px; /* החלף בתמונה משלך */
-    background-position: center center;
-    background-size: cover;
+    min-height: 450px;
+    background: url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover; /* תמונה איכותית יותר */
     text-align: center;
     color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
 }
 
 #showcase h1 {
-    margin-top: 100px;
-    font-size: 55px;
-    margin-bottom: 10px;
+    font-size: 3.5em; /* גודל כותרת ראשית */
+    margin-bottom: 15px;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
 #showcase p {
-    font-size: 20px;
+    font-size: 1.5em;
+    margin-bottom: 25px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
 }
 
-/* Deals Section */
+/* Sections */
+section {
+    padding: 40px 0;
+}
+
+section h2 {
+    text-align: center;
+    font-size: 2.5em;
+    color: var(--primary-color);
+    margin-bottom: 40px;
+    position: relative;
+}
+/* קו מתחת לכותרות סקשנים */
+section h2::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background: var(--accent-color);
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+
+/* Deal Item Card */
 .deal-item {
-    background: #fff;
-    border: 1px solid #ddd;
-    margin-bottom: 20px;
-    padding: 20px;
-    border-radius: 5px;
-    display: flex; /* שימוש ב-flexbox לעיצוב גמיש */
-    gap: 20px; /* רווח בין התמונה לתוכן */
+    background: #ffffff;
+    border: 1px solid var(--medium-gray);
+    margin-bottom: 25px;
+    padding: 0; /* אין פדינג חיצוני, הפדינג יהיה פנימי */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column; /* תמונות מעל תוכן במסכים קטנים */
+    overflow: hidden; /* כדי שהתמונה לא תחרוג מהפינות המעוגלות */
+}
+
+.deal-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.12);
 }
 
 .deal-item img {
-    max-width: 200px; /* רוחב מקסימלי לתמונה */
-    height: auto;
-    border-radius: 5px;
+    width: 100%; /* תמונה תתפוס את כל רוחב הכרטיס */
+    height: 220px; /* גובה קבוע לתמונה */
+    object-fit: cover; /* התמונה תכסה את השטח ותחתך אם צריך */
 }
 
 .deal-item-content {
-    flex-grow: 1; /* התוכן יתפוס את שאר המקום */
+    padding: 20px;
 }
 
 .deal-item h3 {
     margin-top: 0;
-    color: #e8491d;
+    margin-bottom: 10px;
+    color: var(--secondary-color);
+    font-size: 1.6em;
+    font-weight: 600;
 }
 
 .deal-item .price {
     font-weight: bold;
-    color: #333;
+    color: var(--accent-color);
+    font-size: 1.3em;
+    margin-bottom: 10px;
 }
 
-.button, button {
+.deal-item p:not(.price) {
+    margin-bottom: 15px;
+    font-size: 1em;
+    color: #555;
+}
+
+.button, button[type="submit"], button[type="button"] {
     display: inline-block;
-    background: #e8491d;
-    color: #fff;
-    padding: 10px 20px;
+    background: var(--accent-color);
+    color: #fff !important; /* חשוב כדי לדרוס צבעי a */
+    padding: 12px 25px;
     text-decoration: none;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 10px;
-    font-size: 16px;
+    font-size: 1.1em;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-align: center;
 }
 
-.button:hover, button:hover {
-    background: #35424a;
+.button:hover, button[type="submit"]:hover, button[type="button"]:hover {
+    background: #e67e00; /* כתום כהה יותר במעבר עכבר */
+    transform: translateY(-2px);
 }
 
 .button-secondary {
-    background: #35424a;
-    margin-left: 10px; /* רווח בין הכפתורים */
+    background: var(--secondary-color);
 }
 .button-secondary:hover {
-    background: #e8491d;
+    background: var(--primary-color);
+}
+
+#deals-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* פריסה גמישה */
+    gap: 25px;
 }
 
 
@@ -137,36 +219,52 @@ header nav {
     background: #fff;
     padding: 30px;
     margin-top: 20px;
-    border-radius: 5px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 .deal-details-container img {
     max-width: 100%;
     height: auto;
-    border-radius: 5px;
-    margin-bottom: 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-/* Admin Page */
-#admin-login, #deal-form-container, #deals-list-admin {
+#booking-options {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--medium-gray);
+}
+#booking-options .button {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+/* Admin Page & Forms */
+#admin-login, #deal-form-container, #deals-list-admin, #admin-dashboard {
     background: #fff;
-    padding: 20px;
+    padding: 25px;
     margin-top: 20px;
-    border-radius: 5px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-#admin-login h2, #deal-form-container h2, #deals-list-admin h2 {
+#admin-login h2, #deal-form-container h3, #deals-list-admin h3, #admin-dashboard h2 {
     text-align: center;
-    color: #35424a;
+    color: var(--primary-color);
+    margin-bottom: 25px;
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #444;
 }
 
 .form-group input[type="text"],
@@ -176,17 +274,79 @@ header nav {
 .form-group textarea,
 .form-group select {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
+    padding: 12px;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    box-sizing: border-box; /* כדי ש-padding לא ירחיב את ה-input מעבר ל-100% */
+    box-sizing: border-box;
+    font-family: var(--font-family);
+    font-size: 1em;
 }
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Admin Deals List */
+#admin-deals-output ul {
+    list-style: none;
+    padding: 0;
+}
+#admin-deals-output li {
+    padding: 15px;
+    border-bottom: 1px solid var(--medium-gray);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.2s ease;
+}
+#admin-deals-output li:last-child {
+    border-bottom: none;
+}
+#admin-deals-output li:hover {
+    background-color: #f9f9f9;
+}
+#admin-deals-output button {
+    margin-left: 10px;
+    padding: 6px 12px;
+    font-size: 0.9em;
+}
+
 
 /* Footer */
 footer {
-    padding: 20px;
-    margin-top: 20px;
+    padding: 30px 0;
+    margin-top: 40px;
     color: #ffffff;
-    background-color: #35424a;
+    background-color: var(--dark-gray);
     text-align: center;
+    font-size: 0.9em;
+}
+
+/* רספונסיביות לדוגמה */
+@media (max-width: 768px) {
+    header .container {
+        flex-direction: column;
+        text-align: center;
+    }
+    header nav {
+        margin-top: 15px;
+    }
+    header nav li {
+        margin: 0 10px; /* רווח קטן יותר בתפריט */
+    }
+    #showcase h1 {
+        font-size: 2.5em;
+    }
+    #showcase p {
+        font-size: 1.2em;
+    }
+    section h2 {
+        font-size: 2em;
+    }
+    .deal-item {
+        flex-direction: column; /* במובייל תמיד תמונה מעל תוכן */
+    }
+    #deals-list {
+        grid-template-columns: 1fr; /* עמודה אחת במובייל */
+    }
 }
