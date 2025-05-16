@@ -4,76 +4,257 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ניהול דילים - נופש לי ולך</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css"> <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         /* עיצוב כללי לדף ניהול משופר */
-        #admin-dashboard { background-color: #f9f9f9; padding: 20px; border-radius: 8px; }
-        .admin-actions-container { display: flex; justify-content: space-around; margin-bottom: 30px; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        body { /* כדי להבטיח שהפונט מיושם */
+            font-family: 'Assistant', 'Rubik', sans-serif;
+        }
+        #admin-dashboard { background-color: #f9fafb; padding: 25px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .admin-actions-container { 
+            display: flex; 
+            flex-wrap: wrap; /* אפשרות למעבר שורה במובייל */
+            justify-content: space-between; /* רווח בין הכפתורים */
+            margin-bottom: 35px; 
+            padding: 20px; 
+            background-color: #ffffff; 
+            border-radius: 10px; 
+            box-shadow: 0 3px 15px rgba(0,0,0,0.07); 
+        }
         .admin-actions-container .button {
-            font-size: 1.2em;
-            padding: 15px 30px;
-            flex-grow: 1;
-            margin: 0 10px;
+            font-size: 1.15em; /* התאמת גודל פונט */
+            padding: 14px 25px; /* התאמת פדינג */
+            flex-basis: calc(33.333% - 14px); /* חלוקה לשלושה עם רווח */
+            margin: 7px; /* רווח קטן בין הכפתורים */
             text-align: center;
+            font-weight: 600;
+            min-width: 180px; /* רוחב מינימלי לכפתור */
+        }
+        @media (max-width: 768px) { /* התאמות למובייל */
+            .admin-actions-container .button {
+                flex-basis: 100%; /* כל כפתור בשורה נפרדת */
+                margin: 8px 0;
+            }
         }
 
-        /* עיצוב מודאלים */
+
+        /* עיצוב מודאלים משופר */
         .modal {
-            display: none; /* מוסתר כברירת מחדל */
+            display: none; 
             position: fixed;
-            z-index: 1001; /* מעל ה-header הדביק */
+            z-index: 1050; /* גבוה יותר כדי להיות מעל כל דבר אחר */
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.6); /* רקע שחור חצי שקוף */
+            overflow: hidden; 
+            background-color: rgba(0,0,0,0.65); 
+            align-items: center; 
+            justify-content: center; 
+            opacity: 0; 
+            visibility: hidden; 
+            transition: opacity 0.35s ease, visibility 0s linear 0.35s; /* דיליי להסתרת ה-visibility */
         }
+
+        .modal.active { 
+            display: flex; /* הצג כ-flex כשהמודאל פעיל */
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.35s ease, visibility 0s linear 0s;
+        }
+
         .modal-content {
             background-color: #fff;
-            margin: 5% auto;
-            padding: 25px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 700px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            padding: 25px 30px 30px 30px; /* פדינג מוגדל */
+            border-radius: 12px; 
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
             position: relative;
+            width: 92%; 
+            max-width: 680px; 
+            max-height: 90vh; 
+            overflow-y: auto; 
+            transform: translateY(-20px) scale(0.98); /* התחלה מעט למעלה וקטנה */
+            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* אנימציית קפיצה נחמדה */
         }
+
+        .modal.active .modal-content {
+            transform: translateY(0) scale(1); 
+        }
+
+
         .modal-content h3 {
-            margin-top: 0;
+            margin-top: 5px; /* צמצום רווח עליון */
             color: var(--primary-color);
             border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+            padding-bottom: 15px; 
+            margin-bottom: 30px; 
+            font-size: 1.9em; 
+            text-align: center;
+            font-weight: 700;
         }
         .close-modal-btn {
-            color: #aaa;
-            float: left; /* שינוי ל-float left כדי שיופיע בצד שמאל (בהתאם לכיווניות RTL) */
-            font-size: 28px;
-            font-weight: bold;
+            position: absolute; 
+            top: 12px;
+            left: 15px; 
+            color: #999; 
+            font-size: 30px; 
+            font-weight: normal; /* פונט רגיל יותר לכפתור סגירה */
             line-height: 1;
+            transition: color 0.2s ease, transform 0.2s ease;
+            padding: 5px; /* אזור לחיצה גדול יותר */
         }
         .close-modal-btn:hover,
         .close-modal-btn:focus {
-            color: black;
+            color: var(--accent-color); 
+            transform: rotate(90deg);
             text-decoration: none;
             cursor: pointer;
         }
-        .modal-form .form-group { margin-bottom: 18px; } /* ריווח קצת יותר גדול בטפסי המודאל */
-        .modal-form label { font-weight: 600; }
+        .modal-form .form-group { 
+            margin-bottom: 22px; /* ריווח גדול יותר בין קבוצות שדות */
+        }
+        .modal-form label { 
+            font-weight: 600; 
+            font-size: 1.05em; 
+            color: var(--secondary-color);
+            display: block; 
+            margin-bottom: 8px; 
+        }
+        .modal-form input[type="text"],
+        .modal-form input[type="date"],
+        .modal-form input[type="time"],
+        .modal-form input[type="url"],
+        .modal-form textarea,
+        .modal-form select {
+            width: 100%;
+            padding: 12px 15px; /* פדינג אחיד */
+            border: 1px solid #ced4da; /* צבע גבול עדין יותר */
+            border-radius: 6px; 
+            box-sizing: border-box;
+            font-family: 'Assistant', sans-serif;
+            font-size: 1em;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            background-color: #fdfdfd; /* רקע בהיר מאוד לשדות */
+        }
+        .modal-form input:focus,
+        .modal-form textarea:focus,
+        .modal-form select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 119, 204, 0.15); 
+            outline: none;
+        }
+        .modal-form textarea { min-height: 80px; } /* גובה מינימלי קטן יותר לתיבות טקסט */
+
+        .modal-form hr {
+            border: none;
+            border-top: 1px solid #e9ecef; /* קו מפריד עדין יותר */
+            margin: 30px 0; 
+        }
+        .modal-form h4 { 
+            color: var(--primary-color);
+            font-size: 1.35em; /* גודל מוגדל לכותרות משנה */
+            margin-top: 30px;
+            margin-bottom: 18px; /* רווח קטן יותר אחרי כותרת משנה */
+            /* border-bottom: 1px dotted var(--medium-gray); */
+            /* padding-bottom: 8px; */
+            font-weight: 600;
+        }
+        .modal-form .button[type="submit"] { 
+            width: 100%;
+            padding: 15px; /* פדינג גדול יותר לכפתור שמירה */
+            font-size: 1.25em; 
+            font-weight: 700;
+            margin-top: 15px;
+            background-color: var(--accent-color); /* צבע הדגשה לכפתור ראשי */
+        }
+        .modal-form .button[type="submit"]:hover {
+            background-color: #e67e00;
+        }
+
 
         /* הסתרת טופס ישן אם קיים */
         #deal-form-container.old-form { display: none; }
 
-        /* סגנונות נוספים מהפעם הקודמת */
-        .hidden-field { display: none; }
-        .trip-types-container, .availability-months-container { margin-bottom: 15px; border: 1px solid #eee; padding: 10px; border-radius: 5px; max-height: 150px; overflow-y: auto; }
-        .trip-types-container label, .availability-months-container label { margin-right: 10px; display: block; }
-        .hotel-entry { border: 1px dashed #ccc; padding: 15px; margin-bottom: 15px; border-radius: 5px; background-color: #f9f9f9; }
-        .hotel-entry h5 { margin-top: 0; color: var(--secondary-color); }
-        .remove-hotel-btn { background-color: #e74c3c; color: white; padding: 5px 10px; font-size: 0.8em; margin-top: 10px;}
+        .trip-types-container { /* הסרת חודשי זמינות מכאן */
+            margin-bottom: 15px; 
+            border: 1px solid #eee; 
+            padding: 10px 15px; /* פדינג מוגדל */
+            border-radius: 6px; 
+            max-height: 160px; /* גובה מקסימלי מוגדל */
+            overflow-y: auto; 
+            background-color: #fdfdfd;
+        }
+        .trip-types-container label { 
+            margin-right: 0; /* הסרת רווח מיותר */
+            display: block; 
+            padding: 5px 0; /* ריווח אנכי לכל checkbox */
+            font-weight: normal; /* איפוס משקל פונט */
+            color: #333;
+        }
+         .trip-types-container input[type="checkbox"] {
+            margin-left: 8px;
+            transform: scale(1.1);
+        }
+        .hotel-entry { 
+            border: 1px solid #e0e0e0; /* גבול עדין יותר */
+            padding: 20px; /* פדינג מוגדל */
+            margin-bottom: 20px; 
+            border-radius: 8px; 
+            background-color: #f9f9f9; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .hotel-entry h5 { 
+            margin-top: 0; 
+            color: var(--secondary-color); 
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+        .remove-hotel-btn { 
+            background-color: #e74c3c; 
+            color: white; 
+            padding: 6px 12px; /* פדינג מעודכן */
+            font-size: 0.9em; /* גודל פונט מעודכן */
+            margin-top: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
         .remove-hotel-btn:hover { background-color: #c0392b; }
+        
+        /* עיצוב לרשימת הדילים בניהול */
+        #deals-list-admin h3 {
+            text-align: center;
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+         #admin-deals-output ul {
+            list-style: none;
+            padding: 0;
+        }
+        #admin-deals-output li {
+            background-color: #fff;
+            padding: 15px 20px;
+            border: 1px solid #e7e7e7;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: box-shadow 0.2s ease;
+        }
+        #admin-deals-output li:hover {
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+        #admin-deals-output li div:first-child { /* התוכן של הדיל */
+            flex-grow: 1;
+        }
+        #admin-deals-output li strong { color: var(--secondary-color); font-size: 1.1em; }
+        #admin-deals-output li small { color: #555; display: block; margin-top: 3px; font-size: 0.9em;}
+        #admin-deals-output li .button-secondary, #admin-deals-output li .delete-item {
+            margin-right: 8px; /* שינוי ל-margin-right בגלל RTL */
+        }
     </style>
 </head>
 <body>
@@ -92,7 +273,8 @@
     </header>
 
     <section id="admin-section" class="container">
-        <div id="admin-login" style="display: block;"> <h2>התחברות מנהל</h2>
+        <div id="admin-login" style="display: block;">
+            <h2>התחברות מנהל</h2>
             <div class="form-group">
                 <label for="admin-email">אימייל:</label>
                 <input type="email" id="admin-email" required>
@@ -101,20 +283,20 @@
                 <label for="admin-password">סיסמה:</label>
                 <input type="password" id="admin-password" required>
             </div>
-            <button id="login-button" type="button">התחבר</button>
-            <p id="login-error" style="color:red; margin-top:10px;"></p>
+            <button id="login-button" type="button" class="button">התחבר</button>
+            <p id="login-error" style="color:red; margin-top:10px; text-align:center;"></p>
         </div>
 
         <div id="admin-dashboard" style="display:none;">
-            <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h2>לוח ניהול דילים</h2>
-                <p>ברוך הבא, <span id="admin-user-email"></span>! <button id="logout-button" type="button" class="button-secondary" style="padding: 8px 15px; font-size:0.9em;">התנתק</button></p>
+            <div style="display:flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid var(--medium-gray);">
+                <h2 style="margin:0; color: var(--primary-color); font-size: 2em;">לוח ניהול</h2>
+                <p style="margin:0; font-size: 1.1em;">ברוך הבא, <strong id="admin-user-email" style="color:var(--accent-color);"></strong>! <button id="logout-button" type="button" class="button button-secondary" style="padding: 8px 15px; font-size:0.9em; margin-right: 0;">התנתק</button></p>
             </div>
 
             <div class="admin-actions-container">
                 <button id="open-package-deal-modal-btn" class="button">➕ יצירת דיל (חבילה)</button>
                 <button id="open-flight-deal-modal-btn" class="button button-secondary">✈️ הוסף טיסה שווה</button>
-                <button id="open-hotel-deal-modal-btn" class="button button-secondary" style="background-color: var(--primary-color)">🏨 הוסף מלון שווה</button>
+                <button id="open-hotel-deal-modal-btn" class="button" style="background-color: var(--primary-color); border-color: var(--primary-color);">🏨 הוסף מלון שווה</button>
             </div>
 
             <div id="package-deal-modal" class="modal">
@@ -122,7 +304,8 @@
                     <span class="close-modal-btn" data-modal-id="package-deal-modal">&times;</span>
                     <h3>יצירת דיל חדש (חבילה)</h3>
                     <form id="package-deal-form" class="modal-form">
-                        <input type="hidden" id="package-deal-id"> <div class="form-group">
+                        <input type="hidden" id="package-deal-id">
+                        <div class="form-group">
                             <label for="package-deal-name">שם הדיל (כותרת):</label>
                             <input type="text" id="package-deal-name" required>
                         </div>
@@ -176,7 +359,7 @@
                         <h4>מלונות בחבילה:</h4>
                         <div id="package-hotels-container">
                             </div>
-                        <button type="button" id="add-package-hotel-btn" class="button-secondary" style="margin-top:10px;">+ הוסף מלון לחבילה</button>
+                        <button type="button" id="add-package-hotel-btn" class="button button-secondary" style="margin-top:10px; width: auto; padding: 10px 20px; font-size: 1em;">+ הוסף מלון לחבילה</button>
                         <hr>
                         <div class="form-group">
                             <label for="package-extra-addons">הוספת נושא נוסף (למשל: כרטיס למשחק, הופעה):</label>
@@ -184,15 +367,11 @@
                         </div>
                          <div class="form-group">
                             <label for="package-image-url">קישור לתמונה ראשית לדיל:</label>
-                            <input type="text" id="package-image-url" required>
+                            <input type="url" id="package-image-url" placeholder="https://example.com/image.jpg" required>
                         </div>
                         <div class="form-group">
                             <h4>בחר סוגי טיול (אפשר לבחור מספר אפשרויות):</h4>
                             <div id="package-trip-types-checkboxes" class="trip-types-container"></div>
-                        </div>
-                        <div class="form-group">
-                            <h4>חודשי זמינות נוספים (לסינון כללי):</h4>
-                            <div id="package-availability-months-checkboxes" class="availability-months-container"></div>
                         </div>
                         <button type="submit" class="button">שמור דיל חבילה</button>
                     </form>
@@ -204,7 +383,8 @@
                     <span class="close-modal-btn" data-modal-id="flight-deal-modal">&times;</span>
                     <h3>הוספת טיסה שווה</h3>
                     <form id="flight-deal-form" class="modal-form">
-                        <input type="hidden" id="flight-deal-id"> <div class="form-group">
+                        <input type="hidden" id="flight-deal-id">
+                        <div class="form-group">
                             <label for="flight-title">כותרת (למשל: טיסה זולה לפריז בתאריכים...):</label>
                             <input type="text" id="flight-title" required>
                         </div>
@@ -234,7 +414,7 @@
                         </div>
                         <div class="form-group">
                             <label for="flight-image-url">קישור לתמונה (אופציונלי):</label>
-                            <input type="text" id="flight-image-url">
+                            <input type="url" id="flight-image-url" placeholder="https://example.com/image.jpg">
                         </div>
                          <div class="form-group">
                             <label for="flight-notes-standalone">פרטים נוספים על הטיסה (אופציונלי):</label>
@@ -250,7 +430,8 @@
                     <span class="close-modal-btn" data-modal-id="hotel-deal-modal">&times;</span>
                     <h3>הוספת מלון שווה</h3>
                     <form id="hotel-deal-form" class="modal-form">
-                        <input type="hidden" id="hotel-deal-id"> <div class="form-group">
+                        <input type="hidden" id="hotel-deal-id">
+                        <div class="form-group">
                             <label for="hotel-name">שם המלון:</label>
                             <input type="text" id="hotel-name" required>
                         </div>
@@ -292,19 +473,19 @@
                         <h4>קישורי Affiliate:</h4>
                         <div class="form-group">
                             <label for="hotel-affiliate-booking">Booking.com:</label>
-                            <input type="text" id="hotel-affiliate-booking">
+                            <input type="url" id="hotel-affiliate-booking" placeholder="https://...">
                         </div>
                          <div class="form-group">
                             <label for="hotel-affiliate-agoda">Agoda:</label>
-                            <input type="text" id="hotel-affiliate-agoda">
+                            <input type="url" id="hotel-affiliate-agoda" placeholder="https://...">
                         </div>
                          <div class="form-group">
                             <label for="hotel-affiliate-expedia">Expedia:</label>
-                            <input type="text" id="hotel-affiliate-expedia">
+                            <input type="url" id="hotel-affiliate-expedia" placeholder="https://...">
                         </div>
                          <div class="form-group">
                             <label for="hotel-image-url">קישור לתמונה:</label>
-                            <input type="text" id="hotel-image-url" required>
+                            <input type="url" id="hotel-image-url" placeholder="https://example.com/image.jpg" required>
                         </div>
                         <div class="form-group">
                             <h4>בחר סוגי טיול מתאימים (אפשר לבחור מספר אפשרויות):</h4>
@@ -315,10 +496,8 @@
                 </div>
             </div>
             
-            <div id="deal-form-container" class="old-form"></div>
-
-            <div id="deals-list-admin">
-                <h3>רשימת הפריטים הקיימים (דילים, טיסות, מלונות)</h3>
+            <div id="deals-list-admin" style="margin-top: 30px;">
+                <h3>רשימת הפריטים הקיימים</h3>
                 <div id="admin-deals-output">
                     <p>טוען פריטים...</p>
                 </div>
