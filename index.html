@@ -6,6 +6,18 @@
     <meta name="description" content="נופש לי ולך - דילים מיוחדים לטיסות, מלונות וחבילות נופש. הזמינו לבד או פנו אלינו לשירות אישי.">
     <title>נופש לי ולך - דף הבית</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* סגנונות נוספים לאזור הסינון */
+        #filters-section { background-color: #fff; padding: 25px; border-radius: 8px; margin-bottom: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+        #filters-section h3 { margin-top: 0; color: var(--primary-color); text-align: center; margin-bottom: 20px; }
+        .filter-group { margin-bottom: 20px; }
+        .filter-group h4 { margin-bottom: 10px; color: var(--secondary-color); border-bottom: 1px solid var(--medium-gray); padding-bottom: 5px; }
+        .checkbox-options-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+        .checkbox-options-grid label { font-weight: normal; display: flex; align-items: center; }
+        .checkbox-options-grid input[type="checkbox"] { margin-left: 8px; }
+        .filter-buttons { text-align: center; margin-top: 20px; }
+        .filter-buttons .button { margin: 0 10px; }
+    </style>
 </head>
 <body>
     <header>
@@ -27,14 +39,33 @@
         <div class="container">
             <h1>מצא את החופשה המושלמת שלך</h1>
             <p>דילים בלעדיים לטיסות, מלונות וחבילות. הזמן ישירות או קבל שירות אישי מאיתנו!</p>
-            <a href="deals.html" class="button">צפה בכל הדילים</a>
+            <a href="#filters-section" class="button">חפש דילים עכשיו</a>
         </div>
     </section>
 
-    <section id="featured-deals" class="container">
-        <h2>דילים מומלצים 🔥</h2>
-        <div id="featured-deals-list" class="deals-grid">
-            <p>טוען דילים מומלצים...</p>
+    <section id="filters-section-wrapper" class="container">
+        <div id="filters-section">
+            <h3>חיפוש וסינון דילים</h3>
+            <div class="filter-group">
+                <h4>סוגי חופשה (אפשר לבחור מספר אפשרויות):</h4>
+                <div id="filter-trip-types" class="checkbox-options-grid">
+                    </div>
+            </div>
+            <div class="filter-group">
+                <h4>חודשי זמינות (אפשר לבחור מספר אפשרויות):</h4>
+                <div id="filter-availability-months" class="checkbox-options-grid">
+                    </div>
+            </div>
+            <div class="filter-buttons">
+                <button id="apply-filters-btn" class="button">סנן דילים</button>
+                <button id="reset-filters-btn" class="button button-secondary">אפס מסננים</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="deals-display-section" class="container">
+        <h2 id="deals-section-title">דילים מומלצים 🔥</h2>
+        <div id="deals-list" class="deals-grid"> <p>טוען דילים...</p>
         </div>
     </section>
 
@@ -44,54 +75,158 @@
 
     <script type="module">
         import { db } from './firebase-init.js';
-        import { collection, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-firestore.js";
+        import { collection, getDocs, query, orderBy, limit as firestoreLimit } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-firestore.js";
 
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        const featuredDealsListContainer = document.getElementById('featured-deals-list');
+        // --- קבועים ופונקציות עזר ---
+        const ALL_TRIP_TYPES = [
+            "בטן גב", "נופים וטבע", "עיר אירופאית", "ארצות הברית", "מזרח רחוק", 
+            "שווקי קריסמס", "סקי", "טרקים", "קרוז", "ספארי", "ירח דבש", "משפחות"
+        ];
 
-        async function fetchFeaturedDeals() {
-            if (!featuredDealsListContainer) return;
-            featuredDealsListContainer.innerHTML = '<p>טוען דילים מומלצים...</p>'; // הודעת טעינה
-
-            try {
-                const dealsRef = collection(db, 'deals');
-                // כאן אפשר להוסיף לוגיקה לבחירת דילים "מומלצים", למשל לפי תאריך הוספה או שדה 'isFeatured'
-                const q = query(dealsRef, orderBy('createdAt', 'desc'), limit(3)); // מציג 3 דילים אחרונים כמומלצים
-                const querySnapshot = await getDocs(q);
-
-                if (querySnapshot.empty) {
-                    featuredDealsListContainer.innerHTML = '<p>לא נמצאו דילים מומלצים כרגע.</p>';
-                    return;
-                }
-
-                let dealsHTML = '';
-                querySnapshot.forEach((doc) => {
-                    const deal = doc.data();
-                    const dealId = doc.id;
-                    dealsHTML += `
-                        <div class="deal-item">
-                            <img src="${deal.imageUrl || 'https://via.placeholder.com/300x200?text=תמונה+חסרה'}" alt="${deal.name}">
-                            <div class="deal-item-content">
-                                <h3>${deal.name}</h3>
-                                <p class="price">${deal.price_text}</p>
-                                <p>${deal.description.substring(0, 100)}...</p>
-                                <a href="deal-details.html?dealId=${dealId}" class="button">פרטים נוספים</a>
-                            </div>
-                        </div>
-                    `;
-                });
-                featuredDealsListContainer.innerHTML = dealsHTML;
-                // שינוי פריסה ל-grid אחרי טעינת הדילים
-                featuredDealsListContainer.id = 'deals-list'; // שימוש באותו ID כמו בדף הדילים לטובת עיצוב עקבי
-
-            } catch (error) {
-                console.error("Error fetching featured deals: ", error);
-                featuredDealsListContainer.innerHTML = '<p>שגיאה בטעינת הדילים המומלצים.</p>';
+        function getNextMonthsAvailability(numberOfMonths = 12) {
+            const months = [];
+            const currentDate = new Date(); // שישי, 16 במאי 2025
+            for (let i = 0; i < numberOfMonths; i++) {
+                const date = new Date(currentDate.getFullYear(), currentDate.getMonth() + i, 1);
+                const year = date.getFullYear();
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const monthName = date.toLocaleString('he-IL', { month: 'long', year: 'numeric' });
+                months.push({ value: `${year}-${month}`, label: `${monthName}` });
             }
+            return months;
+        }
+        const AVAILABLE_MONTHS_OPTIONS = getNextMonthsAvailability(24);
+
+        // --- איתחול אלמנטים ---
+        const dealsListContainer = document.getElementById('deals-list');
+        const dealsSectionTitle = document.getElementById('deals-section-title');
+        
+        const filterTripTypesContainer = document.getElementById('filter-trip-types');
+        const filterAvailabilityMonthsContainer = document.getElementById('filter-availability-months');
+        const applyFiltersBtn = document.getElementById('apply-filters-btn');
+        const resetFiltersBtn = document.getElementById('reset-filters-btn');
+
+        let allDealsCache = []; // לשמור את כל הדילים שנטענו מ-Firestore
+
+        // פונקציה לאכלוס Checkboxes למסננים
+        function populateFilterCheckboxes(container, options, groupName) {
+            container.innerHTML = '';
+            options.forEach(option => {
+                const item = typeof option === 'string' ? { value: option, label: option } : option;
+                const checkboxId = `filter-${groupName}-${item.value.replace(/\s+/g, '-')}`;
+                const div = document.createElement('div');
+                // div.className = 'checkbox-item'; // אפשר להוסיף אם צריך עיצוב נוסף
+                div.innerHTML = `
+                    <label for="${checkboxId}">
+                        <input type="checkbox" id="${checkboxId}" name="${groupName}" value="${item.value}">
+                        ${item.label}
+                    </label>
+                `;
+                container.appendChild(div);
+            });
         }
 
-        fetchFeaturedDeals();
+        // אכלוס מסננים
+        populateFilterCheckboxes(filterTripTypesContainer, ALL_TRIP_TYPES, 'tripType');
+        populateFilterCheckboxes(filterAvailabilityMonthsContainer, AVAILABLE_MONTHS_OPTIONS, 'availabilityMonth');
+
+        // פונקציה להצגת דילים
+        function displayDeals(dealsToDisplay, isFiltered = false) {
+            if (!dealsListContainer) return;
+            dealsListContainer.innerHTML = ''; // נקה תוכן קודם
+
+            if (dealsToDisplay.length === 0) {
+                dealsListContainer.innerHTML = '<p>לא נמצאו דילים העונים לקריטריונים שנבחרו.</p>';
+                return;
+            }
+
+            dealsToDisplay.forEach(dealData => {
+                const deal = dealData.data; // הנתונים של הדיל
+                const dealId = dealData.id; // ה-ID של המסמך
+                const dealElement = document.createElement('div');
+                dealElement.className = 'deal-item';
+                dealElement.innerHTML = `
+                    <img src="${deal.imageUrl || 'https://via.placeholder.com/300x200?text=תמונה+חסרה'}" alt="${deal.name}">
+                    <div class="deal-item-content">
+                        <h3>${deal.name}</h3>
+                        <p class="price">${deal.price_text}</p>
+                        <p>${deal.description.substring(0, 100)}...</p>
+                        <a href="deal-details.html?dealId=${dealId}" class="button">פרטים נוספים</a>
+                    </div>
+                `;
+                dealsListContainer.appendChild(dealElement);
+            });
+            dealsSectionTitle.textContent = isFiltered ? "תוצאות חיפוש דילים" : "דילים מומלצים 🔥";
+        }
+        
+        // טעינת דילים מומלצים (ברירת מחדל)
+        async function fetchAndDisplayInitialDeals() {
+            dealsListContainer.innerHTML = '<p>טוען דילים...</p>';
+            try {
+                if (allDealsCache.length === 0) { // טען מהרשת רק אם המטמון ריק
+                    const dealsRef = collection(db, 'deals');
+                    const q = query(dealsRef, orderBy('createdAt', 'desc'));
+                    const querySnapshot = await getDocs(q);
+                    allDealsCache = querySnapshot.docs.map(doc => ({ id: doc.id, data: doc.data() }));
+                }
+                // הצג דילים "מומלצים" - למשל, 3 האחרונים, או שיהיה שדה isFeatured
+                const featuredDeals = allDealsCache.slice(0, 3); // לוקח את 3 הראשונים (הכי חדשים לפי המיון)
+                displayDeals(featuredDeals, false);
+
+            } catch (error) {
+                console.error("Error fetching initial deals: ", error);
+                dealsListContainer.innerHTML = '<p>שגיאה בטעינת הדילים.</p>';
+            }
+        }
+        
+        // פונקציית סינון
+        function filterDeals() {
+            const selectedTripTypes = Array.from(filterTripTypesContainer.querySelectorAll('input[name="tripType"]:checked')).map(cb => cb.value);
+            const selectedMonths = Array.from(filterAvailabilityMonthsContainer.querySelectorAll('input[name="availabilityMonth"]:checked')).map(cb => cb.value);
+
+            if (selectedTripTypes.length === 0 && selectedMonths.length === 0) {
+                // אם לא נבחרו מסננים, הצג את הדילים המומלצים (או כל הדילים אם זה בדף כל הדילים)
+                fetchAndDisplayInitialDeals(); // בדף הראשי נחזור למומלצים
+                return;
+            }
+
+            const filteredDeals = allDealsCache.filter(dealData => {
+                const deal = dealData.data;
+                let typeMatch = true;
+                let monthMatch = true;
+
+                // בדיקת סוגי טיול
+                if (selectedTripTypes.length > 0) {
+                    // הדיל צריך להכיל לפחות אחד מהסוגים הנבחרים
+                    typeMatch = deal.tripTypes && deal.tripTypes.some(tripType => selectedTripTypes.includes(tripType));
+                }
+
+                // בדיקת חודשי זמינות
+                if (selectedMonths.length > 0) {
+                    // הדיל צריך להיות זמין לפחות באחד מהחודשים הנבחרים
+                    monthMatch = deal.availabilityMonths && deal.availabilityMonths.some(availMonth => selectedMonths.includes(availMonth));
+                }
+                
+                return typeMatch && monthMatch;
+            });
+
+            displayDeals(filteredDeals, true);
+        }
+
+        // Event Listeners
+        applyFiltersBtn.addEventListener('click', filterDeals);
+        
+        resetFiltersBtn.addEventListener('click', () => {
+            filterTripTypesContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+            filterAvailabilityMonthsContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+            fetchAndDisplayInitialDeals(); // חזור לתצוגת ברירת המחדל
+        });
+
+        // טעינה ראשונית
+        fetchAndDisplayInitialDeals();
+
     </script>
 </body>
 </html>
