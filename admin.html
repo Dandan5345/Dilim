@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ניהול דילים - נופש לי ולך</title>
     <link rel="stylesheet" href="style.css">
-    <script defer src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
-    <script defer src="firebase-config.js"></script> <script defer src="admin-script.js"></script> </head>
+</head>
 <body>
     <header>
         <div class="container">
             <div id="branding">
-                <h1><a href="index.html">נופש לי ולך - ניהול</a></h1>
+                <h1><a href="index.html">✈️ נופש לי ולך - ניהול</a></h1>
             </div>
             <nav>
                 <ul>
@@ -28,38 +25,39 @@
         <div id="admin-login">
             <h2>התחברות מנהל</h2>
             <div class="form-group">
-                <label for="email">אימייל:</label>
+                <label for="admin-email">אימייל:</label>
                 <input type="email" id="admin-email" required>
             </div>
             <div class="form-group">
-                <label for="password">סיסמה:</label>
+                <label for="admin-password">סיסמה:</label>
                 <input type="password" id="admin-password" required>
             </div>
-            <button id="login-button">התחבר</button>
-            <p id="login-error" style="color:red;"></p>
+            <button id="login-button" type="button">התחבר</button>
+            <p id="login-error" style="color:red; margin-top:10px;"></p>
         </div>
 
         <div id="admin-dashboard" style="display:none;">
             <h2>לוח ניהול דילים</h2>
-            <button id="logout-button" class="button-secondary">התנתק</button>
+            <p>ברוך הבא, <span id="admin-user-email"></span>! <button id="logout-button" type="button" class="button-secondary" style="padding: 8px 15px; font-size:0.9em; margin-right:10px;">התנתק</button></p>
+
 
             <div id="deal-form-container">
                 <h3 id="form-title">הוסף דיל חדש</h3>
                 <form id="deal-form">
                     <input type="hidden" id="deal-id"> <div class="form-group">
                         <label for="deal-name">שם הדיל (כותרת):</label>
-                        <input type="text" id="deal-name" placeholder="לדוגמה: רודוס החל מ-100 שח" required>
+                        <input type="text" id="deal-name" placeholder="לדוגמה: רודוס החל מ-100 ₪" required>
                     </div>
                     <div class="form-group">
                         <label for="deal-description">תיאור הדיל:</label>
-                        <textarea id="deal-description" rows="4" required></textarea>
+                        <textarea id="deal-description" rows="5" required placeholder="פרט את הדיל, תנאים, מה כלול..."></textarea>
                     </div>
                     <div class="form-group">
                         <label for="deal-price-text">טקסט מחיר (כמו שיוצג):</label>
-                        <input type="text" id="deal-price-text" placeholder="לדוגמה: החל מ-100 ₪" required>
+                        <input type="text" id="deal-price-text" placeholder="לדוגמה: החל מ-100 ₪ לאדם" required>
                     </div>
                     <div class="form-group">
-                        <label for="deal-type">סוג הדיל:</label>
+                        <label for="deal-type-select">סוג הדיל:</label>
                         <select id="deal-type-select">
                             <option value="flight">טיסה</option>
                             <option value="hotel">מלון</option>
@@ -70,17 +68,18 @@
                         <label for="deal-image-url">קישור לתמונה:</label>
                         <input type="text" id="deal-image-url" placeholder="https://example.com/image.jpg" required>
                     </div>
+                    <h4>קישורי Affiliate (למלונות בלבד, השאר ריק אם לא רלוונטי):</h4>
                     <div class="form-group">
-                        <label for="affiliate-booking">קישור Affiliate ל-Booking.com (למלונות):</label>
-                        <input type="text" id="affiliate-booking" placeholder="השאר ריק אם לא רלוונטי">
+                        <label for="affiliate-booking">Booking.com:</label>
+                        <input type="text" id="affiliate-booking" placeholder="קישור שותף מבוקינג">
                     </div>
                      <div class="form-group">
-                        <label for="affiliate-agoda">קישור Affiliate ל-Agoda (למלונות):</label>
-                        <input type="text" id="affiliate-agoda" placeholder="השאר ריק אם לא רלוונטי">
+                        <label for="affiliate-agoda">Agoda:</label>
+                        <input type="text" id="affiliate-agoda" placeholder="קישור שותף מאגודה">
                     </div>
                      <div class="form-group">
-                        <label for="affiliate-expedia">קישור Affiliate ל-Expedia (למלונות):</label>
-                        <input type="text" id="affiliate-expedia" placeholder="השאר ריק אם לא רלוונטי">
+                        <label for="affiliate-expedia">Expedia:</label>
+                        <input type="text" id="affiliate-expedia" placeholder="קישור שותף מאקספדיה">
                     </div>
                     <button type="submit" id="save-deal-button">שמור דיל</button>
                     <button type="button" id="cancel-edit-button" style="display:none;" class="button-secondary">בטל עריכה</button>
@@ -90,7 +89,8 @@
             <div id="deals-list-admin">
                 <h3>רשימת הדילים הקיימים</h3>
                 <div id="admin-deals-output">
-                    </div>
+                    <p>טוען דילים...</p>
+                </div>
             </div>
         </div>
     </section>
@@ -98,8 +98,10 @@
     <footer>
         <p>נופש לי ולך &copy; <span id="currentYear"></span></p>
     </footer>
+
     <script>
         document.getElementById('currentYear').textContent = new Date().getFullYear();
     </script>
+    <script type="module" src="admin-script.js"></script>
 </body>
 </html>
