@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ניהול דילים - נופש לי ולך</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* סגנונות נוספים לדף ניהול */
+        .hidden-field { display: none; }
+        .trip-types-container, .availability-months-container { margin-bottom: 15px; border: 1px solid #eee; padding: 10px; border-radius: 5px; }
+        .trip-types-container label, .availability-months-container label { margin-right: 10px; }
+        .hotel-entry { border: 1px dashed #ccc; padding: 15px; margin-bottom: 15px; border-radius: 5px; background-color: #f9f9f9; }
+        .hotel-entry h5 { margin-top: 0; color: var(--secondary-color); }
+        .remove-hotel-btn { background-color: #e74c3c; color: white; padding: 5px 10px; font-size: 0.8em; margin-top: 10px;}
+        .remove-hotel-btn:hover { background-color: #c0392b; }
+    </style>
 </head>
 <body>
     <header>
@@ -40,47 +50,81 @@
             <h2>לוח ניהול דילים</h2>
             <p>ברוך הבא, <span id="admin-user-email"></span>! <button id="logout-button" type="button" class="button-secondary" style="padding: 8px 15px; font-size:0.9em; margin-right:10px;">התנתק</button></p>
 
-
             <div id="deal-form-container">
                 <h3 id="form-title">הוסף דיל חדש</h3>
                 <form id="deal-form">
-                    <input type="hidden" id="deal-id"> <div class="form-group">
+                    <input type="hidden" id="deal-id">
+
+                    <div class="form-group">
                         <label for="deal-name">שם הדיל (כותרת):</label>
                         <input type="text" id="deal-name" placeholder="לדוגמה: רודוס החל מ-100 ₪" required>
                     </div>
+
                     <div class="form-group">
                         <label for="deal-description">תיאור הדיל:</label>
                         <textarea id="deal-description" rows="5" required placeholder="פרט את הדיל, תנאים, מה כלול..."></textarea>
                     </div>
+
                     <div class="form-group">
                         <label for="deal-price-text">טקסט מחיר (כמו שיוצג):</label>
                         <input type="text" id="deal-price-text" placeholder="לדוגמה: החל מ-100 ₪ לאדם" required>
                     </div>
+
                     <div class="form-group">
-                        <label for="deal-type-select">סוג הדיל:</label>
+                        <label for="deal-type-select">סוג הדיל המרכזי:</label>
                         <select id="deal-type-select">
-                            <option value="flight">טיסה</option>
-                            <option value="hotel">מלון</option>
-                            <option value="package">חבילה</option>
+                            <option value="package">חבילה (טיסה + מלון/ות)</option>
+                            <option value="hotel">מלון בלבד</option>
+                            <option value="flight">טיסה בלבד</option>
                         </select>
                     </div>
+
                     <div class="form-group">
-                        <label for="deal-image-url">קישור לתמונה:</label>
+                        <label for="deal-image-url">קישור לתמונה ראשית לדיל:</label>
                         <input type="text" id="deal-image-url" placeholder="https://example.com/image.jpg" required>
                     </div>
-                    <h4>קישורי Affiliate (למלונות בלבד, השאר ריק אם לא רלוונטי):</h4>
+
                     <div class="form-group">
-                        <label for="affiliate-booking">Booking.com:</label>
-                        <input type="text" id="affiliate-booking" placeholder="קישור שותף מבוקינג">
+                        <h4>בחר סוגי טיול (אפשר לבחור מספר אפשרויות):</h4>
+                        <div id="trip-types-checkboxes" class="trip-types-container">
+                            </div>
                     </div>
-                     <div class="form-group">
-                        <label for="affiliate-agoda">Agoda:</label>
-                        <input type="text" id="affiliate-agoda" placeholder="קישור שותף מאגודה">
+
+                    <div class="form-group">
+                        <h4>חודשי זמינות (בחר חודשים רלוונטיים):</h4>
+                        <div id="availability-months-checkboxes" class="availability-months-container">
+                            </div>
                     </div>
-                     <div class="form-group">
-                        <label for="affiliate-expedia">Expedia:</label>
-                        <input type="text" id="affiliate-expedia" placeholder="קישור שותף מאקספדיה">
+
+                    <div id="flight-details-section" class="form-group hidden-field">
+                        <h4>פרטי טיסה (אם רלוונטי לחבילה/טיסה):</h4>
+                        <label for="flight-notes">הערות לטיסה (לדוגמה: ישירה/קונקשן, חברת תעופה, כבודה):</label>
+                        <textarea id="flight-notes" rows="3"></textarea>
                     </div>
+                    
+                    <div id="single-hotel-affiliates-section" class="form-group hidden-field">
+                        <h4>קישורי Affiliate למלון (לדיל "מלון בלבד"):</h4>
+                        <div class="form-group">
+                            <label for="single-affiliate-booking">Booking.com:</label>
+                            <input type="text" id="single-affiliate-booking" placeholder="קישור שותף מבוקינג">
+                        </div>
+                         <div class="form-group">
+                            <label for="single-affiliate-agoda">Agoda:</label>
+                            <input type="text" id="single-affiliate-agoda" placeholder="קישור שותף מאגודה">
+                        </div>
+                         <div class="form-group">
+                            <label for="single-affiliate-expedia">Expedia:</label>
+                            <input type="text" id="single-affiliate-expedia" placeholder="קישור שותף מאקספדיה">
+                        </div>
+                    </div>
+
+                    <div id="multiple-hotels-section" class="form-group hidden-field">
+                        <h4>מלונות בדיל (רלוונטי לחבילות, או אם רוצים להציע מספר אופציות מלון):</h4>
+                        <div id="hotels-container">
+                            </div>
+                        <button type="button" id="add-hotel-btn" class="button-secondary" style="margin-top:10px;">+ הוסף מלון לחבילה</button>
+                    </div>
+
                     <button type="submit" id="save-deal-button">שמור דיל</button>
                     <button type="button" id="cancel-edit-button" style="display:none;" class="button-secondary">בטל עריכה</button>
                 </form>
