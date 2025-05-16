@@ -10,13 +10,13 @@
     <header>
         <div class="container">
             <div id="branding">
-                <h1><a href="index.html">נופש לי ולך</a></h1>
+                <h1><a href="index.html">✈️ נופש לי ולך</a></h1>
             </div>
             <nav>
                 <ul>
                     <li><a href="index.html">דף הבית</a></li>
                     <li><a href="deals.html">כל הדילים</a></li>
-                    <li><a href="admin.html">ניהול (מנהלים)</a></li>
+                    <li><a href="admin.html">ניהול</a></li>
                 </ul>
             </nav>
         </div>
@@ -25,10 +25,10 @@
     <section id="deal-details-page" class="container">
         <div class="deal-details-container">
             <h2 id="deal-title">טוען את פרטי הדיל...</h2>
-            <img id="deal-image" src="https://via.placeholder.com/800x400?text=Deal+Image" alt="תמונת הדיל">
+            <img id="deal-image" src="https://via.placeholder.com/800x400?text=טוען+תמונה..." alt="תמונת הדיל">
             <p id="deal-description">תיאור מפורט של הדיל יופיע כאן.</p>
             <p id="deal-price" class="price">מחיר: <span id="price-value"></span></p>
-            <p id="deal-type">סוג דיל: <span id="type-value"></span></p>
+            <p id="deal-type-display">סוג דיל: <span id="type-value"></span></p>
 
             <div id="booking-options">
                 </div>
@@ -39,90 +39,91 @@
         <p>נופש לי ולך &copy; <span id="currentYear"></span></p>
     </footer>
 
-    <script>
+    <script type="module">
+        import { db } from './firebase-init.js';
+        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-firestore.js";
+
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // --- התחלה: קוד JavaScript לטעינת פרטי דיל ---
-        window.addEventListener('DOMContentLoaded', () => {
+        const dealTitleEl = document.getElementById('deal-title');
+        const dealImageEl = document.getElementById('deal-image');
+        const dealDescriptionEl = document.getElementById('deal-description');
+        const priceValueEl = document.getElementById('price-value');
+        const typeValueEl = document.getElementById('type-value');
+        const bookingOptionsContainer = document.getElementById('booking-options');
+
+        async function fetchDealDetails() {
             const urlParams = new URLSearchParams(window.location.search);
             const dealId = urlParams.get('dealId');
 
-            if (dealId) {
-                // כאן תהיה לוגיקה לקריאת פרטי הדיל הספציפי מ-Firebase לפי dealId
-                // או אם אין לך Backend מורכב, תוכל להעביר יותר פרמטרים ב-URL
-                // או להשתמש בנתונים מדומים לצורך הדגמה:
-                fetchDealDetails(dealId);
-            } else {
-                document.getElementById('deal-title').textContent = "דיל לא נמצא";
-                document.getElementById('deal-description').textContent = "אנא חזור לדף הדילים ובחר דיל.";
+            if (!dealId) {
+                dealTitleEl.textContent = "דיל לא נמצא";
+                dealDescriptionEl.textContent = "אנא חזור לדף הדילים ובחר דיל.";
+                dealImageEl.style.display = 'none';
+                return;
             }
-        });
 
-        async function fetchDealDetails(dealId) {
-            // בפועל: קריאה ל-Firebase Firestore
-            // const doc = await firebase.firestore().collection('deals').doc(dealId).get();
-            // if (doc.exists) {
-            //    const deal = doc.data();
-            //    displayDealDetails(deal);
-            // } else { ... }
+            try {
+                const dealRef = doc(db, "deals", dealId);
+                const docSnap = await getDoc(dealRef);
 
-            // נתונים מדומים לצורך הדגמה:
-            const mockDealData = {
-                rhodes_example: { title: 'רודוס החל מ-100 ₪ (טיסה)', description: 'חופשה קסומה באי היווני רודוס. המחיר המוצג הוא מחיר פתיחה לטיסה הלוך ושוב לאדם. ניתן להוסיף מלון בנפרד או כחבילה. צור קשר לפרטים נוספים והצעת מחיר מותאמת אישית.', price: 'החל מ-100 ₪ לאדם', type: 'flight', imageUrl: 'https://via.placeholder.com/800x400?text=Rhodes+Deal', affiliateLinks: {} },
-                barcelona_example: { title: 'ברצלונה החל מ-299 ₪ (חבילה)', description: 'חבילת נופש לברצלונה כוללת טיסות ומלון מרכזי. המחיר המוצג הוא מחיר פתיחה לחבילה לאדם. תאריכים ומלונות ניתנים להתאמה אישית.', price: 'החל מ-299 ₪ לאדם', type: 'package', imageUrl: 'https://via.placeholder.com/800x400?text=Barcelona+Package', affiliateLinks: { booking: 'YOUR_BOOKING_AFFILIATE_LINK_BARCELONA_HOTEL', agoda: 'YOUR_AGODA_AFFILIATE_LINK_BARCELONA_HOTEL' } },
-                eilat_example: { title: 'אילת החל מ-120 ₪ ללילה (מלון)', description: 'מגוון מלונות באילת במחירים אטרקטיביים. הזמן ישירות דרך הקישורים שלנו או פנה אלינו לסגירה אישית וקבלת ייעוץ.', price: 'החל מ-120 ₪ ללילה', type: 'hotel', imageUrl: 'https://via.placeholder.com/800x400?text=Eilat+Hotel+Deal', affiliateLinks: { booking: 'YOUR_BOOKING_AFFILIATE_LINK_EILAT', agoda: 'YOUR_AGODA_AFFILIATE_LINK_EILAT', expedia: 'YOUR_EXPEDIA_AFFILIATE_LINK_EILAT' } },
-                rome_flight_example: { title: 'טיסה לרומא החל מ-150 €', description: 'טיסות זולות לרומא! המחיר המוצג הוא לכיוון אחד או הלוך ושוב בהתאם למבצעים. צור קשר לקבלת ההצעה הטובה ביותר עבורך.', price: 'החל מ-150 €', type: 'flight', imageUrl: 'https://via.placeholder.com/800x400?text=Rome+Flight+Deal', affiliateLinks: {} }
-            };
+                if (docSnap.exists()) {
+                    const deal = docSnap.data();
+                    dealTitleEl.textContent = deal.name;
+                    dealImageEl.src = deal.imageUrl || 'https://via.placeholder.com/800x400?text=תמונה+לא+זמינה';
+                    dealImageEl.alt = deal.name;
+                    dealDescriptionEl.innerHTML = deal.description.replace(/\n/g, '<br>'); // תומך בשורות חדשות בתיאור
+                    priceValueEl.textContent = deal.price_text;
+                    typeValueEl.textContent = getDealTypeDisplay(deal.type);
 
-            const deal = mockDealData[dealId]; // החלף בנתונים אמיתיים
+                    bookingOptionsContainer.innerHTML = ''; // נקה אפשרויות קודמות
 
-            if (deal) {
-                document.getElementById('deal-title').textContent = deal.title;
-                document.getElementById('deal-image').src = deal.imageUrl;
-                document.getElementById('deal-image').alt = deal.title;
-                document.getElementById('deal-description').textContent = deal.description;
-                document.getElementById('price-value').textContent = deal.price;
-                document.getElementById('type-value').textContent = getDealTypeDisplay(deal.type);
+                    // לוגיקת הצגת כפתורים לפי סוג הדיל
+                    if (deal.type === 'flight') {
+                        bookingOptionsContainer.innerHTML = `
+                            <h4>פרטי יצירת קשר להזמנת טיסה:</h4>
+                            <p>להזמנת טיסה זו, אנא פנה אלינו ישירות. אנו נסגור עבורך את ההזמנה בעמלה של 100 ₪ או 5% ממחיר הטיסה (הנמוך מביניהם).</p>
+                            <a href="mailto:your-email@example.com?subject=הזמנת טיסה: ${deal.name}" class="button">פנה אליי לסגירת ההזמנה</a>
+                        `;
+                    } else if (deal.type === 'hotel') {
+                        let affiliateButtonsHTML = '';
+                        if (deal.affiliateLinks?.booking) {
+                            affiliateButtonsHTML += `<a href="${deal.affiliateLinks.booking}" target="_blank" class="button">הזמן לבד דרך Booking.com</a>`;
+                        }
+                        if (deal.affiliateLinks?.agoda) {
+                            affiliateButtonsHTML += `<a href="${deal.affiliateLinks.agoda}" target="_blank" class="button button-secondary">הזמן לבד דרך Agoda</a>`;
+                        }
+                        if (deal.affiliateLinks?.expedia) {
+                            affiliateButtonsHTML += `<a href="${deal.affiliateLinks.expedia}" target="_blank" class="button">הזמן לבד דרך Expedia</a>`;
+                        }
 
-                const bookingOptionsContainer = document.getElementById('booking-options');
-                bookingOptionsContainer.innerHTML = ''; // נקה אפשרויות קודמות
-
-                if (deal.type === 'flight') {
-                    bookingOptionsContainer.innerHTML = `
-                        <p>להזמנת טיסה זו, אנא פנה אלינו ישירות. אנו נסגור עבורך את ההזמנה בעמלה של 100 ₪ או 5% ממחיר הטיסה (הנמוך מביניהם).</p>
-                        <a href="mailto:your-email@example.com?subject=הזמנת טיסה ל${deal.title}" class="button">פנה אליי לסגירת ההזמנה</a>
-                    `;
-                } else if (deal.type === 'hotel') {
-                    let affiliateButtonsHTML = '';
-                    if (deal.affiliateLinks.booking) {
-                        affiliateButtonsHTML += `<a href="${deal.affiliateLinks.booking}" target="_blank" class="button">הזמן לבד דרך Booking.com</a>`;
+                        bookingOptionsContainer.innerHTML = `
+                            <h4>אפשרויות הזמנה למלון:</h4>
+                            <p><strong>אפשרות 1: הזמנה עצמאית</strong> (אנחנו מקבלים עמלה קטנה מהשותפים ללא תוספת עלות עבורך)</p>
+                            ${affiliateButtonsHTML || '<p>אין כרגע קישורי שותפים זמינים למלון זה.</p>'}
+                            <hr style="margin: 20px 0;">
+                            <p><strong>אפשרות 2: שירות אישי שלנו</strong></p>
+                            <p>פנה אלינו לסגירה אישית של המלון בעמלה של 100 ₪ או 5% ממחיר המלון (הנמוך מביניהם).</p>
+                            <a href="mailto:your-email@example.com?subject=הזמנת מלון: ${deal.name}" class="button">בקש ממני לסגור לך</a>
+                        `;
+                    } else if (deal.type === 'package') {
+                         bookingOptionsContainer.innerHTML = `
+                            <h4>פרטי יצירת קשר להזמנת חבילה:</h4>
+                            <p>להזמנת חבילה זו (טיסה + מלון), אנא פנה אלינו ישירות. אנו נסגור עבורך את ההזמנה בעמלה כוללת של 100 ₪ או 5% מהמחיר הכולל של החבילה.</p>
+                            <a href="mailto:your-email@example.com?subject=הזמנת חבילה: ${deal.name}" class="button">פנה אליי לסגירת החבילה</a>
+                        `;
                     }
-                    if (deal.affiliateLinks.agoda) {
-                        affiliateButtonsHTML += `<a href="${deal.affiliateLinks.agoda}" target="_blank" class="button button-secondary">הזמן לבד דרך Agoda</a>`;
-                    }
-                    if (deal.affiliateLinks.expedia) {
-                        affiliateButtonsHTML += `<a href="${deal.affiliateLinks.expedia}" target="_blank" class="button">הזמן לבד דרך Expedia</a>`;
-                    }
 
-                    bookingOptionsContainer.innerHTML = `
-                        <p><strong>אפשרות 1: הזמנה עצמאית (ואנחנו מקבלים עמלה קטנה מהשותפים)</strong></p>
-                        ${affiliateButtonsHTML || '<p>אין כרגע קישורי שותפים זמינים למלון זה.</p>'}
-                        <hr style="margin: 20px 0;">
-                        <p><strong>אפשרות 2: שירות אישי שלנו</strong></p>
-                        <p>פנה אלינו לסגירה אישית של המלון בעמלה של 100 ₪ או 5% ממחיר המלון (הנמוך מביניהם).</p>
-                        <a href="mailto:your-email@example.com?subject=הזמנת מלון: ${deal.title}" class="button">בקש ממני לסגור לך</a>
-                    `;
-                } else if (deal.type === 'package') {
-                     bookingOptionsContainer.innerHTML = `
-                        <p>להזמנת חבילה זו (טיסה + מלון), אנא פנה אלינו ישירות. אנו נסגור עבורך את ההזמנה בעמלה כוללת של 100 ₪ או 5% מהמחיר הכולל של החבילה.</p>
-                        <a href="mailto:your-email@example.com?subject=הזמנת חבילה: ${deal.title}" class="button">פנה אליי לסגירת החבילה</a>
-                    `;
+                } else {
+                    dealTitleEl.textContent = "דיל לא נמצא";
+                    dealDescriptionEl.textContent = "לא הצלחנו למצוא את פרטי הדיל המבוקש.";
+                    dealImageEl.style.display = 'none';
                 }
-
-            } else {
-                document.getElementById('deal-title').textContent = "דיל לא נמצא";
-                document.getElementById('deal-description').textContent = "לא הצלחנו למצוא את פרטי הדיל המבוקש.";
-                document.getElementById('deal-image').style.display = 'none';
+            } catch (error) {
+                console.error("Error fetching deal details: ", error);
+                dealTitleEl.textContent = "שגיאה בטעינת הדיל";
+                dealDescriptionEl.textContent = "אירעה שגיאה. נסה לרענן את הדף.";
+                dealImageEl.style.display = 'none';
             }
         }
 
@@ -132,7 +133,8 @@
             if (typeKey === 'package') return 'חבילה';
             return typeKey;
         }
-        // --- סוף: קוד JavaScript לטעינת פרטי דיל ---
+
+        fetchDealDetails();
     </script>
 </body>
 </html>
