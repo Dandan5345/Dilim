@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>כל הדילים - נופש לי ולך</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        #filters-section { background-color: #fff; padding: 25px; border-radius: 8px; margin-bottom: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+        #filters-section h3 { margin-top: 0; color: var(--primary-color); text-align: center; margin-bottom: 20px; }
+        .filter-group { margin-bottom: 20px; }
+        .filter-group h4 { margin-bottom: 10px; color: var(--secondary-color); border-bottom: 1px solid var(--medium-gray); padding-bottom: 5px; }
+        .checkbox-options-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+        .checkbox-options-grid label { font-weight: normal; display: flex; align-items: center; }
+        .checkbox-options-grid input[type="checkbox"] { margin-left: 8px; }
+        .filter-buttons { text-align: center; margin-top: 20px; }
+        .filter-buttons .button { margin: 0 10px; }
+    </style>
 </head>
 <body>
     <header>
@@ -22,9 +33,26 @@
         </div>
     </header>
 
-    <section id="all-deals-page" class="container">
+    <section id="all-deals-page-content" class="container">
         <h2>כל הדילים שלנו</h2>
-        <p>כאן תוכלו למצוא את כל הדילים המעודכנים לטיסות, מלונות וחבילות נופש. בחרו את היעד הבא שלכם!</p>
+        
+        <div id="filters-section">
+            <h3>חיפוש וסינון דילים</h3>
+            <div class="filter-group">
+                <h4>סוגי חופשה (אפשר לבחור מספר אפשרויות):</h4>
+                <div id="filter-trip-types" class="checkbox-options-grid">
+                    </div>
+            </div>
+            <div class="filter-group">
+                <h4>חודשי זמינות (אפשר לבחור מספר אפשרויות):</h4>
+                <div id="filter-availability-months" class="checkbox-options-grid">
+                    </div>
+            </div>
+            <div class="filter-buttons">
+                <button id="apply-filters-btn" class="button">סנן דילים</button>
+                <button id="reset-filters-btn" class="button button-secondary">אפס מסננים</button>
+            </div>
+        </div>
 
         <div id="deals-list">
             <p>טוען דילים...</p>
@@ -40,47 +68,145 @@
         import { collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-firestore.js";
 
         document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // --- קבועים ופונקציות עזר (זהים ל-index.html) ---
+        const ALL_TRIP_TYPES = [
+            "בטן גב", "נופים וטבע", "עיר אירופאית", "ארצות הברית", "מזרח רחוק", 
+            "שווקי קריסמס", "סקי", "טרקים", "קרוז", "ספארי", "ירח דבש", "משפחות"
+        ];
+
+        function getNextMonthsAvailability(numberOfMonths = 12) {
+            const months = [];
+            const currentDate = new Date(); // שישי, 16 במאי 2025
+            for (let i = 0; i < numberOfMonths; i++) {
+                const date = new Date(currentDate.getFullYear(), currentDate.getMonth() + i, 1);
+                const year = date.getFullYear();
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const monthName = date.toLocaleString('he-IL', { month: 'long', year: 'numeric' });
+                months.push({ value: `${year}-${month}`, label: `${monthName}` });
+            }
+            return months;
+        }
+        const AVAILABLE_MONTHS_OPTIONS = getNextMonthsAvailability(24);
+        
+        // --- איתחול אלמנטים ---
         const dealsListContainer = document.getElementById('deals-list');
+        // אין צורך ב-dealsSectionTitle כאן כי הכותרת "כל הדילים שלנו" קבועה
+        
+        const filterTripTypesContainer = document.getElementById('filter-trip-types');
+        const filterAvailabilityMonthsContainer = document.getElementById('filter-availability-months');
+        const applyFiltersBtn = document.getElementById('apply-filters-btn');
+        const resetFiltersBtn = document.getElementById('reset-filters-btn');
 
-        async function fetchAllDeals() {
+        let allDealsCache = []; // מטמון לכל הדילים
+
+        // פונקציה לאכלוס Checkboxes למסננים (זהה ל-index.html)
+        function populateFilterCheckboxes(container, options, groupName) {
+            container.innerHTML = '';
+            options.forEach(option => {
+                const item = typeof option === 'string' ? { value: option, label: option } : option;
+                const checkboxId = `filter-${groupName}-${item.value.replace(/\s+/g, '-')}`; // הוספתי filter- לתחילת ה-ID כדי למנוע התנגשות עם דף הניהול אם ישתמשו באותם ID בטעות
+                const div = document.createElement('div');
+                div.innerHTML = `
+                    <label for="${checkboxId}">
+                        <input type="checkbox" id="${checkboxId}" name="${groupName}" value="${item.value}">
+                        ${item.label}
+                    </label>
+                `;
+                container.appendChild(div);
+            });
+        }
+        
+        // אכלוס מסננים
+        populateFilterCheckboxes(filterTripTypesContainer, ALL_TRIP_TYPES, 'tripType');
+        populateFilterCheckboxes(filterAvailabilityMonthsContainer, AVAILABLE_MONTHS_OPTIONS, 'availabilityMonth');
+
+        // פונקציה להצגת דילים (זהה ל-index.html)
+        function displayDeals(dealsToDisplay) {
             if (!dealsListContainer) return;
-            dealsListContainer.innerHTML = '<p>טוען דילים...</p>'; // הודעת טעינה
+            dealsListContainer.innerHTML = ''; 
 
+            if (dealsToDisplay.length === 0) {
+                dealsListContainer.innerHTML = '<p>לא נמצאו דילים העונים לקריטריונים שנבחרו.</p>';
+                return;
+            }
+
+            dealsToDisplay.forEach(dealData => {
+                const deal = dealData.data;
+                const dealId = dealData.id;
+                const dealElement = document.createElement('div');
+                dealElement.className = 'deal-item';
+                dealElement.innerHTML = `
+                    <img src="${deal.imageUrl || 'https://via.placeholder.com/300x200?text=תמונה+חסרה'}" alt="${deal.name}">
+                    <div class="deal-item-content">
+                        <h3>${deal.name}</h3>
+                        <p class="price">${deal.price_text}</p>
+                        <p>${deal.description.substring(0, 120)}...</p>
+                        <a href="deal-details.html?dealId=${dealId}" class="button">פרטים והזמנה</a>
+                    </div>
+                `;
+                dealsListContainer.appendChild(dealElement);
+            });
+        }
+
+        // טעינת כל הדילים (ברירת מחדל)
+        async function fetchAndDisplayAllDeals() {
+            dealsListContainer.innerHTML = '<p>טוען את כל הדילים...</p>';
             try {
-                const dealsRef = collection(db, 'deals');
-                const q = query(dealsRef, orderBy('createdAt', 'desc')); // מציג דילים לפי תאריך הוספה (החדש ראשון)
-                const querySnapshot = await getDocs(q);
-
-                if (querySnapshot.empty) {
-                    dealsListContainer.innerHTML = '<p>לא נמצאו דילים זמינים כרגע. נסו שוב מאוחר יותר!</p>';
-                    return;
+                if (allDealsCache.length === 0) { // טען מהרשת רק אם המטמון ריק
+                    const dealsRef = collection(db, 'deals');
+                    const q = query(dealsRef, orderBy('createdAt', 'desc'));
+                    const querySnapshot = await getDocs(q);
+                    allDealsCache = querySnapshot.docs.map(doc => ({ id: doc.id, data: doc.data() }));
                 }
-
-                let dealsHTML = '';
-                querySnapshot.forEach((doc) => {
-                    const deal = doc.data();
-                    const dealId = doc.id;
-                    dealsHTML += `
-                        <div class="deal-item">
-                            <img src="${deal.imageUrl || 'https://via.placeholder.com/300x200?text=תמונה+חסרה'}" alt="${deal.name}">
-                            <div class="deal-item-content">
-                                <h3>${deal.name}</h3>
-                                <p class="price">${deal.price_text}</p>
-                                <p>${deal.description.substring(0, 120)}...</p>
-                                <a href="deal-details.html?dealId=${dealId}" class="button">פרטים והזמנה</a>
-                            </div>
-                        </div>
-                    `;
-                });
-                dealsListContainer.innerHTML = dealsHTML;
+                displayDeals(allDealsCache); // הצג את כל הדילים שבמטמון
 
             } catch (error) {
                 console.error("Error fetching all deals: ", error);
                 dealsListContainer.innerHTML = '<p>שגיאה בטעינת הדילים. אנא נסה לרענן את הדף.</p>';
             }
         }
+        
+        // פונקציית סינון (זהה ל-index.html, רק שבאיפוס נטען את כל הדילים)
+        function filterDeals() {
+            const selectedTripTypes = Array.from(filterTripTypesContainer.querySelectorAll('input[name="tripType"]:checked')).map(cb => cb.value);
+            const selectedMonths = Array.from(filterAvailabilityMonthsContainer.querySelectorAll('input[name="availabilityMonth"]:checked')).map(cb => cb.value);
 
-        fetchAllDeals();
+            if (selectedTripTypes.length === 0 && selectedMonths.length === 0) {
+                displayDeals(allDealsCache); // אם לא נבחרו מסננים, הצג את כל הדילים
+                return;
+            }
+
+            const filteredDeals = allDealsCache.filter(dealData => {
+                const deal = dealData.data;
+                let typeMatch = true;
+                let monthMatch = true;
+
+                if (selectedTripTypes.length > 0) {
+                    typeMatch = deal.tripTypes && deal.tripTypes.some(tripType => selectedTripTypes.includes(tripType));
+                }
+
+                if (selectedMonths.length > 0) {
+                    monthMatch = deal.availabilityMonths && deal.availabilityMonths.some(availMonth => selectedMonths.includes(availMonth));
+                }
+                
+                return typeMatch && monthMatch;
+            });
+
+            displayDeals(filteredDeals);
+        }
+
+        // Event Listeners
+        applyFiltersBtn.addEventListener('click', filterDeals);
+        
+        resetFiltersBtn.addEventListener('click', () => {
+            filterTripTypesContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+            filterAvailabilityMonthsContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+            displayDeals(allDealsCache); // חזור לתצוגת כל הדילים
+        });
+
+        // טעינה ראשונית
+        fetchAndDisplayAllDeals();
     </script>
 </body>
 </html>
