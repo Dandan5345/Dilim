@@ -8,12 +8,6 @@
     
     <title>נופש לי ולך - דילים שווים לחופשה המושלמת</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* * רוב העיצוב מגיע מ-style.css החיצוני.
-         * הסגנונות שהיו כאן קודם עבור header, search-banner וכו' הועברו ל-style.css הראשי.
-         * ניתן להשאיר כאן רק סגנונות סופר-ספציפיים לדף זה אם יש צורך, אך כרגע אין.
-        */
-    </style>
 </head>
 <body>
     <header>
@@ -39,55 +33,56 @@
         </div>
     </section>
 
-    <div id="search-banner-container" class="container">
-        <div id="search-banner">
-            <h2>תכנן את החופשה שלך</h2>
-            <div class="search-form-grid">
-                <div class="search-field">
-                    <label for="search-deal-type">מה מחפשים?</label>
-                    <select id="search-deal-type">
-                        <option value="all">הכל (ברירת מחדל)</option>
-                        <option value="package">דיל משתלם (טיסה + מלון)</option>
-                        <option value="flight">טיסה בלבד</option>
-                        <option value="hotel">מלונות בלבד</option>
-                    </select>
-                </div>
-
-                <div class="search-field">
-                    <label>לאיזה חודשים?</label>
-                    <div class="custom-select-wrapper" id="months-select-wrapper">
-                        <span class="custom-select-display" id="months-display-text" tabindex="0">בחר חודשים...</span>
-                        <div class="custom-select-options" id="filter-availability-months">
-                            </div>
+    <section id="search-banner-container"> <div class="container">
+            <div id="search-banner">
+                <h2>תכנן את החופשה שלך</h2>
+                <div class="search-form-grid">
+                    <div class="search-field">
+                        <label for="search-deal-type">מה מחפשים?</label>
+                        <select id="search-deal-type">
+                            <option value="all">הכל (ברירת מחדל)</option>
+                            <option value="package">דיל משתלם (טיסה + מלון)</option>
+                            <option value="flight">טיסה בלבד</option>
+                            <option value="hotel">מלונות בלבד</option>
+                        </select>
                     </div>
-                </div>
 
-                <div class="search-field">
-                    <label>איזה סוג חופשה?</label>
-                     <div class="custom-select-wrapper" id="trip-types-select-wrapper">
-                        <span class="custom-select-display" id="trip-types-display-text" tabindex="0">בחר סוגי חופשה...</span>
-                        <div class="custom-select-options" id="filter-trip-types">
-                            </div>
+                    <div class="search-field">
+                        <label>לאיזה חודשים?</label>
+                        <div class="custom-select-wrapper" id="months-select-wrapper">
+                            <span class="custom-select-display" id="months-display-text" tabindex="0">בחר חודשים...</span>
+                            <div class="custom-select-options" id="filter-availability-months">
+                                </div>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="search-field">
-                    <label for="search-duration">לכמה זמן?</label>
-                    <select id="search-duration">
-                        <option value="">כל משך זמן</option>
-                        <option value="1-3">1-3 ימים</option>
-                        <option value="3-6">3-6 ימים</option>
-                        <option value="6-10">6-10 ימים</option>
-                        <option value="10-20">10-20 ימים</option>
-                    </select>
-                </div>
-                <div class="search-buttons-inline">
-                    <button id="apply-search-btn" class="button">🔍 חפש</button>
-                    <button id="reset-search-btn" class="button button-secondary">🔄 אפס</button>
+
+                    <div class="search-field">
+                        <label>איזה סוג חופשה?</label>
+                         <div class="custom-select-wrapper" id="trip-types-select-wrapper">
+                            <span class="custom-select-display" id="trip-types-display-text" tabindex="0">בחר סוגי חופשה...</span>
+                            <div class="custom-select-options" id="filter-trip-types">
+                                </div>
+                        </div>
+                    </div>
+                    
+                    <div class="search-field">
+                        <label for="search-duration">לכמה זמן?</label>
+                        <select id="search-duration">
+                            <option value="">כל משך זמן</option>
+                            <option value="1-3">1-3 ימים</option>
+                            <option value="3-6">3-6 ימים</option>
+                            <option value="6-10">6-10 ימים</option>
+                            <option value="10-20">10-20 ימים</option>
+                        </select>
+                    </div>
+                    <div class="search-buttons-inline">
+                        <button id="apply-search-btn" class="button">🔍 חפש</button>
+                        <button id="reset-search-btn" class="button button-secondary">🔄 אפס</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <section id="deals-display-section">
         <div class="container">
@@ -99,18 +94,19 @@
     </section>
     
     <section id="about-contact-section">
-        <div class="container" style="background-color: #fff; padding: 40px 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); text-align:center;">
-            <h2>מי אני ולמה כדאי לכם לדבר איתי?</h2>
-            <p style="font-size: 1.15em; line-height: 1.9; max-width: 750px; margin: 0 auto 25px auto;">
-                היי, אני דורון נקש, והתשוקה שלי היא למצוא את הדילים הכי שווים שיש ולהפוך את החופשה הבאה שלכם לחלומית - ובלי לקרוע את הכיס! 
-                עם ניסיון של שנים באיתור הזדמנויות ומבצעים נסתרים, אני כאן כדי לעזור לכם לתכנן כל פרט, לחסוך לכם זמן יקר והרבה כסף, והכי חשוב - לגרום לכם להנות מחופשה מושלמת בראש שקט.
-            </p>
-            <h3 style="color: var(--secondary-color); margin-top: 30px; margin-bottom: 15px; font-size: 1.6em; font-weight: 600;">מעדיפים ליווי אישי או שיש לכם שאלה? דברו איתי!</h3>
-            <div class="contact-links" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
-                <a href="https://wa.me/972584593847?text=היי%20דורון,%20אשמח%20לסיוע%20במציאת%20דיל%20לחופשה" target="_blank" class="button" style="background-color: #25D366; display: inline-flex; align-items: center; gap: 8px; font-size:1.1em !important; padding:12px 25px !important;"><span>שלח הודעה בוואטסאפ</span> 🟢</a>
-                <a href="https://www.instagram.com/nofesh_li?igsh=NjYzMWd6a21tbWdm&utm_source=qr" target="_blank" class="button" style="background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); display: inline-flex; align-items: center; gap: 8px; font-size:1.1em !important; padding:12px 25px !important;"><span>עקבו אחרי באינסטגרם</span> 📸</a>
+        <div class="container">
+             <div> <h2>מי אני ולמה כדאי לכם לדבר איתי?</h2>
+                <p>
+                    היי, אני דורון נקש, והתשוקה שלי היא למצוא את הדילים הכי שווים שיש ולהפוך את החופשה הבאה שלכם לחלומית - ובלי לקרוע את הכיס! 
+                    עם ניסיון של שנים באיתור הזדמנויות ומבצעים נסתרים, אני כאן כדי לעזור לכם לתכנן כל פרט, לחסוך לכם זמן יקר והרבה כסף, והכי חשוב - לגרום לכם להנות מחופשה מושלמת בראש שקט.
+                </p>
+                <h3>מעדיפים ליווי אישי או שיש לכם שאלה? דברו איתי!</h3>
+                <div class="contact-links">
+                    <a href="https://wa.me/972584593847?text=היי%20דורון,%20אשמח%20לסיוע%20במציאת%20דיל%20לחופשה" target="_blank" class="button" style="background-color: #25D366;"><span>שלח הודעה בוואטסאפ</span> 🟢</a>
+                    <a href="https://www.instagram.com/nofesh_li?igsh=NjYzMWd6a21tbWdm&utm_source=qr" target="_blank" class="button" style="background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);"><span>עקבו אחרי באינסטגרם</span> 📸</a>
+                </div>
+                <p style="font-size:1.1em; margin-top:25px; font-weight:600;">טלפון ליצירת קשר: 058-4593847</p>
             </div>
-            <p style="font-size:1.1em; margin-top:25px; font-weight:600;">טלפון ליצירת קשר: 058-4593847</p>
         </div>
     </section>
 
@@ -174,10 +170,10 @@
         const tripTypesDisplayText = document.getElementById('trip-types-display-text');
         const filterTripTypesContainer = document.getElementById('filter-trip-types');
 
-        const applySearchBtn = document.getElementById('apply-search-btn'); // ID שונה מכפתור ב-deals.html
-        const resetSearchBtn = document.getElementById('reset-search-btn'); // ID שונה מכפתור ב-deals.html
+        const applySearchBtn = document.getElementById('apply-search-btn');
+        const resetSearchBtn = document.getElementById('reset-search-btn');
 
-        let allDealsCache = []; // משמש לטעינה ראשונית ואיפוס
+        let allDealsCache = [];
 
         function populateCustomDropdownCheckboxes(container, options, groupName, displayElement, defaultText) {
             if (!container || !displayElement) return;
@@ -197,7 +193,8 @@
             const selectedCheckboxes = Array.from(optionsContainer.querySelectorAll('input[type="checkbox"]:checked'));
             const selectedLabels = selectedCheckboxes.map(cb => {
                                         const parentLabel = cb.closest('label');
-                                        return parentLabel ? parentLabel.textContent.trim().replace(cb.value, '').trim() : '';
+                                        // Extract only the label text, not the value if it's part of the label (it shouldn't be with current setup)
+                                        return parentLabel ? cb.nextSibling.textContent.trim() : '';
                                     }).filter(text => text);
 
             if (selectedLabels.length > 0) {
@@ -253,12 +250,12 @@
         populateCustomDropdownCheckboxes(filterTripTypesContainer, ALL_TRIP_TYPES_WITH_EMOJI, 'tripTypeIndex', tripTypesDisplayText, "בחר סוגי חופשה...");
         setupCustomDropdown(tripTypesSelectWrapper, filterTripTypesContainer);
 
-        function displayDeals(dealsToDisplay) { // פונקציה זו מציגה דילים, ללא קשר אם הם מסוננים או מומלצים
+        function displayDeals(dealsToDisplay) {
             if (!dealsListContainer) return;
             dealsListContainer.innerHTML = '';
 
             if (dealsToDisplay.length === 0) {
-                dealsListContainer.innerHTML = '<p style="text-align:center; font-size:1.2em; color:var(--secondary-color);">לא נמצאו דילים כרגע. נסו שוב מאוחר יותר!</p>';
+                dealsListContainer.innerHTML = '<div style="text-align:center; font-size:1.3em; color:var(--secondary-color); padding: 20px; background-color: #fff; border-radius:8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"><p>לא נמצאו דילים מומלצים כרגע. 😟</p><p>נסו לחפש או <a href="deals.html" style="color:var(--accent-color); font-weight:bold;">צפו בכל הדילים</a>.</p></div>';
                 dealsSectionTitle.textContent = "אין דילים מומלצים כרגע";
                 return;
             }
@@ -279,26 +276,24 @@
                 `;
                 dealsListContainer.appendChild(dealElement);
             });
-             // הכותרת נשארת "דילים מומלצים 🔥" ולא משתנה לפי תוצאות סינון כי הסינון מפנה
             dealsSectionTitle.textContent = "דילים מומלצים 🔥";
         }
         
         async function fetchAndDisplayInitialDeals() {
-            dealsListContainer.innerHTML = '<p style="text-align:center; font-size:1.2em;">טוען דילים מומלצים...</p>';
+            dealsListContainer.innerHTML = '<p style="text-align:center; font-size:1.2em; padding: 20px;">טוען דילים מומלצים...</p>';
             try {
-                if (allDealsCache.length === 0) { // טען פעם אחת את כל הדילים ושמור במטמון
+                if (allDealsCache.length === 0) {
                     const dealsRef = collection(db, 'deals');
                     const q = query(dealsRef, orderBy('createdAt', 'desc')); 
                     const querySnapshot = await getDocs(q);
                     allDealsCache = querySnapshot.docs.map(doc => ({ id: doc.id, data: doc.data() }));
                 }
-                // הצג את 5 הדילים הראשונים (הכי חדשים) כדילים מומלצים
                 const featuredDeals = allDealsCache.slice(0, 5);
                 displayDeals(featuredDeals);
 
             } catch (error) {
                 console.error("Error fetching initial deals: ", error);
-                dealsListContainer.innerHTML = '<p style="text-align:center; color:red;">שגיאה בטעינת הדילים. אנא רענן את הדף או פנה אלינו.</p>';
+                dealsListContainer.innerHTML = '<p style="text-align:center; color:red; padding:20px;">שגיאה בטעינת הדילים. אנא רענן את הדף או פנה אלינו.</p>';
                 dealsSectionTitle.textContent = "שגיאה בטעינה";
             }
         }
@@ -324,12 +319,7 @@
                 params.append('months', selectedMonths.join(','));
             }
             
-            if (params.toString() === "") { // אם לא נבחרו מסננים כלל
-                 // אפשר להציג הודעה למשתמש לבחור מסננים או פשוט להפנות לדף הדילים הכללי
-                 window.location.href = 'deals.html'; 
-            } else {
-                window.location.href = `deals.html?${params.toString()}`;
-            }
+            window.location.href = `deals.html?${params.toString()}`;
         });
         
         resetSearchBtn.addEventListener('click', () => {
@@ -341,14 +331,9 @@
             
             filterAvailabilityMonthsContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
             updateCustomDropdownDisplay(filterAvailabilityMonthsContainer, monthsDisplayText, "בחר חודשים...", AVAILABLE_MONTHS_OPTIONS.length);
-            
-            // אין צורך לטעון מחדש את הדילים המומלצים כאן, הם כבר מוצגים. 
-            // האיפוס הוא רק של שדות החיפוש.
         });
 
-        // טעינה ראשונית של הדילים המומלצים
         fetchAndDisplayInitialDeals();
-
     </script>
 </body>
 </html>
