@@ -9,9 +9,9 @@
         /* עיצוב כללי לדף ניהול משופר */
         body { 
             font-family: 'Assistant', 'Rubik', sans-serif;
-            background-color: #f0f2f5; /* רקע כללי קצת יותר נעים */
+            background-color: #f0f2f5; 
         }
-        #admin-section.container { /* ריווח נוסף לסקשן הניהול */
+        #admin-section.container { 
             padding-top: 30px;
             padding-bottom: 30px;
         }
@@ -34,7 +34,7 @@
             text-align: center;
             font-weight: 600;
             min-width: 180px; 
-            border-radius: 6px; /* התאמת רדיוס */
+            border-radius: 6px; 
         }
         @media (max-width: 768px) { 
             .admin-actions-container .button {
@@ -75,7 +75,7 @@
             box-shadow: 0 8px 30px rgba(0,0,0,0.15);
             position: relative;
             width: 92%; 
-            max-width: 720px; /* מעט יותר רחב למודאלים מורכבים */
+            max-width: 720px; 
             max-height: 90vh; 
             overflow-y: auto; 
             transform: translateY(-20px) scale(0.98); 
@@ -115,14 +115,14 @@
             cursor: pointer;
         }
         .modal-form .form-group { 
-            margin-bottom: 20px; /* קצת פחות רווח בין קבוצות שדות */
+            margin-bottom: 20px; 
         }
         .modal-form label { 
             font-weight: 600; 
-            font-size: 1em; /* פונט סטנדרטי לתוויות */
+            font-size: 1em; 
             color: var(--secondary-color);
             display: block; 
-            margin-bottom: 6px; /* רווח קטן יותר מהשדה */
+            margin-bottom: 6px; 
         }
         .modal-form input[type="text"],
         .modal-form input[type="date"],
@@ -131,9 +131,9 @@
         .modal-form textarea,
         .modal-form select {
             width: 100%;
-            padding: 10px 12px; /* פדינג מעט קטן יותר לשדות */
+            padding: 10px 12px; 
             border: 1px solid #ced4da; 
-            border-radius: 5px; /* רדיוס קטן יותר */
+            border-radius: 5px; 
             box-sizing: border-box;
             font-family: 'Assistant', sans-serif;
             font-size: 1em;
@@ -147,7 +147,7 @@
             box-shadow: 0 0 0 3px rgba(0, 119, 204, 0.15); 
             outline: none;
         }
-        .modal-form textarea { min-height: 70px; resize: vertical;} /* גובה מינימלי קטן יותר, מאפשר שינוי גובה */
+        .modal-form textarea { min-height: 70px; resize: vertical;} 
 
         .modal-form hr {
             border: none;
@@ -165,14 +165,14 @@
             margin-bottom: 15px; 
             font-weight: 600;
         }
-         .modal-form h5 { /* כותרת משנה למלון בחבילה */
+         .modal-form h5 { 
             color: var(--secondary-color);
             font-size: 1.15em;
             margin-bottom:12px;
             padding-bottom: 5px;
             border-bottom: 1px dotted #ccc;
         }
-         .modal-form h6 { /* כותרת לספק שותפים */
+         .modal-form h6 { 
             font-size: 1em;
             color: #444;
             margin-top: 15px;
@@ -191,21 +191,21 @@
             background-color: #e67e00;
         }
 
-        #deal-form-container.old-form { display: none; }
+        #deal-form-container.old-form { display: none; } /* הסתרת טופס ישן אם קיים */
 
         .trip-types-container {
             margin-bottom: 15px; 
-            border: 1px solid #ddd; /* גבול בולט יותר */
+            border: 1px solid #ddd; 
             padding: 10px 15px; 
             border-radius: 6px; 
-            max-height: 150px; /* גובה מקסימלי */
+            max-height: 150px; 
             overflow-y: auto; 
             background-color: #fdfdfd;
         }
         .trip-types-container label { 
             margin-right: 0; 
             display: block; 
-            padding: 4px 0; /* ריווח קטן יותר */
+            padding: 4px 0; 
             font-weight: normal; 
             color: #333;
             cursor: pointer;
@@ -217,13 +217,12 @@
         }
         .hotel-entry { 
             border: 1px solid #e0e0e0; 
-            padding: 15px 20px; /* פדינג אחיד יותר */
+            padding: 15px 20px; 
             margin-bottom: 20px; 
             border-radius: 8px; 
             background-color: #f9f9f9; 
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
-        /* .hotel-entry h5 כבר מעוצב למעלה */
         .remove-hotel-btn { 
             background-color: #e74c3c; 
             color: white; 
@@ -251,27 +250,27 @@
             border-radius: 8px;
             margin-bottom: 12px;
             display: flex;
-            flex-wrap: wrap; /* אפשרות למעבר שורה לפרטים ולכפתורים */
+            flex-wrap: wrap; 
             justify-content: space-between;
             align-items: center;
             transition: box-shadow 0.2s ease;
         }
         #admin-deals-output li:hover { box-shadow: 0 3px 10px rgba(0,0,0,0.08); }
-        #admin-deals-output li div:first-child { flex-grow: 1; padding-right: 10px; /* רווח מהכפתורים */}
+        #admin-deals-output li div:first-child { flex-grow: 1; padding-right: 10px; }
         #admin-deals-output li strong { color: var(--secondary-color); font-size: 1.1em; }
         #admin-deals-output li small { color: #555; display: block; margin-top: 3px; font-size: 0.9em; line-height: 1.4;}
-        #admin-deals-output li div:last-child { /* עוטף הכפתורים */
+        #admin-deals-output li div:last-child { 
             display: flex;
-            flex-direction: column; /* כפתורים אחד מתחת לשני במובייל */
-            align-items: flex-end; /* יישור לשמאל (RTL) */
+            flex-direction: column; 
+            align-items: flex-end; 
         }
         #admin-deals-output li .button, #admin-deals-output li .delete-item {
-            margin-top: 5px; /* רווח בין כפתורים אם הם אחד מתחת לשני */
-            margin-right: 0; /* איפוס רווח קודם */
-            width: 100px; /* רוחב אחיד לכפתורים */
+            margin-top: 5px; 
+            margin-right: 0; 
+            width: 100px; 
             text-align: center;
         }
-         @media (min-width: 600px) { /* במסכים רחבים יותר, כפתורים בשורה */
+         @media (min-width: 600px) { 
             #admin-deals-output li div:last-child {
                 flex-direction: row;
             }
@@ -298,7 +297,7 @@
     </header>
 
     <section id="admin-section" class="container">
-        <div id="admin-login" style="display: block;">
+        <div id="admin-login" style="/* display: block; ברירת מחדל מוסתר ע"י JS אם המשתמש לא מחובר */">
             <h2>התחברות מנהל</h2>
             <div class="form-group">
                 <label for="admin-email">אימייל:</label>
@@ -327,7 +326,7 @@
             <div id="package-deal-modal" class="modal">
                 <div class="modal-content">
                     <span class="close-modal-btn" data-modal-id="package-deal-modal">&times;</span>
-                    <h3>יצירת דיל חדש (חבילה)</h3>
+                    <h3 id="package-modal-title">יצירת דיל חדש (חבילה)</h3>
                     <form id="package-deal-form" class="modal-form">
                         <input type="hidden" id="package-deal-id">
                         <div class="form-group"><label for="package-deal-name">שם הדיל (כותרת):</label><input type="text" id="package-deal-name" required></div>
@@ -355,7 +354,7 @@
                             <h4>בחר סוגי טיול (אפשר לבחור מספר אפשרויות):</h4>
                             <div id="package-trip-types-checkboxes" class="trip-types-container"></div>
                         </div>
-                        <button type="submit" class="button">שמור דיל חבילה</button>
+                        <button type="submit" id="package-save-button" class="button">שמור דיל חבילה</button>
                     </form>
                 </div>
             </div>
@@ -363,7 +362,7 @@
             <div id="flight-deal-modal" class="modal">
                 <div class="modal-content">
                     <span class="close-modal-btn" data-modal-id="flight-deal-modal">&times;</span>
-                    <h3>הוספת טיסה שווה</h3>
+                    <h3 id="flight-modal-title">הוספת טיסה שווה</h3>
                     <form id="flight-deal-form" class="modal-form">
                         <input type="hidden" id="flight-deal-id">
                         <div class="form-group"><label for="flight-title">כותרת:</label><input type="text" id="flight-title" required></div>
@@ -375,7 +374,7 @@
                         <div class="form-group"><label for="flight-price-text">מחיר החל מ:</label><input type="text" id="flight-price-text" required></div>
                         <div class="form-group"><label for="flight-image-url">קישור לתמונה (אופציונלי):</label><input type="url" id="flight-image-url" placeholder="https://..."></div>
                         <div class="form-group"><label for="flight-notes-standalone">פרטים נוספים (אופציונלי):</label><textarea id="flight-notes-standalone" rows="2"></textarea></div>
-                        <button type="submit" class="button">שמור טיסה</button>
+                        <button type="submit" id="flight-save-button" class="button">שמור טיסה</button>
                     </form>
                 </div>
             </div>
@@ -383,7 +382,7 @@
             <div id="hotel-deal-modal" class="modal">
                 <div class="modal-content">
                     <span class="close-modal-btn" data-modal-id="hotel-deal-modal">&times;</span>
-                    <h3>הוספת מלון שווה</h3>
+                    <h3 id="hotel-modal-title">הוספת מלון שווה</h3>
                     <form id="hotel-deal-form" class="modal-form">
                         <input type="hidden" id="hotel-deal-id">
                         <div class="form-group"><label for="hotel-name">שם המלון:</label><input type="text" id="hotel-name" required></div>
@@ -422,7 +421,7 @@
                             <h4>בחר סוגי טיול מתאימים:</h4>
                             <div id="hotel-trip-types-checkboxes" class="trip-types-container"></div>
                         </div>
-                        <button type="submit" class="button">שמור מלון</button>
+                        <button type="submit" id="hotel-save-button" class="button">שמור מלון</button>
                     </form>
                 </div>
             </div>
@@ -441,6 +440,6 @@
     <script>
         document.getElementById('currentYear').textContent = new Date().getFullYear();
     </script>
-    <script type="module" src="admin-script.js"></script>
+    <script type="module" src="firebase-init.js"></script> <script type="module" src="admin-script.js"></script>
 </body>
 </html>
