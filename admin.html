@@ -7,306 +7,170 @@
     <link rel="stylesheet" href="style.css"> <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         /* עיצוב כללי לדף ניהול משופר */
-        body { 
+        body {
             font-family: 'Assistant', 'Rubik', sans-serif;
-            background-color: #f0f2f5; 
+            background-color: #f0f2f5;
         }
-        #admin-section.container { 
+        #admin-section.container {
             padding-top: 30px;
             padding-bottom: 30px;
         }
         #admin-dashboard { background-color: #f9fafb; padding: 25px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-        .admin-actions-container { 
-            display: flex; 
+        .admin-actions-container {
+            display: flex;
             flex-wrap: wrap;
-            justify-content: space-between; 
-            margin-bottom: 35px; 
-            padding: 20px; 
-            background-color: #ffffff; 
-            border-radius: 10px; 
-            box-shadow: 0 3px 15px rgba(0,0,0,0.07); 
+            justify-content: space-between;
+            margin-bottom: 35px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.07);
         }
         .admin-actions-container .button {
-            font-size: 1.15em; 
-            padding: 14px 25px; 
-            flex-basis: calc(33.333% - 14px); 
-            margin: 7px; 
+            font-size: 1.15em;
+            padding: 14px 25px;
+            flex-basis: calc(33.333% - 14px);
+            margin: 7px;
             text-align: center;
             font-weight: 600;
-            min-width: 180px; 
-            border-radius: 6px; 
+            min-width: 180px;
+            border-radius: 6px;
         }
-        @media (max-width: 768px) { 
+        @media (max-width: 768px) {
             .admin-actions-container .button {
-                flex-basis: 100%; 
+                flex-basis: 100%;
                 margin: 8px 0;
             }
         }
 
         /* עיצוב מודאלים משופר */
         .modal {
-            display: none; 
+            display: none;
             position: fixed;
-            z-index: 1050; 
+            z-index: 1050;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden; 
-            background-color: rgba(0,0,0,0.65); 
-            align-items: center; 
-            justify-content: center; 
-            opacity: 0; 
-            visibility: hidden; 
-            transition: opacity 0.35s ease, visibility 0s linear 0.35s; 
+            overflow: hidden;
+            background-color: rgba(0,0,0,0.65);
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.35s ease, visibility 0s linear 0.35s;
         }
-
-        .modal.active { 
-            display: flex; 
+        .modal.active {
+            display: flex;
             opacity: 1;
             visibility: visible;
             transition: opacity 0.35s ease, visibility 0s linear 0s;
         }
-
         .modal-content {
             background-color: #fff;
-            padding: 25px 30px 30px 30px; 
-            border-radius: 12px; 
+            padding: 25px 30px 30px 30px;
+            border-radius: 12px;
             box-shadow: 0 8px 30px rgba(0,0,0,0.15);
             position: relative;
-            width: 92%; 
-            max-width: 720px; 
-            max-height: 90vh; 
-            overflow-y: auto; 
-            transform: translateY(-20px) scale(0.98); 
-            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            width: 92%;
+            max-width: 720px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(-20px) scale(0.98);
+            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-
         .modal.active .modal-content {
-            transform: translateY(0) scale(1); 
+            transform: translateY(0) scale(1);
         }
-
         .modal-content h3 {
-            margin-top: 5px; 
+            margin-top: 5px;
             color: var(--primary-color);
             border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 15px; 
-            margin-bottom: 30px; 
-            font-size: 1.9em; 
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 1.9em;
             text-align: center;
             font-weight: 700;
         }
         .close-modal-btn {
-            position: absolute; 
+            position: absolute;
             top: 12px;
-            left: 15px; 
-            color: #999; 
-            font-size: 30px; 
-            font-weight: normal; 
+            left: 15px;
+            color: #999;
+            font-size: 30px;
+            font-weight: normal;
             line-height: 1;
             transition: color 0.2s ease, transform 0.2s ease;
-            padding: 5px; 
+            padding: 5px;
         }
         .close-modal-btn:hover,
         .close-modal-btn:focus {
-            color: var(--accent-color); 
+            color: var(--accent-color);
             transform: rotate(90deg);
             text-decoration: none;
             cursor: pointer;
         }
-        .modal-form .form-group { 
-            margin-bottom: 20px; 
-        }
-        .modal-form label { 
-            font-weight: 600; 
-            font-size: 1em; 
-            color: var(--secondary-color);
-            display: block; 
-            margin-bottom: 6px; 
-        }
+        .modal-form .form-group { margin-bottom: 20px; }
+        .modal-form label { font-weight: 600; font-size: 1em; color: var(--secondary-color); display: block; margin-bottom: 6px; }
         .modal-form input[type="text"],
         .modal-form input[type="date"],
         .modal-form input[type="time"],
         .modal-form input[type="url"],
         .modal-form textarea,
         .modal-form select {
-            width: 100%;
-            padding: 10px 12px; 
-            border: 1px solid #ced4da; 
-            border-radius: 5px; 
-            box-sizing: border-box;
-            font-family: 'Assistant', sans-serif;
-            font-size: 1em;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-            background-color: #fdfdfd; 
+            width: 100%; padding: 10px 12px; border: 1px solid #ced4da; border-radius: 5px;
+            box-sizing: border-box; font-family: 'Assistant', sans-serif; font-size: 1em;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease; background-color: #fdfdfd;
         }
-        .modal-form input:focus,
-        .modal-form textarea:focus,
-        .modal-form select:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(0, 119, 204, 0.15); 
-            outline: none;
+        .modal-form input:focus, .modal-form textarea:focus, .modal-form select:focus {
+            border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(0, 119, 204, 0.15); outline: none;
         }
-        .modal-form textarea { min-height: 70px; resize: vertical;} 
-
-        .modal-form hr {
-            border: none;
-            border-top: 1px solid #e9ecef; 
-            margin: 25px 0; 
-        }
-         .modal-form hr.dashed {
-            border-style: dashed;
-            margin: 20px 0 15px 0;
-        }
-        .modal-form h4 { 
-            color: var(--primary-color);
-            font-size: 1.3em; 
-            margin-top: 25px;
-            margin-bottom: 15px; 
-            font-weight: 600;
-        }
-         .modal-form h5 { 
-            color: var(--secondary-color);
-            font-size: 1.15em;
-            margin-bottom:12px;
-            padding-bottom: 5px;
-            border-bottom: 1px dotted #ccc;
-        }
-         .modal-form h6 { 
-            font-size: 1em;
-            color: #444;
-            margin-top: 15px;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        .modal-form .button[type="submit"] { 
-            width: 100%;
-            padding: 14px; 
-            font-size: 1.2em; 
-            font-weight: 700;
-            margin-top: 15px;
-            background-color: var(--accent-color); 
-        }
-        .modal-form .button[type="submit"]:hover {
-            background-color: #e67e00;
-        }
-
-        #deal-form-container.old-form { display: none; } /* הסתרת טופס ישן אם קיים */
-
-        .trip-types-container {
-            margin-bottom: 15px; 
-            border: 1px solid #ddd; 
-            padding: 10px 15px; 
-            border-radius: 6px; 
-            max-height: 150px; 
-            overflow-y: auto; 
-            background-color: #fdfdfd;
-        }
-        .trip-types-container label { 
-            margin-right: 0; 
-            display: block; 
-            padding: 4px 0; 
-            font-weight: normal; 
-            color: #333;
-            cursor: pointer;
-        }
-         .trip-types-container input[type="checkbox"] {
-            margin-left: 8px;
-            transform: scale(1.1);
-            vertical-align: middle;
-        }
-        .hotel-entry { 
-            border: 1px solid #e0e0e0; 
-            padding: 15px 20px; 
-            margin-bottom: 20px; 
-            border-radius: 8px; 
-            background-color: #f9f9f9; 
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-        .remove-hotel-btn { 
-            background-color: #e74c3c; 
-            color: white; 
-            padding: 6px 12px; 
-            font-size: 0.9em; 
-            margin-top: 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
+        .modal-form textarea { min-height: 70px; resize: vertical;}
+        .modal-form hr { border: none; border-top: 1px solid #e9ecef; margin: 25px 0; }
+        .modal-form hr.dashed { border-style: dashed; margin: 20px 0 15px 0; }
+        .modal-form h4 { color: var(--primary-color); font-size: 1.3em; margin-top: 25px; margin-bottom: 15px; font-weight: 600; }
+        .modal-form h5 { color: var(--secondary-color); font-size: 1.15em; margin-bottom:12px; padding-bottom: 5px; border-bottom: 1px dotted #ccc; }
+        .modal-form h6 { font-size: 1em; color: #444; margin-top: 15px; margin-bottom: 8px; font-weight: 600; }
+        .modal-form .button[type="submit"] { width: 100%; padding: 14px; font-size: 1.2em; font-weight: 700; margin-top: 15px; background-color: var(--accent-color); }
+        .modal-form .button[type="submit"]:hover { background-color: #e67e00; }
+        #deal-form-container.old-form { display: none; }
+        .trip-types-container { margin-bottom: 15px; border: 1px solid #ddd; padding: 10px 15px; border-radius: 6px; max-height: 150px; overflow-y: auto; background-color: #fdfdfd; }
+        .trip-types-container label { margin-right: 0; display: block; padding: 4px 0; font-weight: normal; color: #333; cursor: pointer; }
+        .trip-types-container input[type="checkbox"] { margin-left: 8px; transform: scale(1.1); vertical-align: middle; }
+        .hotel-entry { border: 1px solid #e0e0e0; padding: 15px 20px; margin-bottom: 20px; border-radius: 8px; background-color: #f9f9f9; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .remove-hotel-btn { background-color: #e74c3c; color: white; padding: 6px 12px; font-size: 0.9em; margin-top: 15px; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.2s ease; }
         .remove-hotel-btn:hover { background-color: #c0392b; }
-        
-        #deals-list-admin h3 {
-            text-align: center;
-            color: var(--primary-color);
-            font-size: 1.8em;
-            margin-bottom: 20px;
-        }
-         #admin-deals-output ul { list-style: none; padding: 0; }
-        #admin-deals-output li {
-            background-color: #fff;
-            padding: 15px 20px;
-            border: 1px solid #e7e7e7;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            display: flex;
-            flex-wrap: wrap; 
-            justify-content: space-between;
-            align-items: center;
-            transition: box-shadow 0.2s ease;
-        }
+        #deals-list-admin h3 { text-align: center; color: var(--primary-color); font-size: 1.8em; margin-bottom: 20px; }
+        #admin-deals-output ul { list-style: none; padding: 0; }
+        #admin-deals-output li { background-color: #fff; padding: 15px 20px; border: 1px solid #e7e7e7; border-radius: 8px; margin-bottom: 12px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; transition: box-shadow 0.2s ease; }
         #admin-deals-output li:hover { box-shadow: 0 3px 10px rgba(0,0,0,0.08); }
         #admin-deals-output li div:first-child { flex-grow: 1; padding-right: 10px; }
         #admin-deals-output li strong { color: var(--secondary-color); font-size: 1.1em; }
         #admin-deals-output li small { color: #555; display: block; margin-top: 3px; font-size: 0.9em; line-height: 1.4;}
-        #admin-deals-output li div:last-child { 
-            display: flex;
-            flex-direction: column; 
-            align-items: flex-end; 
-        }
-        #admin-deals-output li .button, #admin-deals-output li .delete-item {
-            margin-top: 5px; 
-            margin-right: 0; 
-            width: 100px; 
-            text-align: center;
-        }
-         @media (min-width: 600px) { 
-            #admin-deals-output li div:last-child {
-                flex-direction: row;
-            }
-            #admin-deals-output li .button, #admin-deals-output li .delete-item {
-                 margin-top: 0;
-                 margin-right: 8px;
-            }
-        }
+        #admin-deals-output li div:last-child { display: flex; flex-direction: column; align-items: flex-end; }
+        #admin-deals-output li .button, #admin-deals-output li .delete-item { margin-top: 5px; margin-right: 0; width: 100px; text-align: center; }
+        @media (min-width: 600px) { #admin-deals-output li div:last-child { flex-direction: row; } #admin-deals-output li .button, #admin-deals-output li .delete-item { margin-top: 0; margin-right: 8px; } }
+
+        /* סגנון למודאל בחירת סוג הוספה */
+        .choice-modal-buttons { display: flex; justify-content: space-around; padding: 20px 0; }
+        .choice-modal-buttons .button { font-size: 1.1em; padding: 12px 25px; }
+        /* סגנון למודאל הדבקת טקסט AI */
+        #ai-paste-modal textarea { width: 100%; min-height: 300px; font-family: monospace; font-size: 0.9em; padding: 10px; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 15px; }
     </style>
 </head>
 <body>
     <header>
         <div class="container">
-            <div id="branding">
-                <h1><a href="index.html">✈️ נופש לי ולך - ניהול</a></h1>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="index.html">דף הבית</a></li>
-                    <li><a href="deals.html">כל הדילים</a></li>
-                </ul>
-            </nav>
+            <div id="branding"><h1><a href="index.html">✈️ נופש לי ולך - ניהול</a></h1></div>
+            <nav><ul><li><a href="index.html">דף הבית</a></li><li><a href="deals.html">כל הדילים</a></li></ul></nav>
         </div>
     </header>
 
     <section id="admin-section" class="container">
-        <div id="admin-login" style="/* display: block; ברירת מחדל מוסתר ע"י JS אם המשתמש לא מחובר */">
+        <div id="admin-login">
             <h2>התחברות מנהל</h2>
-            <div class="form-group">
-                <label for="admin-email">אימייל:</label>
-                <input type="email" id="admin-email" required>
-            </div>
-            <div class="form-group">
-                <label for="admin-password">סיסמה:</label>
-                <input type="password" id="admin-password" required>
-            </div>
+            <div class="form-group"><label for="admin-email">אימייל:</label><input type="email" id="admin-email" required></div>
+            <div class="form-group"><label for="admin-password">סיסמה:</label><input type="password" id="admin-password" required></div>
             <button id="login-button" type="button" class="button">התחבר</button>
             <p id="login-error" style="color:red; margin-top:10px; text-align:center;"></p>
         </div>
@@ -318,9 +182,35 @@
             </div>
 
             <div class="admin-actions-container">
-                <button id="open-package-deal-modal-btn" class="button">➕ יצירת דיל (חבילה)</button>
+                <button id="open-add-deal-choice-modal-btn" class="button">➕ יצירת דיל (חבילה)</button>
                 <button id="open-flight-deal-modal-btn" class="button button-secondary">✈️ הוסף טיסה שווה</button>
                 <button id="open-hotel-deal-modal-btn" class="button" style="background-color: var(--primary-color); border-color: var(--primary-color);">🏨 הוסף מלון שווה</button>
+            </div>
+
+            <div id="add-deal-choice-modal" class="modal">
+                <div class="modal-content" style="max-width: 500px;">
+                    <span class="close-modal-btn" data-modal-id="add-deal-choice-modal">&times;</span>
+                    <h3>בחר שיטת הוספת דיל (חבילה)</h3>
+                    <div class="choice-modal-buttons">
+                        <button id="add-deal-manually-btn" class="button">הוספה ידנית</button>
+                        <button id="add-deal-ai-paste-btn" class="button button-secondary">הוספה מהודעת AI</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="ai-paste-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close-modal-btn" data-modal-id="ai-paste-modal">&times;</span>
+                    <h3>הדבק הודעת AI ליצירת דיל</h3>
+                    <form id="ai-paste-form" class="modal-form">
+                        <div class="form-group">
+                            <label for="ai-text-input">הדבק כאן את הטקסט המלא מה-AI (ודא שהפורמט תואם את הדוגמה):</label>
+                            <textarea id="ai-text-input" required></textarea>
+                            <small>האתר ינסה לנתח את הטקסט ולאכלס את טופס הדיל. ייתכן שתצטרך לבצע התאמות ידניות לאחר מכן.</small>
+                        </div>
+                        <button type="submit" class="button">נתח הודעה ואכלס טופס</button>
+                    </form>
+                </div>
             </div>
 
             <div id="package-deal-modal" class="modal">
@@ -349,7 +239,7 @@
                         <button type="button" id="add-package-hotel-btn" class="button button-secondary" style="margin-top:10px; width: auto; padding: 10px 20px; font-size: 1em;">+ הוסף מלון לחבילה</button>
                         <hr>
                         <div class="form-group"><label for="package-extra-addons">הוספת נושא נוסף (למשל: כרטיס למשחק, הופעה):</label><input type="text" id="package-extra-addons" placeholder="הפרד פריטים בפסיק"></div>
-                        <div class="form-group"><label for="package-image-url">קישור לתמונה ראשית לדיל:</label><input type="url" id="package-image-url" placeholder="https://example.com/image.jpg" required></div>
+                        <div class="form-group"><label for="package-image-url">קישור לתמונה ראשית לדיל (אופציונלי אם יש תמונה ממלון):</label><input type="url" id="package-image-url" placeholder="https://example.com/image.jpg"></div>
                         <div class="form-group">
                             <h4>בחר סוגי טיול (אפשר לבחור מספר אפשרויות):</h4>
                             <div id="package-trip-types-checkboxes" class="trip-types-container"></div>
@@ -393,7 +283,6 @@
                         <div class="form-group"><label for="hotel-start-date">תאריך צ'ק-אין:</label><input type="date" id="hotel-start-date" required></div>
                         <div class="form-group"><label for="hotel-end-date">תאריך צ'ק-אאוט:</label><input type="date" id="hotel-end-date" required></div>
                         <div class="form-group"><label for="hotel-price-text">מחיר החל מ:</label><input type="text" id="hotel-price-text" required></div>
-                        
                         <hr>
                         <h6>Booking.com:</h6>
                         <div class="form-group"><label for="hotel-booking-dealurl">קישור לדיל (URL):</label><input type="url" id="hotel-booking-dealurl" placeholder="https://..."></div>
@@ -401,22 +290,19 @@
                         <div class="form-group"><label for="hotel-booking-combinedhtml">קוד HTML (קישור + תמונה):</label><textarea id="hotel-booking-combinedhtml" rows="3" placeholder="הדבק קוד HTML..."></textarea></div>
                         <div class="form-group"><label for="hotel-booking-extrahtml">קוד HTML נוסף (למפה/באנר):</label><textarea id="hotel-booking-extrahtml" rows="3" placeholder="הדבק קוד HTML..."></textarea></div>
                         <hr class="dashed">
-
                         <h6>Agoda:</h6>
                         <div class="form-group"><label for="hotel-agoda-dealurl">קישור לדיל (URL):</label><input type="url" id="hotel-agoda-dealurl" placeholder="https://..."></div>
                         <div class="form-group"><label for="hotel-agoda-imageurl">קישור לתמונה (URL):</label><input type="url" id="hotel-agoda-imageurl" placeholder="https://..."></div>
                         <div class="form-group"><label for="hotel-agoda-combinedhtml">קוד HTML (קישור + תמונה):</label><textarea id="hotel-agoda-combinedhtml" rows="3" placeholder="הדבק קוד HTML..."></textarea></div>
                         <div class="form-group"><label for="hotel-agoda-extrahtml">קוד HTML נוסף (למפה/באנר):</label><textarea id="hotel-agoda-extrahtml" rows="3" placeholder="הדבק קוד HTML..."></textarea></div>
                         <hr class="dashed">
-                        
                         <h6>Expedia:</h6>
                         <div class="form-group"><label for="hotel-expedia-dealurl">קישור לדיל (URL):</label><input type="url" id="hotel-expedia-dealurl" placeholder="https://..."></div>
                         <div class="form-group"><label for="hotel-expedia-imageurl">קישור לתמונה (URL):</label><input type="url" id="hotel-expedia-imageurl" placeholder="https://..."></div>
                         <div class="form-group"><label for="hotel-expedia-combinedhtml">קוד HTML (קישור + תמונה):</label><textarea id="hotel-expedia-combinedhtml" rows="3" placeholder="הדבק קוד HTML..."></textarea></div>
                         <div class="form-group"><label for="hotel-expedia-extrahtml">קוד HTML נוסף (למפה/באנר):</label><textarea id="hotel-expedia-extrahtml" rows="3" placeholder="הדבק קוד HTML..."></textarea></div>
                         <hr>
-
-                        <div class="form-group"><label for="hotel-image-url">קישור לתמונה ראשית למלון:</label><input type="url" id="hotel-image-url" placeholder="https://example.com/image.jpg" required></div>
+                        <div class="form-group"><label for="hotel-image-url">קישור לתמונה ראשית למלון (אופציונלי אם יש תמונה מקישור שותף):</label><input type="url" id="hotel-image-url" placeholder="https://example.com/image.jpg"></div>
                         <div class="form-group">
                             <h4>בחר סוגי טיול מתאימים:</h4>
                             <div id="hotel-trip-types-checkboxes" class="trip-types-container"></div>
@@ -425,7 +311,7 @@
                     </form>
                 </div>
             </div>
-            
+
             <div id="deals-list-admin" style="margin-top: 30px;">
                 <h3>רשימת הפריטים הקיימים</h3>
                 <div id="admin-deals-output"><p>טוען פריטים...</p></div>
@@ -440,6 +326,7 @@
     <script>
         document.getElementById('currentYear').textContent = new Date().getFullYear();
     </script>
-    <script type="module" src="firebase-init.js"></script> <script type="module" src="admin-script.js"></script>
+    <script type="module" src="firebase-init.js"></script>
+    <script type="module" src="admin-script.js"></script>
 </body>
 </html>
