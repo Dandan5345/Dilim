@@ -47,19 +47,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const packageDealForm = document.getElementById('package-deal-form');
     const packageDealIdInput = document.getElementById('package-deal-id');
-    const packageModalTitle = document.getElementById('package-modal-title'); // ודא ש-ID זה קיים ב-h3 של המודאל
-    const packageSaveButton = document.getElementById('package-save-button'); // ודא ש-ID זה קיים בכפתור השמירה
+    const packageModalTitle = document.getElementById('package-modal-title');
+    const packageSaveButton = document.getElementById('package-save-button');
 
     const flightDealForm = document.getElementById('flight-deal-form');
     const flightDealIdInput = document.getElementById('flight-deal-id');
-    const flightModalTitle = document.getElementById('flight-modal-title'); // ודא ש-ID זה קיים ב-h3 של המודאל
-    const flightSaveButton = document.getElementById('flight-save-button'); // ודא ש-ID זה קיים בכפתור השמירה
+    const flightModalTitle = document.getElementById('flight-modal-title');
+    const flightSaveButton = document.getElementById('flight-save-button');
 
     const hotelDealForm = document.getElementById('hotel-deal-form');
     const hotelDealIdInput = document.getElementById('hotel-deal-id');
-    const hotelModalTitle = document.getElementById('hotel-modal-title'); // ודא ש-ID זה קיים ב-h3 של המודאל
-    const hotelSaveButton = document.getElementById('hotel-save-button'); // ודא ש-ID זה קיים בכפתור השמירה
-
+    const hotelModalTitle = document.getElementById('hotel-modal-title');
+    const hotelSaveButton = document.getElementById('hotel-save-button');
 
     const packageTripTypesContainer = document.getElementById('package-trip-types-checkboxes');
     const hotelTripTypesContainer = document.getElementById('hotel-trip-types-checkboxes');
@@ -126,16 +125,16 @@ document.addEventListener('DOMContentLoaded', function () {
         packageHotelFieldCount++;
         const hotelEntryDiv = document.createElement('div');
         hotelEntryDiv.className = 'hotel-entry';
-        const fieldSuffix = `-${packageHotelFieldCount}`; // סיומת ייחודית לשדות המלון הנוכחי, חשוב שתהיה מבוססת על מונה שגדל
+        const fieldSuffix = `_entry${packageHotelFieldCount}`; // סיומת ייחודית יותר
 
-        // שחזור ערכים לשדות ה-Affiliate:
         const bookingData = hotelData?.affiliateLinks?.booking || {};
         const agodaData = hotelData?.affiliateLinks?.agoda || {};
         const expediaData = hotelData?.affiliateLinks?.expedia || {};
 
         hotelEntryDiv.innerHTML = `
             <h5>מלון <span class="hotel-number">${packageHotelsContainer.children.length + 1}</span></h5>
-            <input type="hidden" class="hotel-entry-field-suffix" value="${fieldSuffix}"> <div class="form-group">
+            <input type="hidden" class="hotel-entry-field-suffix" value="${fieldSuffix}">
+            <div class="form-group">
                 <label for="p-hotel-name${fieldSuffix}">שם המלון:</label>
                 <input type="text" id="p-hotel-name${fieldSuffix}" value="${hotelData?.name || ''}" required>
             </div>
@@ -150,25 +149,21 @@ document.addEventListener('DOMContentLoaded', function () {
                     <option value="5" ${hotelData?.stars == '5' ? 'selected' : ''}>⭐⭐⭐⭐⭐</option>
                 </select>
             </div>
-
             <h6>Booking.com:</h6>
             <div class="form-group"><label for="p-hotel-booking-dealurl${fieldSuffix}">קישור לדיל:</label><input type="url" id="p-hotel-booking-dealurl${fieldSuffix}" value="${bookingData.dealUrl || ''}"></div>
             <div class="form-group"><label for="p-hotel-booking-imageurl${fieldSuffix}">קישור לתמונה:</label><input type="url" id="p-hotel-booking-imageurl${fieldSuffix}" value="${bookingData.imageUrl || ''}"></div>
             <div class="form-group"><label for="p-hotel-booking-combinedhtml${fieldSuffix}">קוד HTML (קישור+תמונה):</label><textarea id="p-hotel-booking-combinedhtml${fieldSuffix}" rows="2">${bookingData.combinedHtml || ''}</textarea></div>
             <div class="form-group"><label for="p-hotel-booking-extrahtml${fieldSuffix}">קוד HTML (מפה/באנר):</label><textarea id="p-hotel-booking-extrahtml${fieldSuffix}" rows="2">${bookingData.extraHtml || ''}</textarea></div>
-
             <h6>Agoda:</h6>
             <div class="form-group"><label for="p-hotel-agoda-dealurl${fieldSuffix}">קישור לדיל:</label><input type="url" id="p-hotel-agoda-dealurl${fieldSuffix}" value="${agodaData.dealUrl || ''}"></div>
             <div class="form-group"><label for="p-hotel-agoda-imageurl${fieldSuffix}">קישור לתמונה:</label><input type="url" id="p-hotel-agoda-imageurl${fieldSuffix}" value="${agodaData.imageUrl || ''}"></div>
             <div class="form-group"><label for="p-hotel-agoda-combinedhtml${fieldSuffix}">קוד HTML (קישור+תמונה):</label><textarea id="p-hotel-agoda-combinedhtml${fieldSuffix}" rows="2">${agodaData.combinedHtml || ''}</textarea></div>
             <div class="form-group"><label for="p-hotel-agoda-extrahtml${fieldSuffix}">קוד HTML (מפה/באנר):</label><textarea id="p-hotel-agoda-extrahtml${fieldSuffix}" rows="2">${agodaData.extraHtml || ''}</textarea></div>
-
             <h6>Expedia:</h6>
             <div class="form-group"><label for="p-hotel-expedia-dealurl${fieldSuffix}">קישור לדיל:</label><input type="url" id="p-hotel-expedia-dealurl${fieldSuffix}" value="${expediaData.dealUrl || ''}"></div>
             <div class="form-group"><label for="p-hotel-expedia-imageurl${fieldSuffix}">קישור לתמונה:</label><input type="url" id="p-hotel-expedia-imageurl${fieldSuffix}" value="${expediaData.imageUrl || ''}"></div>
             <div class="form-group"><label for="p-hotel-expedia-combinedhtml${fieldSuffix}">קוד HTML (קישור+תמונה):</label><textarea id="p-hotel-expedia-combinedhtml${fieldSuffix}" rows="2">${expediaData.combinedHtml || ''}</textarea></div>
             <div class="form-group"><label for="p-hotel-expedia-extrahtml${fieldSuffix}">קוד HTML (מפה/באנר):</label><textarea id="p-hotel-expedia-extrahtml${fieldSuffix}" rows="2">${expediaData.extraHtml || ''}</textarea></div>
-
             <button type="button" class="remove-hotel-btn">הסר מלון זה</button>
         `;
         packageHotelsContainer.appendChild(hotelEntryDiv);
@@ -213,7 +208,6 @@ document.addEventListener('DOMContentLoaded', function () {
             loginButton.disabled = true;
             loginButton.textContent = 'מתחבר...';
             signInWithEmailAndPassword(auth, email, password)
-                .then(userCredential => { /* onAuthStateChanged יטפל */ })
                 .catch(error => {
                     let friendlyErrorMessage = "שגיאת התחברות. ";
                     switch (error.code) {
@@ -230,7 +224,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     loginButton.textContent = 'התחבר';
                 });
         });
-    } else { /* הדפסת שגיאות אם האלמנטים לא נמצאו */ }
+    } else {
+        if (!loginButton) console.error('Login button (ID: login-button) not found!');
+        if (!adminEmailInput) console.error('Email input (ID: admin-email) not found!');
+        if (!adminPasswordInput) console.error('Password input (ID: admin-password) not found!');
+    }
 
     if (logoutButton) {
         logoutButton.addEventListener('click', () => {
@@ -267,44 +265,36 @@ document.addEventListener('DOMContentLoaded', function () {
         const imageUrl = formElementOrHotelEntry.querySelector(`#${providerIdPrefix}-imageurl`)?.value.trim() || null;
         const combinedHtml = formElementOrHotelEntry.querySelector(`#${providerIdPrefix}-combinedhtml`)?.value.trim() || null;
         const extraHtml = formElementOrHotelEntry.querySelector(`#${providerIdPrefix}-extrahtml`)?.value.trim() || null;
-
         let finalDealUrl = dealUrl;
         let finalImageUrl = imageUrl;
-
         if (combinedHtml && (!dealUrl || !imageUrl)) {
             const extracted = extractAffiliateDataFromHtml(combinedHtml);
             if (!finalDealUrl && extracted.linkUrl) finalDealUrl = extracted.linkUrl;
             if (!finalImageUrl && extracted.imageUrl) finalImageUrl = extracted.imageUrl;
         }
-        
         if (finalDealUrl || finalImageUrl || combinedHtml || extraHtml) {
             return { dealUrl: finalDealUrl, imageUrl: finalImageUrl, combinedHtml: combinedHtml, extraHtml: extraHtml };
         }
         return null;
     }
-    
-    // פונקציית עזר חדשה לאיסוף נתוני Affiliate ממלון בחבילה (בגלל הסיומת המשתנה של ה-ID)
+
     function collectPackageHotelAffiliateProviderData(hotelEntryDiv, providerName, fieldSuffix) {
         const dealUrl = hotelEntryDiv.querySelector(`#p-hotel-${providerName}-dealurl${fieldSuffix}`)?.value.trim() || null;
         const imageUrl = hotelEntryDiv.querySelector(`#p-hotel-${providerName}-imageurl${fieldSuffix}`)?.value.trim() || null;
         const combinedHtml = hotelEntryDiv.querySelector(`#p-hotel-${providerName}-combinedhtml${fieldSuffix}`)?.value.trim() || null;
         const extraHtml = hotelEntryDiv.querySelector(`#p-hotel-${providerName}-extrahtml${fieldSuffix}`)?.value.trim() || null;
-        
         let finalDealUrl = dealUrl;
         let finalImageUrl = imageUrl;
-
         if (combinedHtml && (!dealUrl || !imageUrl)) {
             const extracted = extractAffiliateDataFromHtml(combinedHtml);
             if (!finalDealUrl && extracted.linkUrl) finalDealUrl = extracted.linkUrl;
             if (!finalImageUrl && extracted.imageUrl) finalImageUrl = extracted.imageUrl;
         }
-        
         if (finalDealUrl || finalImageUrl || combinedHtml || extraHtml) {
             return { dealUrl: finalDealUrl, imageUrl: finalImageUrl, combinedHtml: combinedHtml, extraHtml: extraHtml };
         }
         return null;
     }
-
 
     function calculateAvailabilityMonths(startDateStr, endDateStr) {
         const months = [];
@@ -323,7 +313,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (monthNum === 12) current = new Date(year + 1, 0, 1);
                     else current = new Date(year, monthNum, 1);
                 }
-            } catch (e) { return []; }
+            } catch (e) { console.error("Error calculating availability months:", e); return []; }
         }
         return months;
     }
@@ -337,7 +327,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const selectedTripTypes = Array.from(packageTripTypesContainer.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
             const hotelsData = [];
             packageHotelsContainer.querySelectorAll('.hotel-entry').forEach(entry => {
-                const fieldSuffix = entry.querySelector('.hotel-entry-field-suffix').value; // קבל את הסיומת הייחודית
+                const fieldSuffix = entry.querySelector('.hotel-entry-field-suffix').value;
                 hotelsData.push({
                     name: entry.querySelector(`#p-hotel-name${fieldSuffix}`).value,
                     stars: entry.querySelector(`#p-hotel-stars${fieldSuffix}`).value,
@@ -395,6 +385,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 imageUrl: document.getElementById('flight-image-url').value || null,
                 flightDetails: { notes: document.getElementById('flight-notes-standalone').value || null },
                 availabilityMonths: availabilityMonthsFromDates,
+                tripTypes: [], // טיסות בדרך כלל לא מקוטלגות לפי סוג טיול באותה צורה
                 updatedAt: serverTimestamp()
             };
             if (!dealId) dealData.createdAt = serverTimestamp();
@@ -489,10 +480,184 @@ document.addEventListener('DOMContentLoaded', function () {
         if(hotelSaveButton) hotelSaveButton.textContent = "שמור מלון";
     }
 
-    async function loadAdminDeals() { /* ... כמו בקוד המלא הקודם ... */ }
-    function getItemTypeDisplay(dealTypeKey) { /* ... כמו בקוד המלא הקודם ... */ }
-    async function handleEditItem(e) { /* ... כמו בקוד המלא הקודם, עם אכלוס כל שדות ה-Affiliate החדשים ... */ }
-    async function handleDeleteItem(e) { /* ... כמו בקוד המלא הקודם ... */ }
+    async function loadAdminDeals() {
+        if (!adminDealsOutput) {
+            console.warn("adminDealsOutput element not found, cannot load deals.");
+            return;
+        }
+        adminDealsOutput.innerHTML = '<p style="text-align:center;">טוען פריטים...</p>';
+        try {
+            const q = query(dealsCollectionRef, orderBy('createdAt', 'desc'));
+            const querySnapshot = await getDocs(q);
 
-    if (auth.currentUser) { loadAdminDeals(); }
+            if (querySnapshot.empty) {
+                adminDealsOutput.innerHTML = '<p style="text-align:center;">אין פריטים להצגה. הוסף פריט חדש!</p>';
+                return;
+            }
+            let html = '<ul>';
+            querySnapshot.forEach((docSnapshot) => {
+                const item = docSnapshot.data();
+                const id = docSnapshot.id;
+                let itemTypeDisplay = getItemTypeDisplay(item.dealType);
+                let datesDisplay = '';
+                if (item.exactDatesRange?.start && item.exactDatesRange?.end) {
+                    try {
+                        datesDisplay = ` | ${new Date(item.exactDatesRange.start).toLocaleDateString('he-IL', {day:'2-digit', month:'2-digit', year:'numeric'})} - ${new Date(item.exactDatesRange.end).toLocaleDateString('he-IL', {day:'2-digit', month:'2-digit', year:'numeric'})}`;
+                    } catch (e) { datesDisplay = " | תאריכים לא תקינים"; }
+                }
+
+                html += `
+                    <li>
+                        <div>
+                            <strong>${item.name || 'פריט ללא שם'}</strong> <br>
+                            <small>סוג: ${itemTypeDisplay}${datesDisplay} | מחיר: ${item.price_text || 'לא צוין'}</small>
+                            ${item.dealType === 'package' ? `<small>יעד: ${item.destinationCity || ''}, ${item.destinationCountry || ''}</small>` : ''}
+                            ${item.dealType === 'flight' ? `<small>קו: ${item.flightOrigin || ''} ←→ ${item.flightDestination || ''} (${item.airline || 'לא צוינה חברה'})</small>` : ''}
+                            ${item.dealType === 'hotel' ? `<small>מיקום: ${item.destinationCity || ''}, ${item.destinationCountry || ''} (${item.stars || '?'} כוכבים)</small>` : ''}
+                            <small>נוצר: ${item.createdAt?.toDate().toLocaleString('he-IL', {dateStyle: 'short', timeStyle: 'short'}) || 'לא זמין'}</small>
+                        </div>
+                        <div>
+                            <button data-id="${id}" data-type="${item.dealType}" class="edit-item button button-secondary" style="padding:6px 12px; font-size:0.85em; margin-bottom: 5px;">ערוך</button>
+                            <button data-id="${id}" class="delete-item" style="background-color:#dc3545; color:white; border:none; border-radius:4px; padding:6px 12px; font-size:0.85em; cursor:pointer;">מחק</button>
+                        </div>
+                    </li>
+                `;
+            });
+            html += '</ul>';
+            adminDealsOutput.innerHTML = html;
+
+            document.querySelectorAll('.edit-item').forEach(button => {
+                button.addEventListener('click', handleEditItem);
+            });
+            document.querySelectorAll('.delete-item').forEach(button => {
+                button.addEventListener('click', handleDeleteItem);
+            });
+
+        } catch (error) {
+            console.error('Error loading admin items:', error);
+            adminDealsOutput.innerHTML = '<p style="text-align:center; color:red;">שגיאה בטעינת הפריטים.</p>';
+        }
+    }
+
+    function getItemTypeDisplay(dealTypeKey) {
+        const types = { flight: 'טיסה', hotel: 'מלון', package: 'חבילה' };
+        return types[dealTypeKey] || dealTypeKey || 'לא צוין';
+    }
+
+    async function handleEditItem(e) {
+        const id = e.target.dataset.id;
+        const type = e.target.dataset.type;
+
+        try {
+            const itemDocRef = doc(db, 'deals', id);
+            const docSnap = await getDoc(itemDocRef);
+
+            if (docSnap.exists()) {
+                const itemData = docSnap.data();
+                let targetModal, idInput, form, currentModalTitleEl, currentSaveBtnEl, titleText, saveBtnText;
+
+                // קבע את המודאל, הטופס, הכותרת וכפתור השמירה לפי סוג הפריט
+                if (type === 'package') {
+                    targetModal = packageModal; idInput = packageDealIdInput; form = packageDealForm;
+                    currentModalTitleEl = packageModalTitle; currentSaveBtnEl = packageSaveButton;
+                    titleText = 'עריכת דיל חבילה'; saveBtnText = 'עדכן דיל חבילה';
+                    resetPackageForm();
+                    // אכלוס שדות ספציפיים לחבילה
+                    document.getElementById('package-deal-name').value = itemData.name || '';
+                    document.getElementById('package-deal-description').value = itemData.description || '';
+                    document.getElementById('package-price-text').value = itemData.price_text || '';
+                    document.getElementById('package-start-date').value = itemData.exactDatesRange?.start || '';
+                    document.getElementById('package-end-date').value = itemData.exactDatesRange?.end || '';
+                    document.getElementById('package-country').value = itemData.destinationCountry || '';
+                    document.getElementById('package-city').value = itemData.destinationCity || '';
+                    document.getElementById('package-flight-departure-airline').value = itemData.flightDetails?.departureAirline || '';
+                    document.getElementById('package-flight-departure-time').value = itemData.flightDetails?.departureTime || '';
+                    document.getElementById('package-flight-return-airline').value = itemData.flightDetails?.returnAirline || '';
+                    document.getElementById('package-flight-return-time').value = itemData.flightDetails?.returnTime || '';
+                    document.getElementById('package-flight-notes').value = itemData.flightDetails?.notes || '';
+                    if(packageHotelsContainer) packageHotelsContainer.innerHTML = ''; packageHotelFieldCount = 0;
+                    if (itemData.hotels && Array.isArray(itemData.hotels)) {
+                        itemData.hotels.forEach(hotel => addHotelFieldToPackage(hotel));
+                    }
+                    document.getElementById('package-extra-addons').value = (itemData.extraAddons || []).join(', ');
+                    document.getElementById('package-image-url').value = itemData.imageUrl || '';
+                    if(packageTripTypesContainer && itemData.tripTypes) itemData.tripTypes.forEach(val => { const cb = packageTripTypesContainer.querySelector(`input[value="${val}"]`); if(cb) cb.checked = true; });
+
+                } else if (type === 'flight') {
+                    targetModal = flightModal; idInput = flightDealIdInput; form = flightDealForm;
+                    currentModalTitleEl = flightModalTitle; currentSaveBtnEl = flightSaveButton;
+                    titleText = 'עריכת טיסה'; saveBtnText = 'עדכן טיסה';
+                    resetFlightForm();
+                    // אכלוס שדות ספציפיים לטיסה
+                    document.getElementById('flight-title').value = itemData.name || '';
+                    document.getElementById('flight-origin').value = itemData.flightOrigin || '';
+                    document.getElementById('flight-destination').value = itemData.flightDestination || '';
+                    document.getElementById('flight-start-date').value = itemData.exactDatesRange?.start || '';
+                    document.getElementById('flight-end-date').value = itemData.exactDatesRange?.end || '';
+                    document.getElementById('flight-airline').value = itemData.airline || '';
+                    document.getElementById('flight-price-text').value = itemData.price_text || '';
+                    document.getElementById('flight-image-url').value = itemData.imageUrl || '';
+                    document.getElementById('flight-notes-standalone').value = itemData.flightDetails?.notes || '';
+
+                } else if (type === 'hotel') {
+                    targetModal = hotelModal; idInput = hotelDealIdInput; form = hotelDealForm;
+                    currentModalTitleEl = hotelModalTitle; currentSaveBtnEl = hotelSaveButton;
+                    titleText = 'עריכת מלון'; saveBtnText = 'עדכן מלון';
+                    resetHotelForm();
+                    // אכלוס שדות ספציפיים למלון
+                    document.getElementById('hotel-name').value = itemData.name || '';
+                    document.getElementById('hotel-description').value = itemData.description || '';
+                    document.getElementById('hotel-stars').value = itemData.stars || '';
+                    document.getElementById('hotel-country').value = itemData.destinationCountry || '';
+                    document.getElementById('hotel-city').value = itemData.destinationCity || '';
+                    document.getElementById('hotel-start-date').value = itemData.exactDatesRange?.start || '';
+                    document.getElementById('hotel-end-date').value = itemData.exactDatesRange?.end || '';
+                    document.getElementById('hotel-price-text').value = itemData.price_text || '';
+                    const affiliateLinks = itemData.singleHotelAffiliateLinks || {};
+                    ['booking', 'agoda', 'expedia'].forEach(provider => {
+                        const providerData = affiliateLinks[provider] || {};
+                        document.getElementById(`hotel-${provider}-dealurl`).value = providerData.dealUrl || '';
+                        document.getElementById(`hotel-${provider}-imageurl`).value = providerData.imageUrl || '';
+                        document.getElementById(`hotel-${provider}-combinedhtml`).value = providerData.combinedHtml || '';
+                        document.getElementById(`hotel-${provider}-extrahtml`).value = providerData.extraHtml || '';
+                    });
+                    document.getElementById('hotel-image-url').value = itemData.imageUrl || '';
+                    if(hotelTripTypesContainer && itemData.tripTypes) itemData.tripTypes.forEach(val => { const cb = hotelTripTypesContainer.querySelector(`input[value="${val}"]`); if(cb) cb.checked = true; });
+                } else {
+                    alert("סוג פריט לא ידוע לעריכה.");
+                    return;
+                }
+
+                if (idInput) idInput.value = id;
+                if (currentModalTitleEl) currentModalTitleEl.textContent = titleText;
+                if (currentSaveBtnEl) currentSaveBtnEl.textContent = saveBtnText;
+                if (targetModal) openModal(targetModal);
+
+            } else {
+                alert("לא נמצא פריט לעריכה.");
+            }
+        } catch (error) {
+            console.error("Error fetching item for edit:", error);
+            alert("שגיאה בטעינת הפריט לעריכה: " + error.message);
+        }
+    }
+
+    async function handleDeleteItem(e) {
+        const id = e.target.dataset.id;
+        if (confirm('האם אתה בטוח שברצונך למחוק פריט זה? הפעולה אינה הפיכה.')) {
+            try {
+                const itemDocRef = doc(db, 'deals', id);
+                await deleteDoc(itemDocRef);
+                alert('הפריט נמחק בהצלחה!');
+                loadAdminDeals();
+            } catch (error) {
+                console.error('Error deleting item:', error);
+                alert('שגיאה במחיקת הפריט: ' + error.message);
+            }
+        }
+    }
+
+    if (auth.currentUser) {
+        loadAdminDeals();
+    }
 });
