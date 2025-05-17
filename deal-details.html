@@ -14,7 +14,7 @@
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
-        .deal-details-container h2 { /* כותרת הדיל */
+        .deal-details-container h2 {
             font-size: 2.2em;
             font-weight: 700;
             color: var(--primary-color);
@@ -22,8 +22,8 @@
         }
         #deal-image {
             width: 100%;
-            max-height: 450px; /* גובה מקסימלי לתמונה */
-            object-fit: cover; /* התאמת תמונה */
+            max-height: 450px;
+            object-fit: cover;
             border-radius: 8px;
             margin-bottom: 25px;
             border: 1px solid var(--medium-gray);
@@ -56,14 +56,14 @@
             color: #333;
         }
         .meta-item ul { list-style: none; padding-right: 0; }
-        .meta-item ul li { 
-            background-color: var(--light-gray); 
+        .meta-item ul li {
+            background-color: var(--light-gray);
             border: 1px solid var(--medium-gray);
-            padding: 6px 10px; 
-            border-radius: 4px; 
-            margin-bottom: 6px; 
-            display: inline-block; 
-            margin-left: 6px; 
+            padding: 6px 10px;
+            border-radius: 4px;
+            margin-bottom: 6px;
+            display: inline-block;
+            margin-left: 6px;
             font-size: 0.95em;
         }
 
@@ -76,7 +76,7 @@
             border-bottom: 2px solid var(--accent-color);
             font-weight: 600;
         }
-        
+
         .hotels-list-container .hotel-item {
             background-color: #fdfdff;
             border: 1px solid #e0e0e0;
@@ -85,18 +85,13 @@
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
-        .hotels-list-container .hotel-item h5 { 
-            margin-top: 0; 
-            color: var(--secondary-color); 
+        .hotels-list-container .hotel-item h5 {
+            margin-top: 0;
+            color: var(--secondary-color);
             font-size: 1.3em;
             margin-bottom: 10px;
         }
-        .hotels-list-container .hotel-item p {
-            font-size: 0.95em;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-        .affiliate-links-section h6 { /* כותרת לספק (בוקינג, אגודה...) */
+        .hotels-list-container .hotel-item .affiliate-links-section h6 {
             font-size: 1.1em;
             color: #444;
             margin-top: 15px;
@@ -105,24 +100,24 @@
             border-bottom: 1px dotted #ccc;
             padding-bottom: 5px;
         }
-        .affiliate-output > div { margin-bottom: 10px; } /* רווח בין קישורים/באנרים של אותו ספק */
+        .affiliate-output > div { margin-bottom: 10px; }
         .affiliate-output img {
-            max-width: 200px; /* תמונה קטנה יותר לקישורי שותפים */
+            max-width: 200px;
             max-height: 150px;
             height: auto;
             border: 1px solid #ccc;
             border-radius: 4px;
             margin: 5px 0;
-            display: block; /* כדי שה-margin יעבוד */
+            display: block;
         }
         .affiliate-output .button { margin-top: 5px; margin-right: 8px; }
-        .html-embed-container { /* להטמעת באנרים/מפות */
+        .html-embed-container {
             margin-top:10px;
             border: 1px dashed #ccc;
             padding: 10px;
             background-color: #f9f9f9;
             border-radius: 5px;
-            overflow-x: auto; /* גלילה אופקית אם התוכן רחב מדי */
+            overflow-x: auto;
         }
 
         #booking-options {
@@ -215,14 +210,12 @@
                 <div id="single-hotel-info-section" class="content-section hidden-section">
                     <h4>פרטי המלון</h4>
                     <p><strong>כוכבים:</strong> <span id="single-hotel-stars"></span></p>
-                    <div class="affiliate-links-section" id="single-hotel-affiliate-output">
-                        </div>
+                    <div class="affiliate-links-section" id="single-hotel-affiliate-output"></div>
                 </div>
                 
                 <div id="package-hotels-section" class="content-section hidden-section hotels-list-container">
                     <h4>מלונות המוצעים בחבילה</h4>
-                    <div id="package-hotels-list">
-                        </div>
+                    <div id="package-hotels-list"></div>
                 </div>
             </div>
             
@@ -243,247 +236,224 @@
 
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // --- איתחול אלמנטים ---
-        const dealTitleEl = document.getElementById('deal-title');
-        const dealImageEl = document.getElementById('deal-image');
-        const dealDescriptionTextEl = document.getElementById('deal-description-text');
-        const priceValueEl = document.getElementById('price-value');
-        const typeValueEl = document.getElementById('type-value');
-        const exactDatesMetaItem = document.getElementById('exact-dates-meta-item');
-        const exactDatesValueEl = document.getElementById('exact-dates-value');
-        const destinationMetaItem = document.getElementById('destination-meta-item');
-        const destinationValueEl = document.getElementById('destination-value');
-        
-        const tripTypesSection = document.getElementById('trip-types-section');
-        const tripTypesListEl = document.getElementById('trip-types-list');
-        const availabilityMonthsSection = document.getElementById('availability-months-section');
-        const availabilityMonthsListEl = document.getElementById('availability-months-list');
-        const extraAddonsSection = document.getElementById('extra-addons-section');
-        const extraAddonsListEl = document.getElementById('extra-addons-list');
-
-        const flightInfoSection = document.getElementById('flight-info-section');
+        // אלמנטים
+        const dealTitleEl                   = document.getElementById('deal-title');
+        const dealImageEl                   = document.getElementById('deal-image');
+        const dealDescriptionTextEl         = document.getElementById('deal-description-text');
+        const priceValueEl                  = document.getElementById('price-value');
+        const typeValueEl                   = document.getElementById('type-value');
+        const exactDatesMetaItem            = document.getElementById('exact-dates-meta-item');
+        const exactDatesValueEl             = document.getElementById('exact-dates-value');
+        const destinationMetaItem           = document.getElementById('destination-meta-item');
+        const destinationValueEl            = document.getElementById('destination-value');
+        const tripTypesSection              = document.getElementById('trip-types-section');
+        const tripTypesListEl               = document.getElementById('trip-types-list');
+        const availabilityMonthsSection     = document.getElementById('availability-months-section');
+        const availabilityMonthsListEl      = document.getElementById('availability-months-list');
+        const extraAddonsSection            = document.getElementById('extra-addons-section');
+        const extraAddonsListEl             = document.getElementById('extra-addons-list');
+        const flightInfoSection             = document.getElementById('flight-info-section');
         const flightOriginDestinationTextEl = document.getElementById('flight-origin-destination-text');
-        const flightAirlineTextEl = document.getElementById('flight-airline-text');
-        const flightDepartureTextEl = document.getElementById('flight-departure-text');
-        const flightReturnTextEl = document.getElementById('flight-return-text');
-        const flightNotesTextEl = document.getElementById('flight-notes-text');
-        
-        const singleHotelInfoSection = document.getElementById('single-hotel-info-section');
-        const singleHotelStarsEl = document.getElementById('single-hotel-stars');
-        const singleHotelAffiliateOutputEl = document.getElementById('single-hotel-affiliate-output');
+        const flightAirlineTextEl           = document.getElementById('flight-airline-text');
+        const flightDepartureTextEl         = document.getElementById('flight-departure-text');
+        const flightReturnTextEl            = document.getElementById('flight-return-text');
+        const flightNotesTextEl             = document.getElementById('flight-notes-text');
+        const singleHotelInfoSection        = document.getElementById('single-hotel-info-section');
+        const singleHotelStarsEl            = document.getElementById('single-hotel-stars');
+        const singleHotelAffiliateOutputEl  = document.getElementById('single-hotel-affiliate-output');
+        const packageHotelsSection          = document.getElementById('package-hotels-section');
+        const packageHotelsListEl           = document.getElementById('package-hotels-list');
+        const bookingInstructionsEl         = document.getElementById('booking-instructions');
 
-        const packageHotelsSection = document.getElementById('package-hotels-section');
-        const packageHotelsListEl = document.getElementById('package-hotels-list');
-
-        const bookingInstructionsEl = document.getElementById('booking-instructions');
-
-        // --- פונקציות עזר ---
-        function formatMonthYear(monthYearString) {
-            if (!monthYearString || !monthYearString.includes('-')) return monthYearString;
-            const [year, month] = monthYearString.split('-');
-            const date = new Date(year, parseInt(month) - 1, 1);
-            return date.toLocaleString('he-IL', { month: 'long', year: 'numeric' });
+        // עזרי פורמט
+        function formatMonthYear(m) {
+            const [y,mo] = (m||'').split('-');
+            if(!y||!mo) return m;
+            const d = new Date(y,mo-1,1);
+            return d.toLocaleString('he-IL',{month:'long',year:'numeric'});
         }
-        
-        function getDealTypeDisplay(dealTypeKey) {
-            const types = { flight: 'טיסה בלבד', hotel: 'מלון בלבד', package: 'חבילה (טיסה ומלון/ות)' };
-            return types[dealTypeKey] || dealTypeKey;
+        function getDealTypeDisplay(k) {
+            return { flight:'טיסה בלבד', hotel:'מלון בלבד', package:'חבילה (טיסה ומלון/ות)' }[k]||k;
         }
-
-        function formatDateRange(startDateStr, endDateStr) {
-            if (!startDateStr || !endDateStr) return 'לא צוין';
+        function formatDateRange(s,e) {
             try {
-                const start = new Date(startDateStr).toLocaleDateString('he-IL', { day: '2-digit', month: '2-digit', year: 'numeric' });
-                const end = new Date(endDateStr).toLocaleDateString('he-IL', { day: '2-digit', month: '2-digit', year: 'numeric' });
-                return `${start} - ${end}`;
-            } catch (e) { return 'תאריכים לא תקינים'; }
+                const ds = new Date(s).toLocaleDateString('he-IL',{day:'2-digit',month:'2-digit',year:'numeric'});
+                const de = new Date(e).toLocaleDateString('he-IL',{day:'2-digit',month:'2-digit',year:'numeric'});
+                return `${ds} - ${de}`;
+            } catch { return 'לא צוין'; }
         }
 
-        // פונקציה ליצירת תצוגת קישור שותף
-        function renderAffiliateLink(affiliateData, providerName, dealName) {
-            let html = '';
-            if (!affiliateData) return html;
-
-            // עדיפות 1: קוד HTML משולב (אם הוא תקין ויש בו תמונה)
-            if (affiliateData.combinedHtml) {
-                // ננסה לחלץ ממנו נתונים אם השדות הישירים ריקים
-                const extracted = extractAffiliateDataFromHtml(affiliateData.combinedHtml); // הפונקציה הזו צריכה להיות מוגדרת גם כאן
-                const link = affiliateData.dealUrl || extracted.linkUrl;
-                const image = affiliateData.imageUrl || extracted.imageUrl;
-
-                if (link && image) {
-                    html += `<a href="${link}" target="_blank" title="הזמן דרך ${providerName}" class="affiliate-image-link">
-                                <img src="${image}" alt="${providerName} - ${dealName}" style="max-width: 180px; max-height:120px; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 5px;">
-                             </a>`;
-                } else if (link) { // אם חולץ רק קישור מה-HTML המשולב
-                     html += `<a href="${link}" target="_blank" class="button">${providerName} (קוד משולב)</a>`;
-                } else if (affiliateData.combinedHtml.includes('<a')) { // אם לא הצלחנו לחלץ אבל יש קוד, נטמיע אותו
-                    html += `<div class="html-embed-container">${affiliateData.combinedHtml}</div>`; // זהירות עם XSS אם הקוד לא מהימן
-                }
-            } 
-            // עדיפות 2: קישור ותמונה ישירים
-            else if (affiliateData.dealUrl && affiliateData.imageUrl) {
-                html += `<a href="${affiliateData.dealUrl}" target="_blank" title="הזמן דרך ${providerName}" class="affiliate-image-link">
-                            <img src="${affiliateData.imageUrl}" alt="${providerName} - ${dealName}" style="max-width: 180px; max-height:120px; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 5px;">
-                         </a>`;
-            } 
-            // עדיפות 3: רק קישור ישיר
-            else if (affiliateData.dealUrl) {
-                let buttonClass = 'button';
-                if (providerName.toLowerCase() === 'agoda') buttonClass += ' button-secondary';
-                html += `<a href="${affiliateData.dealUrl}" target="_blank" class="${buttonClass}">${providerName}</a>`;
-            }
-
-            // הצגת HTML נוסף (מפה/באנר)
-            if (affiliateData.extraHtml) {
-                html += `<div class="html-embed-container">${affiliateData.extraHtml}</div>`;
-            }
-            return html ? `<div><h6>${providerName}:</h6><div class="affiliate-output">${html}</div></div>` : '';
-        }
-
-        // פונקציית חילוץ (מועתקת/מותאמת מ-admin-script.js)
+        // Full extractAffiliateDataFromHtml
         function extractAffiliateDataFromHtml(htmlString) {
-            // ... (אותה פונקציה כמו ב-admin-script.js) ...
-            // חשוב לוודא שהפונקציה הזו זמינה כאן או מיובאת אם היא בקובץ נפרד
-            if (!htmlString || typeof htmlString !== 'string' || htmlString.trim() === "") return { linkUrl: null, imageUrl: null };
+            if (!htmlString || typeof htmlString !== 'string' || !htmlString.trim()) return { linkUrl: null, imageUrl: null };
             try {
-                const tempDiv = document.createElement('div'); tempDiv.innerHTML = htmlString;
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = htmlString;
                 const linkElement = tempDiv.querySelector('a');
-                const imgElement = linkElement ? linkElement.querySelector('img') : tempDiv.querySelector('img');
-                let linkUrl = linkElement ? linkElement.href : null;
-                let imageUrl = imgElement ? imgElement.src : null;
+                const imgElement  = linkElement ? linkElement.querySelector('img') : tempDiv.querySelector('img');
+                let linkUrl   = linkElement ? linkElement.href : null;
+                let imageUrl  = imgElement ? imgElement.src : null;
                 if (imgElement && !imageUrl && imgElement.srcset) {
                     const sources = imgElement.srcset.split(',').map(s => s.trim().split(' ')[0]);
-                    if (sources.length > 0) imageUrl = sources[0];
+                    if (sources.length) imageUrl = sources[0];
                 }
+                let finalLinkUrl = linkUrl;
                 if (imageUrl && !linkUrl && linkElement) finalLinkUrl = linkElement.href;
-                else if (!imageUrl && linkElement) finalLinkUrl = linkElement.href;
-                else finalLinkUrl = linkUrl;
-                if (!finalLinkUrl && htmlString.toLowerCase().startsWith('http')) { try { new URL(htmlString); finalLinkUrl = htmlString; } catch (e) {} }
-                return { linkUrl: finalLinkUrl, imageUrl: imageUrl };
-            } catch (e) { return { linkUrl: null, imageUrl: null }; }
+                else if (!imageUrl && linkElement)    finalLinkUrl = linkElement.href;
+                if (!finalLinkUrl && htmlString.trim().toLowerCase().startsWith('http')) {
+                    try { new URL(htmlString); finalLinkUrl = htmlString; } catch {}
+                }
+                return { linkUrl: finalLinkUrl, imageUrl };
+            } catch {
+                return { linkUrl: null, imageUrl: null };
+            }
         }
 
+        // renderAffiliateLink: only if there's a real link or image
+        function renderAffiliateLink(data, providerName, dealName) {
+            if (!data) return '';
+            let html = '';
+            // combinedHtml block
+            if (data.combinedHtml) {
+                const ex = extractAffiliateDataFromHtml(data.combinedHtml);
+                const link = data.dealUrl || ex.linkUrl;
+                const img  = data.imageUrl || ex.imageUrl;
+                if (link && img) {
+                    html += `<a href="${link}" target="_blank" title="הזמן דרך ${providerName}"><img src="${img}" alt="${providerName} - ${dealName}"></a>`;
+                } else if (link) {
+                    html += `<a href="${link}" target="_blank" class="button">${providerName}</a>`;
+                } else {
+                    html += `<div class="html-embed-container">${data.combinedHtml}</div>`;
+                }
+            }
+            // direct link+image
+            else if (data.dealUrl && data.imageUrl) {
+                html += `<a href="${data.dealUrl}" target="_blank" title="הזמן דרך ${providerName}"><img src="${data.imageUrl}" alt="${providerName} - ${dealName}"></a>`;
+            }
+            // only link
+            else if (data.dealUrl) {
+                html += `<a href="${data.dealUrl}" target="_blank" class="button">${providerName}</a>`;
+            }
+            // extraHtml
+            if (data.extraHtml) {
+                html += `<div class="html-embed-container">${data.extraHtml}</div>`;
+            }
+            return html
+                ? `<div><h6>${providerName}:</h6><div class="affiliate-output">${html}</div></div>`
+                : '';
+        }
 
+        // fetch & render
         async function fetchDealDetails() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const dealId = urlParams.get('dealId');
-
-            if (!dealId) { /* ... כמו קודם ... */ return; }
-
+            const params  = new URLSearchParams(location.search);
+            const dealId  = params.get('dealId');
+            if (!dealId) return dealTitleEl.textContent = 'דיל לא נמצא';
             try {
-                const dealRef = doc(db, "deals", dealId);
-                const docSnap = await getDoc(dealRef);
+                const snap = await getDoc(doc(db, 'deals', dealId));
+                if (!snap.exists()) return dealTitleEl.textContent = 'דיל לא נמצא';
+                const d = snap.data();
+                document.title  = `${d.name} - נופש לי ולך`;
+                dealTitleEl.textContent         = d.name;
+                dealImageEl.src                 = d.imageUrl || 'https://via.placeholder.com/800x450?text=אין+תמונה';
+                dealDescriptionTextEl.innerHTML = d.description?.replace(/\n/g,'<br>')||'אין תיאור';
+                priceValueEl.textContent        = d.price_text||'פנה למחיר';
+                typeValueEl.textContent         = getDealTypeDisplay(d.dealType);
 
-                if (docSnap.exists()) {
-                    const deal = docSnap.data();
-                    document.title = `${deal.name || 'פרטי דיל'} - נופש לי ולך`;
-                    dealTitleEl.textContent = deal.name || 'דיל מיוחד';
-                    dealImageEl.src = deal.imageUrl || 'https://via.placeholder.com/800x450?text=אין+תמונה+זמינה';
-                    dealImageEl.alt = deal.name || 'תמונת דיל';
-                    dealDescriptionTextEl.innerHTML = deal.description ? deal.description.replace(/\n/g, '<br>') : 'אין תיאור מפורט לדיל זה.';
-                    priceValueEl.textContent = deal.price_text || 'פנה למחיר';
-                    typeValueEl.textContent = getDealTypeDisplay(deal.dealType);
+                // dates
+                if (d.exactDatesRange?.start && d.exactDatesRange?.end) {
+                    exactDatesMetaItem.classList.remove('hidden-section');
+                    exactDatesValueEl.textContent = formatDateRange(d.exactDatesRange.start, d.exactDatesRange.end);
+                } else exactDatesMetaItem.classList.add('hidden-section');
 
-                    if (deal.exactDatesRange?.start && deal.exactDatesRange?.end) {
-                        exactDatesMetaItem.classList.remove('hidden-section');
-                        exactDatesValueEl.textContent = formatDateRange(deal.exactDatesRange.start, deal.exactDatesRange.end);
-                    } else {
-                        exactDatesMetaItem.classList.add('hidden-section');
+                // destination
+                if (d.destinationCity && d.destinationCountry) {
+                    destinationMetaItem.classList.remove('hidden-section');
+                    destinationValueEl.textContent = `${d.destinationCity}, ${d.destinationCountry}`;
+                } else destinationMetaItem.classList.add('hidden-section');
+
+                // trip types
+                if (d.tripTypes?.length) {
+                    tripTypesSection.classList.remove('hidden-section');
+                    tripTypesListEl.innerHTML = d.tripTypes.map(t=>`<li>${t}</li>`).join('');
+                } else tripTypesSection.classList.add('hidden-section');
+
+                // availability
+                if (d.availabilityMonths?.length) {
+                    availabilityMonthsSection.classList.remove('hidden-section');
+                    availabilityMonthsListEl.innerHTML = d.availabilityMonths.map(m=>`<li>${formatMonthYear(m)}</li>`).join('');
+                } else availabilityMonthsSection.classList.add('hidden-section');
+
+                // extra addons
+                if (d.extraAddons?.length) {
+                    extraAddonsSection.classList.remove('hidden-section');
+                    extraAddonsListEl.innerHTML = d.extraAddons.map(a=>`<li>${a}</li>`).join('');
+                } else extraAddonsSection.classList.add('hidden-section');
+
+                // hide all specifics by default
+                flightInfoSection.classList.add('hidden-section');
+                singleHotelInfoSection.classList.add('hidden-section');
+                packageHotelsSection.classList.add('hidden-section');
+                bookingInstructionsEl.innerHTML = '';
+
+                // render based on type
+                if (d.dealType === 'flight') {
+                    flightInfoSection.classList.remove('hidden-section');
+                    flightOriginDestinationTextEl.textContent = d.flightOrigin && d.flightDestination
+                        ? `מ: ${d.flightOrigin} → ל: ${d.flightDestination}` : '';
+                    flightAirlineTextEl.textContent = d.airline ? `חברת תעופה: ${d.airline}` : '';
+                    flightNotesTextEl.textContent   = d.flightDetails?.notes || '';
+                    bookingInstructionsEl.innerHTML = `
+                        <p>להזמנת טיסה – פנה אלינו בעמלה של 100 ₪ או 5% מהמחיר (הנמוך מביניהם).</p>
+                        <a href="mailto:your-email@example.com?subject=הזמנת טיסה: ${encodeURIComponent(d.name)}" class="button">פנה לסגירה</a>
+                    `;
+                }
+                else if (d.dealType === 'hotel') {
+                    singleHotelInfoSection.classList.remove('hidden-section');
+                    singleHotelStarsEl.textContent = d.stars
+                        ? '⭐'.repeat(parseInt(d.stars)) : '';
+                    // affiliate links
+                    const sl = [];
+                    sl.push(renderAffiliateLink(d.singleHotelAffiliateLinks?.booking, "Booking.com", d.name));
+                    sl.push(renderAffiliateLink(d.singleHotelAffiliateLinks?.agoda,   "Agoda",      d.name));
+                    sl.push(renderAffiliateLink(d.singleHotelAffiliateLinks?.expedia, "Expedia",    d.name));
+                    singleHotelAffiliateOutputEl.innerHTML = sl.filter(x=>x).join('') 
+                        || '<p>אין קישורי הזמנה.</p>';
+                    bookingInstructionsEl.innerHTML = `
+                        <p>להזמנה עצמאית – השתמש בקישורים למעלה.</p>
+                        <p>או שירות אישי שלנו בעמלה של 100 ₪ או 5% מהמחיר.</p>
+                        <a href="mailto:your-email@example.com?subject=הזמנת מלון: ${encodeURIComponent(d.name)}" class="button">פנה לסגירה</a>
+                    `;
+                }
+                else if (d.dealType === 'package') {
+                    flightInfoSection.classList.remove('hidden-section');
+                    flightDepartureTextEl.textContent = d.flightDetails?.departureTime
+                        ? `הלוך: ${d.flightDetails.departureTime}` : '';
+                    flightReturnTextEl.textContent    = d.flightDetails?.returnTime
+                        ? `חזור: ${d.flightDetails.returnTime}` : '';
+                    flightNotesTextEl.textContent     = d.flightDetails?.notes || '';
+                    // package hotels
+                    if (d.hotels?.length) {
+                        packageHotelsSection.classList.remove('hidden-section');
+                        packageHotelsListEl.innerHTML = d.hotels.map(h => {
+                            const hl = [];
+                            hl.push(renderAffiliateLink(h.affiliateLinks?.booking, "Booking.com", h.name));
+                            hl.push(renderAffiliateLink(h.affiliateLinks?.agoda,   "Agoda",      h.name));
+                            hl.push(renderAffiliateLink(h.affiliateLinks?.expedia, "Expedia",    h.name));
+                            return `
+                                <div class="hotel-item">
+                                    <h5>${h.name} (${h.stars || ''} כוכבים)</h5>
+                                    ${hl.filter(x=>x).join('')}
+                                </div>`;
+                        }).join('');
                     }
-                    
-                    if (deal.destinationCity && deal.destinationCountry) {
-                        destinationMetaItem.classList.remove('hidden-section');
-                        destinationValueEl.textContent = `${deal.destinationCity}, ${deal.destinationCountry}`;
-                    } else {
-                        destinationMetaItem.classList.add('hidden-section');
-                    }
-
-
-                    if (deal.tripTypes && deal.tripTypes.length > 0) {
-                        tripTypesSection.classList.remove('hidden-section');
-                        tripTypesListEl.innerHTML = deal.tripTypes.map(type => `<li>${type}</li>`).join('');
-                    } else { tripTypesSection.classList.add('hidden-section'); }
-
-                    if (deal.availabilityMonths && deal.availabilityMonths.length > 0) {
-                        availabilityMonthsSection.classList.remove('hidden-section');
-                        availabilityMonthsListEl.innerHTML = deal.availabilityMonths.map(month => `<li>${formatMonthYear(month)}</li>`).join('');
-                    } else { availabilityMonthsSection.classList.add('hidden-section'); }
-                    
-                    if (deal.extraAddons && deal.extraAddons.length > 0) {
-                        extraAddonsSection.classList.remove('hidden-section');
-                        extraAddonsListEl.innerHTML = deal.extraAddons.map(addon => `<li>${addon}</li>`).join('');
-                    } else { extraAddonsSection.classList.add('hidden-section'); }
-
-
-                    // הסתר את כל חלקי המידע הספציפי תחילה
-                    flightInfoSection.classList.add('hidden-section');
-                    singleHotelInfoSection.classList.add('hidden-section');
-                    packageHotelsSection.classList.add('hidden-section');
-                    bookingInstructionsEl.innerHTML = '';
-
-                    let bookingHtmlInstructions = '';
-
-                    if (deal.dealType === 'flight') {
-                        flightInfoSection.classList.remove('hidden-section');
-                        flightOriginDestinationTextEl.textContent = (deal.flightOrigin && deal.flightDestination) ? `טיסה מ: ${deal.flightOrigin} ל: ${deal.flightDestination}` : '';
-                        flightAirlineTextEl.textContent = deal.airline ? `חברת תעופה: ${deal.airline}` : '';
-                        flightNotesTextEl.textContent = deal.flightDetails?.notes || 'לא צוינו פרטים נוספים לטיסה.';
-                        
-                        bookingHtmlInstructions = `<p>להזמנת טיסה זו, אנא פנה אלינו ישירות. אנו נסגור עבורך את ההזמנה בעמלה של 100 ₪ או 5% ממחיר הטיסה (הנמוך מביניהם).</p>
-                            <a href="mailto:your-email@example.com?subject=הזמנת טיסה: ${encodeURIComponent(deal.name)}" class="button">פנה אליי לסגירת ההזמנה</a>`;
-                    
-                    } else if (deal.dealType === 'hotel') {
-                        singleHotelInfoSection.classList.remove('hidden-section');
-                        singleHotelStarsEl.textContent = deal.stars ? `${'⭐'.repeat(parseInt(deal.stars))}` : 'לא צוין';
-                        
-                        let affiliateOutput = '';
-                        if(deal.singleHotelAffiliateLinks) {
-                            affiliateOutput += renderAffiliateLink(deal.singleHotelAffiliateLinks.booking, "Booking.com", deal.name);
-                            affiliateOutput += renderAffiliateLink(deal.singleHotelAffiliateLinks.agoda, "Agoda", deal.name);
-                            affiliateOutput += renderAffiliateLink(deal.singleHotelAffiliateLinks.expedia, "Expedia", deal.name);
-                        }
-                        singleHotelAffiliateOutputEl.innerHTML = affiliateOutput || '<p>לא נמצאו קישורי הזמנה למלון זה.</p>';
-                        
-                        bookingHtmlInstructions = `<p><strong>אפשרות 1: הזמנה עצמאית</strong> (השתמש בקישורים/באנרים שלמעלה).</p>
-                            <hr style="margin: 20px 0;">
-                            <p><strong>אפשרות 2: שירות אישי שלנו</strong></p>
-                            <p>פנה אלינו לסגירה אישית של המלון בעמלה של 100 ₪ או 5% ממחיר המלון (הנמוך מביניהם).</p>
-                            <a href="mailto:your-email@example.com?subject=הזמנת מלון: ${encodeURIComponent(deal.name)}" class="button">בקש ממני לסגור לך</a>`;
-
-                    } else if (deal.dealType === 'package') {
-                        flightInfoSection.classList.remove('hidden-section');
-                        flightDepartureTextEl.textContent = (deal.flightDetails?.departureAirline || deal.flightDetails?.departureTime) ? `טיסת הלוך: ${deal.flightDetails?.departureAirline || ''} בשעה: ${deal.flightDetails?.departureTime || 'לא צוינה'}` : '';
-                        flightReturnTextEl.textContent = (deal.flightDetails?.returnAirline || deal.flightDetails?.returnTime) ? `טיסת חזור: ${deal.flightDetails?.returnAirline || ''} בשעה: ${deal.flightDetails?.returnTime || 'לא צוינה'}` : '';
-                        flightNotesTextEl.textContent = deal.flightDetails?.notes || 'לא צוינו פרטים נוספים לטיסות בחבילה.';
-
-                        if (deal.hotels && deal.hotels.length > 0) {
-                            packageHotelsSection.classList.remove('hidden-section');
-                            packageHotelsListEl.innerHTML = deal.hotels.map(hotel => {
-                                let hotelAffiliateHtml = '';
-                                if (hotel.affiliateLinks) {
-                                    hotelAffiliateHtml += renderAffiliateLink(hotel.affiliateLinks.booking, "Booking.com", hotel.name);
-                                    hotelAffiliateHtml += renderAffiliateLink(hotel.affiliateLinks.agoda, "Agoda", hotel.name);
-                                    hotelAffiliateHtml += renderAffiliateLink(hotel.affiliateLinks.expedia, "Expedia", hotel.name);
-                                }
-                                return `
-                                    <div class="hotel-item">
-                                        <h5>${hotel.name || 'מלון בחבילה'} (${hotel.stars || '?'} כוכבים)</h5>
-                                        ${hotelAffiliateHtml ? `<div class="affiliate-links-section">${hotelAffiliateHtml}</div>` : ''}
-                                    </div>`;
-                            }).join('');
-                        } else {
-                            packageHotelsListEl.innerHTML = '<p>לא צוינו מלונות ספציפיים לחבילה זו. פנה אלינו להתאמה אישית.</p>';
-                        }
-                        
-                        bookingHtmlInstructions = `<p>להזמנת חבילה זו, אנא פנה אלינו ישירות. עמלה כוללת של 100 ₪ או 5% מהמחיר הכולל (הנמוך מביניהם).</p>
-                            <p>שים לב: תוכל להזמין את המלונות גם עצמאית דרך הקישורים למעלה (אם קיימים) ולפנות אלינו לסגירת הטיסה בלבד.</p>
-                            <a href="mailto:your-email@example.com?subject=הזמנת חבילה: ${encodeURIComponent(deal.name)}" class="button">פנה אליי לסגירת החבילה</a>`;
-                    }
-                    bookingInstructionsEl.innerHTML = bookingHtmlInstructions;
-
-                } else { /* ... הודעת "דיל לא נמצא" כמו קודם ... */ }
-            } catch (error) { /* ... הודעת שגיאה כמו קודם ... */ }
+                    bookingInstructionsEl.innerHTML = `
+                        <p>להזמנת חבילה – פנה אלינו בעמלה של 100 ₪ או 5% מהמחיר (הנמוך מביניהם).</p>
+                        <a href="mailto:your-email@example.com?subject=הזמנת חבילה: ${encodeURIComponent(d.name)}" class="button">פנה לסגירה</a>
+                    `;
+                }
+            } catch (e) {
+                dealTitleEl.textContent = 'שגיאה בטעינת הדיל';
+            }
         }
         fetchDealDetails();
     </script>
