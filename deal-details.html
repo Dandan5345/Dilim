@@ -4,26 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>פרטי הדיל - נופש לי ולך</title>
-    <link rel="stylesheet" href="style.css"> <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         /* --- סגנונות ספציפיים לעמוד פרטי דיל --- */
-        /* ניתן להעביר חלק מהסגנונות הללו לקובץ style.css הכללי אם הם רלוונטיים גם למקומות אחרים */
+        body {}
 
-        body {
-            /* הסגנונות הכלליים מגיעים מ-style.css */
-            /* ניתן לדרוס או להוסיף כאן במידת הצורך */
-        }
-
-        .deal-details-page-container { /* שם מחודש לקונטיינר הראשי של הדף, למניעת התנגשות עם .container כללי */
+        .deal-details-page-container {
             background-color: #fff;
             padding: 25px 30px;
-            margin-top: 30px; /* רווח מההדר */
-            border-radius: 12px; /* פינות מעוגלות יותר */
+            margin-top: 30px;
+            border-radius: 12px;
             box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-            opacity: 0; /* לאנימציית fade-in */
-            transform: translateY(20px); /* לאנימציית fade-in */
+            opacity: 0;
+            transform: translateY(20px);
             animation: fadeInUp 0.7s ease-out forwards;
-            animation-delay: 0.2s; /* השהייה קלה */
+            animation-delay: 0.2s;
         }
 
         @keyframes fadeInUp {
@@ -34,13 +30,12 @@
         }
 
         .deal-details-page-container h2#deal-title {
-            font-size: 2.4em; /* גופן גדול יותר לכותרת הדיל */
+            font-size: 2.4em;
             font-weight: 700;
             color: var(--primary-color);
             margin-bottom: 20px;
-            text-align: center; /* כותרת ממורכזת */
+            text-align: center;
         }
-        /* קו מתחת לכותרת הדיל, דומה ל-section h2 */
         .deal-details-page-container h2#deal-title::after {
             content: '';
             display: block;
@@ -51,30 +46,29 @@
             border-radius: 2px;
         }
 
-
         #deal-image {
             width: 100%;
-            max-height: 500px; /* גובה מקסימלי מוגדל */
+            max-height: 500px;
             object-fit: cover;
             border-radius: 8px;
-            margin-bottom: 30px; /* רווח גדול יותר מתחת לתמונה */
+            margin-bottom: 30px;
             border: 1px solid var(--medium-gray);
             box-shadow: 0 4px 10px rgba(0,0,0,0.08);
         }
 
         .deal-meta-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* התאמה לתוכן */
-            gap: 25px; /* רווח מוגדל */
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
             margin-bottom: 30px;
             padding-bottom: 25px;
             border-bottom: 1px solid var(--medium-gray);
         }
         .meta-item {
-            background-color: var(--light-gray); /* רקע בהיר יותר */
-            padding: 18px; /* פדינג מוגדל */
-            border-radius: 8px; /* פינות מעוגלות יותר */
-            border: 1px solid #e0e6ed; /* גבול עדין */
+            background-color: var(--light-gray);
+            padding: 18px;
+            border-radius: 8px;
+            border: 1px solid #e0e6ed;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .meta-item:hover {
@@ -84,56 +78,55 @@
         .meta-item h4 {
             color: var(--secondary-color);
             margin-top: 0;
-            margin-bottom: 10px; /* רווח מוגדל */
-            font-size: 1.15em; /* גופן מוגדל מעט */
+            margin-bottom: 10px;
+            font-size: 1.15em;
             font-weight: 600;
         }
         .meta-item p, .meta-item ul {
             margin-bottom: 0;
             font-size: 1em;
-            color: var(--dark-gray); /* צבע טקסט כהה יותר לקריאות */
+            color: var(--dark-gray);
         }
         .meta-item ul { list-style: none; padding-right: 0; }
         .meta-item ul li {
-            background-color: var(--medium-gray); /* רקע אפרפר לתוויות */
+            background-color: var(--medium-gray);
             color: var(--dark-gray);
-            border: none; /* הסרת גבול */
-            padding: 6px 12px; /* פדינג מותאם */
-            border-radius: 15px; /* תוויות אובליות */
+            border: none;
+            padding: 6px 12px;
+            border-radius: 15px;
             margin-bottom: 6px;
             display: inline-block;
             margin-left: 6px;
-            font-size: 0.9em; /* גופן קטן יותר לתוויות */
+            font-size: 0.9em;
             font-weight: 500;
         }
-        .meta-item#price-value { /* עיצוב מיוחד למחיר */
+        .meta-item#price-value {
              font-weight: 700;
              color: var(--accent-color);
              font-size: 1.4em;
         }
 
-        .content-section { margin-bottom: 35px; } /* רווח גדול יותר */
-        .content-section h4 { /* כותרות משנה עם קו תחתון */
+        .content-section { margin-bottom: 35px; }
+        .content-section h4 {
             color: var(--primary-color);
-            font-size: 1.6em; /* גופן מוגדל */
-            margin-bottom: 18px; /* רווח מוגדל */
+            font-size: 1.6em;
+            margin-bottom: 18px;
             padding-bottom: 10px;
             border-bottom: 2px solid var(--accent-color);
             font-weight: 600;
-            display: inline-block; /* כדי שהקו יהיה רק מתחת לטקסט */
+            display: inline-block;
         }
          .content-section p, .content-section ul {
-            font-size: 1.05em; /* קריאות משופרת */
+            font-size: 1.05em;
             line-height: 1.75;
         }
 
-
         .hotels-list-container .hotel-item {
-            background-color: #fdfdff; /* רקע נקי למלון */
-            border: 1px solid #dce1e7; /* גבול עדין */
-            padding: 25px; /* פדינג מוגדל */
+            background-color: #fdfdff;
+            border: 1px solid #dce1e7;
+            padding: 25px;
             margin-bottom: 25px;
-            border-radius: 10px; /* פינות מעוגלות יותר */
+            border-radius: 10px;
             box-shadow: 0 3px 7px rgba(0,0,0,0.06);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -145,133 +138,114 @@
         .hotels-list-container .hotel-item h5 {
             margin-top: 0;
             color: var(--secondary-color);
-            font-size: 1.4em; /* גופן מוגדל לכותרת מלון */
+            font-size: 1.4em;
             margin-bottom: 12px;
             font-weight: 600;
         }
-        .hotels-list-container .hotel-item .affiliate-links-section h6 { /* כותרת לספק (בוקינג וכו') */
-            font-size: 1.2em; /* גופן מוגדל */
+        .hotels-list-container .hotel-item .affiliate-links-section h6 {
+            font-size: 1.2em;
             color: var(--dark-gray);
             margin-top: 18px;
             margin-bottom: 12px;
             font-weight: 600;
-            border-bottom: 1px dotted #b0b9c3; /* קו מקווקו עדין */
+            border-bottom: 1px dotted #b0b9c3;
             padding-bottom: 6px;
         }
-        .affiliate-output { /* קונטיינר לכל קישורי הספק */
+        .affiliate-output {
             display: flex;
-            flex-wrap: wrap; /* גלישה של אלמנטים */
-            gap: 15px; /* רווח בין אלמנטים */
+            flex-wrap: wrap;
+            gap: 15px;
             align-items: flex-start;
         }
-        .affiliate-output > div { /* כל קבוצת קישורים של ספק */
-            flex: 1; /* מאפשר גמישות */
-            min-width: 200px; /* רוחב מינימלי */
+        .affiliate-output > div {
+            flex: 1;
+            min-width: 200px;
         }
-        .affiliate-output img { /* תמונות מקישורי שותפים */
-            max-width: 100%; /* התאמה לרוחב הקונטיינר הפנימי */
-            width: auto; /* שמירה על יחס */
-            max-height: 180px; /* גובה מקסימלי */
+        .affiliate-output img {
+            max-width: 100%;
+            width: auto;
+            max-height: 180px;
             height: auto;
             border: 1px solid var(--medium-gray);
-            border-radius: 6px; /* פינות מעוגלות לתמונות */
-            margin-bottom: 10px; /* רווח מתחת לתמונה */
+            border-radius: 6px;
+            margin-bottom: 10px;
             display: block;
             box-shadow: 0 2px 4px rgba(0,0,0,0.07);
         }
-        .affiliate-output .button { /* כפתורים בקישורי שותפים */
+        .affiliate-output .button {
             margin-top: 8px;
-            margin-right: 0; /* מרווח מטופל על ידי flex gap */
-            display: block; /* כפתור על כל הרוחב הזמין לו */
-            width: fit-content; /* התאמת רוחב לתוכן */
-            padding: 10px 20px; /* התאמת פדינג לכפתור */
+            margin-right: 0;
+            display: block;
+            width: fit-content;
+            padding: 10px 20px;
         }
 
-        .html-embed-container { /* קונטיינר לקוד HTML מוטמע */
+        .html-embed-container {
             margin-top:12px;
-            border: 1px dashed #c5ced6; /* גבול מקווקו */
+            border: 1px dashed #c5ced6;
             padding: 12px;
-            background-color: #f7f9fc; /* רקע בהיר */
+            background-color: #f7f9fc;
             border-radius: 6px;
-            overflow-x: auto; /* גלילה אופקית במידת הצורך */
-            font-size: 0.9em; /* גופן קטן יותר לקוד */
+            overflow-x: auto;
+            font-size: 0.9em;
         }
         .html-embed-container img, .html-embed-container iframe, .html-embed-container a {
-            max-width: 100% !important; /* הבטחת רספונסיביות לתוכן מוטמע */
+            max-width: 100% !important;
             height: auto !important;
         }
 
-
-        #booking-options { /* אזור אפשרויות הזמנה */
+        #booking-options {
             margin-top: 35px;
             padding-top: 30px;
             border-top: 2px solid var(--primary-color);
         }
         #booking-options h3 {
             color: var(--primary-color);
-            font-size: 1.7em; /* גופן מוגדל */
+            font-size: 1.7em;
             margin-bottom: 18px;
             font-weight: 600;
         }
         #booking-options p {
-            font-size: 1.1em; /* קריאות משופרת */
+            font-size: 1.1em;
             line-height: 1.75;
             margin-bottom: 15px;
         }
-        #booking-options .button { /* עיצוב כפתור וואטסאפ */
-            background-color: #25D366; /* צבע וואטסאפ */
+        #booking-options .button {
+            background-color: #25D366; /* WhatsApp Green */
             padding: 12px 25px;
             font-size: 1.15em;
             font-weight: 600;
         }
         #booking-options .button:hover {
-            background-color: #1DAE54; /* צבע וואטסאפ כהה יותר */
+            background-color: #1DAE54;
         }
 
         .hidden-section { display: none; }
 
-        /* סגנון לכפתור אאוטליין - אם תרצה להשתמש בו במקומות נוספים, העבר ל-style.css */
         .button-outline {
             background-color: transparent;
             color: var(--accent-color) !important;
             border: 2px solid var(--accent-color);
-            padding: 10px 22px; /* התאמת פדינג */
+            padding: 10px 22px;
         }
         .button-outline:hover {
             background-color: var(--accent-color);
             color: #fff !important;
         }
-        .button-small { /* כפתור קטן יותר */
-            padding: 8px 15px !important; /* !important כדי לדרוס פדינג קודם של .button */
+        .button-small {
+            padding: 8px 15px !important;
             font-size: 0.95em !important;
         }
 
-        /* רספונסיביות ספציפית לעמוד זה */
         @media (max-width: 768px) {
-            .deal-details-page-container h2#deal-title {
-                font-size: 1.8em;
-            }
-            .deal-meta-grid {
-                grid-template-columns: 1fr; /* עמודה אחת במסכים קטנים */
-            }
-            .content-section h4 {
-                font-size: 1.4em;
-            }
-            .hotels-list-container .hotel-item h5 {
-                font-size: 1.2em;
-            }
-            #booking-options .button {
-                width: 100%; /* כפתור וואטסאפ על כל הרוחב */
-                margin-bottom: 10px;
-            }
-            .affiliate-output {
-                flex-direction: column; /* קישורי ספקים אחד מתחת לשני */
-            }
-            .affiliate-output > div {
-                width: 100%; /* כל קישור ספק על כל הרוחב */
-            }
+            .deal-details-page-container h2#deal-title { font-size: 1.8em; }
+            .deal-meta-grid { grid-template-columns: 1fr; }
+            .content-section h4 { font-size: 1.4em; }
+            .hotels-list-container .hotel-item h5 { font-size: 1.2em; }
+            #booking-options .button { width: 100%; margin-bottom: 10px; }
+            .affiliate-output { flex-direction: column; }
+            .affiliate-output > div { width: 100%; }
         }
-
     </style>
 </head>
 <body>
@@ -290,26 +264,16 @@
         </div>
     </header>
 
-    <section id="deal-details-page"> <div class="container deal-details-page-container"> <h2 id="deal-title">טוען את פרטי הדיל...</h2>
+    <section id="deal-details-page">
+      <div class="container deal-details-page-container">
+            <h2 id="deal-title">טוען את פרטי הדיל...</h2>
             <img id="deal-image" src="https://via.placeholder.com/1200x500?text=טוען+תמונה..." alt="תמונת הדיל">
             
             <div class="deal-meta-grid">
-                <div class="meta-item">
-                    <h4>סוג דיל:</h4>
-                    <p id="type-value"></p>
-                </div>
-                <div class="meta-item">
-                    <h4>מחיר:</h4>
-                    <p id="price-value" class="price"></p>
-                </div>
-                <div id="exact-dates-meta-item" class="meta-item hidden-section">
-                    <h4>תאריכים מדויקים:</h4>
-                    <p id="exact-dates-value"></p>
-                </div>
-                <div id="destination-meta-item" class="meta-item hidden-section">
-                    <h4>יעד:</h4>
-                    <p id="destination-value"></p>
-                </div>
+                <div class="meta-item"><h4>סוג דיל:</h4><p id="type-value"></p></div>
+                <div class="meta-item"><h4>מחיר:</h4><p id="price-value" class="price"></p></div>
+                <div id="exact-dates-meta-item" class="meta-item hidden-section"><h4>תאריכים מדויקים:</h4><p id="exact-dates-value"></p></div>
+                <div id="destination-meta-item" class="meta-item hidden-section"><h4>יעד:</h4><p id="destination-value"></p></div>
             </div>
             
             <div id="deal-main-description" class="content-section">
@@ -318,18 +282,15 @@
             </div>
             
             <div id="trip-types-section" class="meta-item hidden-section" style="margin-bottom: 25px; background-color:transparent; border:none; padding:0;">
-                <h4>סוגי טיול מתאימים:</h4>
-                <ul id="trip-types-list"></ul>
+                <h4>סוגי טיול מתאימים:</h4><ul id="trip-types-list"></ul>
             </div>
 
             <div id="availability-months-section" class="meta-item hidden-section" style="margin-bottom: 25px; background-color:transparent; border:none; padding:0;">
-                <h4>זמינות בחודשים:</h4>
-                <ul id="availability-months-list"></ul>
+                <h4>זמינות בחודשים:</h4><ul id="availability-months-list"></ul>
             </div>
 
             <div id="extra-addons-section" class="content-section hidden-section">
-                <h4>תוספות מיוחדות לדיל:</h4>
-                <ul id="extra-addons-list"></ul>
+                <h4>תוספות מיוחדות לדיל:</h4><ul id="extra-addons-list"></ul>
             </div>
 
             <div id="specific-deal-info">
@@ -345,21 +306,16 @@
                 <div id="single-hotel-info-section" class="content-section hidden-section">
                     <h4>פרטי המלון</h4>
                     <p><strong>כוכבים:</strong> <span id="single-hotel-stars"></span></p>
-                    <div class="affiliate-links-section" id="single-hotel-affiliate-output">
-                        </div>
+                    <div class="affiliate-links-section" id="single-hotel-affiliate-output"></div>
                 </div>
                 
                 <div id="package-hotels-section" class="content-section hidden-section hotels-list-container">
-                    <h4>מלונות המוצעים בחבילה</h4>
-                    <div id="package-hotels-list">
-                        </div>
+                    <h4>מלונות המוצעים בחבילה</h4><div id="package-hotels-list"></div>
                 </div>
             </div>
             
             <div id="booking-options">
-                <h3>אפשרויות הזמנה ויצירת קשר</h3>
-                <div id="booking-instructions-container">
-                    </div>
+                <h3>אפשרויות הזמנה ויצירת קשר</h3><div id="booking-instructions-container"></div>
             </div>
         </div>
     </section>
@@ -374,42 +330,35 @@
 
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // --- DOM Elements ---
-        const dealTitleEl                   = document.getElementById('deal-title');
-        const dealImageEl                   = document.getElementById('deal-image');
-        const dealDescriptionTextEl         = document.getElementById('deal-description-text');
-        const priceValueEl                  = document.getElementById('price-value');
-        const typeValueEl                   = document.getElementById('type-value');
-        const exactDatesMetaItem            = document.getElementById('exact-dates-meta-item');
-        const exactDatesValueEl             = document.getElementById('exact-dates-value');
-        const destinationMetaItem           = document.getElementById('destination-meta-item');
-        const destinationValueEl            = document.getElementById('destination-value');
-        const tripTypesSection              = document.getElementById('trip-types-section');
-        const tripTypesListEl               = document.getElementById('trip-types-list');
-        const availabilityMonthsSection     = document.getElementById('availability-months-section');
-        const availabilityMonthsListEl      = document.getElementById('availability-months-list');
-        const extraAddonsSection            = document.getElementById('extra-addons-section');
-        const extraAddonsListEl             = document.getElementById('extra-addons-list');
-        
-        const flightInfoSection             = document.getElementById('flight-info-section');
+        const dealTitleEl = document.getElementById('deal-title');
+        const dealImageEl = document.getElementById('deal-image');
+        const dealDescriptionTextEl = document.getElementById('deal-description-text');
+        const priceValueEl = document.getElementById('price-value');
+        const typeValueEl = document.getElementById('type-value');
+        const exactDatesMetaItem = document.getElementById('exact-dates-meta-item');
+        const exactDatesValueEl = document.getElementById('exact-dates-value');
+        const destinationMetaItem = document.getElementById('destination-meta-item');
+        const destinationValueEl = document.getElementById('destination-value');
+        const tripTypesSection = document.getElementById('trip-types-section');
+        const tripTypesListEl = document.getElementById('trip-types-list');
+        const availabilityMonthsSection = document.getElementById('availability-months-section');
+        const availabilityMonthsListEl = document.getElementById('availability-months-list');
+        const extraAddonsSection = document.getElementById('extra-addons-section');
+        const extraAddonsListEl = document.getElementById('extra-addons-list');
+        const flightInfoSection = document.getElementById('flight-info-section');
         const flightOriginDestinationTextEl = document.getElementById('flight-origin-destination-text');
-        const flightAirlineTextEl           = document.getElementById('flight-airline-text');
-        const flightDepartureTextEl         = document.getElementById('flight-departure-text'); // Specific for package flight times
-        const flightReturnTextEl            = document.getElementById('flight-return-text');   // Specific for package flight times
-        const flightNotesTextEl             = document.getElementById('flight-notes-text');
-        
-        const singleHotelInfoSection        = document.getElementById('single-hotel-info-section');
-        const singleHotelStarsEl            = document.getElementById('single-hotel-stars');
-        const singleHotelAffiliateOutputEl  = document.getElementById('single-hotel-affiliate-output');
-        
-        const packageHotelsSection          = document.getElementById('package-hotels-section');
-        const packageHotelsListEl           = document.getElementById('package-hotels-list');
-        
+        const flightAirlineTextEl = document.getElementById('flight-airline-text');
+        const flightDepartureTextEl = document.getElementById('flight-departure-text');
+        const flightReturnTextEl = document.getElementById('flight-return-text');
+        const flightNotesTextEl = document.getElementById('flight-notes-text');
+        const singleHotelInfoSection = document.getElementById('single-hotel-info-section');
+        const singleHotelStarsEl = document.getElementById('single-hotel-stars');
+        const singleHotelAffiliateOutputEl = document.getElementById('single-hotel-affiliate-output');
+        const packageHotelsSection = document.getElementById('package-hotels-section');
+        const packageHotelsListEl = document.getElementById('package-hotels-list');
         const bookingInstructionsContainerEl = document.getElementById('booking-instructions-container');
+        const WHATSAPP_NUMBER = '972584593847';
 
-        const WHATSAPP_NUMBER = '972584593847'; // מספר טלפון בפורמט בינלאומי
-
-        // --- Helper Functions ---
         function formatMonthYear(monthStr) {
             if (!monthStr || !monthStr.includes('-')) return monthStr;
             const [year, month] = monthStr.split('-');
@@ -432,11 +381,9 @@
         
         function getPrimaryAffiliateLink(affiliateLinks) {
             if (!affiliateLinks) return null;
-            // Define prioritization
             if (affiliateLinks.booking?.dealUrl && affiliateLinks.booking.dealUrl.trim() !== "") return affiliateLinks.booking.dealUrl;
             if (affiliateLinks.agoda?.dealUrl && affiliateLinks.agoda.dealUrl.trim() !== "") return affiliateLinks.agoda.dealUrl;
             if (affiliateLinks.expedia?.dealUrl && affiliateLinks.expedia.dealUrl.trim() !== "") return affiliateLinks.expedia.dealUrl;
-            // Fallback to any available dealUrl
             for (const provider in affiliateLinks) {
                 if (affiliateLinks[provider]?.dealUrl && affiliateLinks[provider].dealUrl.trim() !== "") return affiliateLinks[provider].dealUrl;
             }
@@ -444,233 +391,180 @@
         }
 
         function extractAffiliateDataFromHtml(htmlString) {
-            if (!htmlString || typeof htmlString !== 'string' || !htmlString.trim()) {
-                return { linkUrl: null, imageUrl: null, rawHtml: htmlString };
+            if (!htmlString || typeof htmlString !== 'string' || !htmlString.trim() || htmlString.trim().toLowerCase() === 'אין') {
+                return { linkUrl: null, imageUrl: null };
             }
             try {
                 const tempDiv = document.createElement('div');
                 tempDiv.innerHTML = htmlString;
-        
                 const linkElement = tempDiv.querySelector('a');
                 const imgElement  = linkElement ? linkElement.querySelector('img') : tempDiv.querySelector('img');
-        
                 let linkUrl = linkElement ? linkElement.href : null;
                 let imageUrl = imgElement ? imgElement.src : null;
-        
-                // Try to extract from srcset if src is missing
                 if (imgElement && !imageUrl && imgElement.srcset) {
                     const sources = imgElement.srcset.split(',').map(s => s.trim().split(' ')[0]);
                     if (sources.length > 0) imageUrl = sources[0];
                 }
-        
-                // If htmlString itself is a valid URL (for simple link cases)
                 if (!linkUrl && htmlString.trim().toLowerCase().startsWith('http')) {
                     try { new URL(htmlString.trim()); linkUrl = htmlString.trim(); } catch {}
                 }
-        
-                return { linkUrl: linkUrl, imageUrl: imageUrl, rawHtml: htmlString };
+                return { linkUrl: linkUrl, imageUrl: imageUrl };
             } catch (error) {
                 console.warn("Error parsing HTML string for affiliate data:", error);
-                return { linkUrl: null, imageUrl: null, rawHtml: htmlString };
+                return { linkUrl: null, imageUrl: null };
             }
         }
 
         function renderAffiliateLink(data, providerName, dealName) {
             if (!data) return '';
             let outputHtml = '';
-            
-            const combinedData = extractAffiliateDataFromHtml(data.combinedHtml);
-            const dealUrl = data.dealUrl || combinedData.linkUrl;
-            const imageUrl = data.imageUrl || combinedData.imageUrl;
 
-            if (dealUrl && imageUrl) { // Link and Image available
-                outputHtml += `<a href="${dealUrl}" target="_blank" title="הזמן דרך ${providerName}"><img src="${imageUrl}" alt="${providerName} - ${dealName}"></a>`;
-                outputHtml += `<a href="${dealUrl}" target="_blank" class="button button-small">${providerName} - הזמן עכשיו</a>`;
-            } else if (dealUrl) { // Only Link available
-                outputHtml += `<a href="${dealUrl}" target="_blank" class="button">${providerName} - לפרטים והזמנה</a>`;
-            } else if (imageUrl) { // Only Image available (less common for direct booking, but possible)
-                 outputHtml += `<img src="${imageUrl}" alt="${providerName} - ${dealName}" style="margin-bottom: 5px;">`;
-            } else if (data.combinedHtml) { // Fallback to raw combined HTML if no clear link/image extracted
-                 outputHtml += `<div class="html-embed-container">${data.combinedHtml}</div>`;
+            // Treat "אין" as empty for all fields before processing
+            const cleanData = {
+                dealUrl: (typeof data.dealUrl === 'string' && data.dealUrl.trim().toLowerCase() === 'אין') ? '' : data.dealUrl,
+                imageUrl: (typeof data.imageUrl === 'string' && data.imageUrl.trim().toLowerCase() === 'אין') ? '' : data.imageUrl,
+                combinedHtml: (typeof data.combinedHtml === 'string' && data.combinedHtml.trim().toLowerCase() === 'אין') ? '' : data.combinedHtml,
+                extraHtml: (typeof data.extraHtml === 'string' && data.extraHtml.trim().toLowerCase() === 'אין') ? '' : data.extraHtml,
+            };
+            
+            const combinedExtracted = extractAffiliateDataFromHtml(cleanData.combinedHtml);
+            
+            const effectiveDealUrl = cleanData.dealUrl || combinedExtracted.linkUrl;
+            const effectiveImageUrl = cleanData.imageUrl || combinedExtracted.imageUrl;
+
+            if (effectiveDealUrl && effectiveImageUrl) {
+                outputHtml += `<a href="${effectiveDealUrl}" target="_blank" title="הזמן דרך ${providerName}"><img src="${effectiveImageUrl}" alt="${providerName} - ${dealName}"></a>`;
+                outputHtml += `<a href="${effectiveDealUrl}" target="_blank" class="button button-small">${providerName} - הזמן עכשיו</a>`;
+            } else if (effectiveDealUrl) {
+                outputHtml += `<a href="${effectiveDealUrl}" target="_blank" class="button">${providerName} - לפרטים והזמנה</a>`;
+            } else if (effectiveImageUrl) {
+                 // Only image, no link from image structure itself or direct dealUrl
+                outputHtml += `<img src="${effectiveImageUrl}" alt="${providerName} - ${dealName}" style="margin-bottom: 5px;">`;
+            } else if (cleanData.combinedHtml && cleanData.combinedHtml.trim() !== "") {
+                // Fallback to raw combined HTML only if it's not "אין" and genuinely has content
+                // that wasn't parsed into a link/image by extractAffiliateDataFromHtml
+                outputHtml += `<div class="html-embed-container">${cleanData.combinedHtml}</div>`;
             }
 
-            if (data.extraHtml) {
-                outputHtml += `<div class="html-embed-container" style="margin-top:10px;">${data.extraHtml}</div>`;
+            if (cleanData.extraHtml && cleanData.extraHtml.trim() !== "") {
+                outputHtml += `<div class="html-embed-container" style="margin-top:10px;">${cleanData.extraHtml}</div>`;
             }
             
-            return outputHtml 
+            return outputHtml.trim() !== ''
                 ? `<div><h6>${providerName}:</h6><div class="affiliate-output">${outputHtml}</div></div>` 
                 : '';
         }
 
-
-        // --- Main Fetch and Render Function ---
         async function fetchDealDetails() {
             const params = new URLSearchParams(location.search);
             const dealId = params.get('dealId');
-
             if (!dealId) {
                 dealTitleEl.textContent = 'דיל לא נמצא או שלא סופק מזהה דיל.';
                 return;
             }
-
             try {
                 const dealDocRef = doc(db, 'deals', dealId);
                 const dealSnap = await getDoc(dealDocRef);
-
                 if (!dealSnap.exists()) {
                     dealTitleEl.textContent = 'דיל לא נמצא.';
                     return;
                 }
-
                 const d = dealSnap.data();
                 document.title = `${d.name || 'פרטי הדיל'} - נופש לי ולך`;
                 dealTitleEl.textContent = d.name || 'ללא כותרת';
                 dealImageEl.src = (d.imageUrl && d.imageUrl.trim() !== "") ? d.imageUrl : 'https://via.placeholder.com/1200x500?text=אין+תמונה+זמינה';
                 dealImageEl.alt = d.name || 'תמונת הדיל';
-                
                 dealDescriptionTextEl.innerHTML = d.description?.replace(/\n/g, '<br>') || 'אין תיאור מפורט זמין.';
                 priceValueEl.textContent = d.price_text || 'פנה לקבלת מחיר';
                 typeValueEl.textContent = getDealTypeDisplay(d.dealType);
 
-                // Exact Dates
                 if (d.exactDatesRange?.start && d.exactDatesRange?.end) {
                     exactDatesValueEl.textContent = formatDateRange(d.exactDatesRange.start, d.exactDatesRange.end);
                     exactDatesMetaItem.classList.remove('hidden-section');
-                } else {
-                    exactDatesMetaItem.classList.add('hidden-section');
-                }
+                } else { exactDatesMetaItem.classList.add('hidden-section'); }
 
-                // Destination
                 if (d.destinationCity && d.destinationCountry) {
                     destinationValueEl.textContent = `${d.destinationCity}, ${d.destinationCountry}`;
                     destinationMetaItem.classList.remove('hidden-section');
-                } else {
-                    destinationMetaItem.classList.add('hidden-section');
-                }
+                } else { destinationMetaItem.classList.add('hidden-section'); }
 
-                // Trip Types
                 if (d.tripTypes?.length) {
                     tripTypesListEl.innerHTML = d.tripTypes.map(type => `<li>${type}</li>`).join('');
                     tripTypesSection.classList.remove('hidden-section');
-                } else {
-                    tripTypesSection.classList.add('hidden-section');
-                }
+                } else { tripTypesSection.classList.add('hidden-section'); }
                 
-                // Availability Months
                 if (d.availabilityMonths?.length) {
                     availabilityMonthsListEl.innerHTML = d.availabilityMonths.map(m => `<li>${formatMonthYear(m)}</li>`).join('');
                     availabilityMonthsSection.classList.remove('hidden-section');
-                } else {
-                    availabilityMonthsSection.classList.add('hidden-section');
-                }
+                } else { availabilityMonthsSection.classList.add('hidden-section'); }
 
-                // Extra Addons
                 if (d.extraAddons?.length && d.extraAddons.join("").trim() !== "") {
                     extraAddonsListEl.innerHTML = d.extraAddons.map(addon => `<li>${addon}</li>`).join('');
                     extraAddonsSection.classList.remove('hidden-section');
-                } else {
-                    extraAddonsSection.classList.add('hidden-section');
-                }
+                } else { extraAddonsSection.classList.add('hidden-section'); }
                 
-                // --- Hide all specific info sections initially ---
                 flightInfoSection.classList.add('hidden-section');
                 singleHotelInfoSection.classList.add('hidden-section');
                 packageHotelsSection.classList.add('hidden-section');
-                bookingInstructionsContainerEl.innerHTML = ''; // Clear previous instructions
-
+                bookingInstructionsContainerEl.innerHTML = '';
                 let whatsappMessageBase = `היי, הגעתי דרך האתר ובאתי בנוגע לדיל: ${encodeURIComponent(d.name || 'ללא שם')}.`;
                 let bookingHtml = '';
 
-                // --- Display based on dealType ---
                 if (d.dealType === 'flight') {
                     flightInfoSection.classList.remove('hidden-section');
-                    flightOriginDestinationTextEl.innerHTML = (d.flightOrigin && d.flightDestination) 
-                        ? `<strong>מקור:</strong> ${d.flightOrigin} &nbsp;&nbsp;&nbsp; <strong>יעד:</strong> ${d.flightDestination}` : '';
+                    flightOriginDestinationTextEl.innerHTML = (d.flightOrigin && d.flightDestination) ? `<strong>מקור:</strong> ${d.flightOrigin} &nbsp;&nbsp;&nbsp; <strong>יעד:</strong> ${d.flightDestination}` : '';
                     flightAirlineTextEl.innerHTML = d.airline ? `<strong>חברת תעופה:</strong> ${d.airline}` : '';
                     flightNotesTextEl.innerHTML = d.flightDetails?.notes ? `<strong>הערות נוספות:</strong><br>${d.flightDetails.notes.replace(/\n/g, '<br>')}` : '';
-                    
-                    bookingHtml = `
-                        <p>לפרטים נוספים והזמנת הטיסה, פנו אלינו בוואטסאפ:</p>
-                        <a href="https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${whatsappMessageBase}" target="_blank" class="button">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/2040px-WhatsApp.svg.png" alt="WhatsApp" style="width:20px; height:20px; vertical-align:middle; margin-left:8px;">
-                            שוחח איתנו בוואטסאפ
-                        </a>`;
-
+                    bookingHtml = `<p>לפרטים נוספים והזמנת הטיסה, פנו אלינו בוואטסאפ:</p><a href="https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${whatsappMessageBase}" target="_blank" class="button"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/2040px-WhatsApp.svg.png" alt="WhatsApp" style="width:20px; height:20px; vertical-align:middle; margin-left:8px;">שוחח איתנו בוואטסאפ</a>`;
                 } else if (d.dealType === 'hotel') {
                     singleHotelInfoSection.classList.remove('hidden-section');
                     singleHotelStarsEl.textContent = d.stars ? '⭐'.repeat(parseInt(d.stars)) : 'לא צוין';
-                    
                     let affiliateLinksHtml = '';
-                    const providers = ['booking', 'agoda', 'expedia']; // Define order
+                    const providers = ['booking', 'agoda', 'expedia'];
                     providers.forEach(providerKey => {
                         const providerNameMap = { booking: "Booking.com", agoda: "Agoda", expedia: "Expedia" };
                         affiliateLinksHtml += renderAffiliateLink(d.singleHotelAffiliateLinks?.[providerKey], providerNameMap[providerKey], d.name);
                     });
-                    
                     const primaryDirectLink = getPrimaryAffiliateLink(d.singleHotelAffiliateLinks);
                     if (primaryDirectLink) {
                         affiliateLinksHtml += `<p style="margin-top: 15px;">ניתן גם לסגור מלון זה (בהזמנה עצמאית) דרך <a href="${primaryDirectLink}" target="_blank" class="button button-outline button-small">קישור ישיר למלון</a>.</p>`;
                     }
-
-                    singleHotelAffiliateOutputEl.innerHTML = affiliateLinksHtml || '<p>לא נמצאו קישורי הזמנה זמינים.</p>';
-                    
-                    bookingHtml = `
-                        <p>להזמנה עצמאית, ניתן להשתמש בקישורים למעלה.</p>
-                        <p>לשירות אישי וסגירת המלון דרכנו בתשלום עמלה, פנו אלינו בוואטסאפ:</p>
-                        <a href="https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${whatsappMessageBase}" target="_blank" class="button">
-                           <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/2040px-WhatsApp.svg.png" alt="WhatsApp" style="width:20px; height:20px; vertical-align:middle; margin-left:8px;">
-                           שוחח איתנו בוואטסאפ
-                        </a>`;
-
+                    singleHotelAffiliateOutputEl.innerHTML = affiliateLinksHtml.trim() !== '' ? affiliateLinksHtml : '<p>לא נמצאו קישורי הזמנה זמינים.</p>';
+                    bookingHtml = `<p>להזמנה עצמאית, ניתן להשתמש בקישורים למעלה.</p><p>לשירות אישי וסגירת המלון דרכנו בתשלום עמלה, פנו אלינו בוואטסאפ:</p><a href="https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${whatsappMessageBase}" target="_blank" class="button"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/2040px-WhatsApp.svg.png" alt="WhatsApp" style="width:20px; height:20px; vertical-align:middle; margin-left:8px;">שוחח איתנו בוואטסאפ</a>`;
                 } else if (d.dealType === 'package') {
                     if (d.flightDetails) {
                         flightInfoSection.classList.remove('hidden-section');
-                        flightOriginDestinationTextEl.innerHTML = `<strong>טיסה:</strong>`; // General title
+                        flightOriginDestinationTextEl.innerHTML = `<strong>טיסה:</strong>`;
                         flightAirlineTextEl.innerHTML = (d.flightDetails.departureAirline || d.flightDetails.returnAirline) ? `<strong>חברות תעופה:</strong> ${[d.flightDetails.departureAirline, d.flightDetails.returnAirline].filter(Boolean).join(' / ')}` : '';
                         flightDepartureTextEl.innerHTML = d.flightDetails.departureTime ? `<strong>שעת המראה (הלוך):</strong> ${d.flightDetails.departureTime}` : '';
                         flightReturnTextEl.innerHTML = d.flightDetails.returnTime ? `<strong>שעת המראה (חזור):</strong> ${d.flightDetails.returnTime}` : '';
                         flightNotesTextEl.innerHTML = d.flightDetails.notes ? `<strong>הערות לטיסה:</strong><br>${d.flightDetails.notes.replace(/\n/g, '<br>')}` : '';
                     }
-
                     if (d.hotels?.length) {
                         packageHotelsListEl.innerHTML = d.hotels.map(hotel => {
                             let hotelAffiliateLinksHtml = '';
                             const providers = ['booking', 'agoda', 'expedia'];
-                             providers.forEach(providerKey => {
+                            providers.forEach(providerKey => {
                                 const providerNameMap = { booking: "Booking.com", agoda: "Agoda", expedia: "Expedia" };
                                 hotelAffiliateLinksHtml += renderAffiliateLink(hotel.affiliateLinks?.[providerKey], providerNameMap[providerKey], hotel.name);
                             });
-
                             const primaryHotelDirectLink = getPrimaryAffiliateLink(hotel.affiliateLinks);
                             if (primaryHotelDirectLink) {
                                 hotelAffiliateLinksHtml += `<p style="margin-top: 15px;">ניתן גם לסגור מלון זה בלבד (בהזמנה עצמאית) דרך <a href="${primaryHotelDirectLink}" target="_blank" class="button button-outline button-small">קישור ישיר למלון</a>.</p>`;
                             }
-                            
-                            return `
-                                <div class="hotel-item">
-                                    <h5>${hotel.name} (${hotel.stars ? '⭐'.repeat(parseInt(hotel.stars)) : 'לא צוינו כוכבים'})</h5>
-                                    ${hotelAffiliateLinksHtml || '<p>לא נמצאו קישורי הזמנה למלון זה.</p>'}
-                                </div>`;
+                            return `<div class="hotel-item"><h5>${hotel.name} (${hotel.stars ? '⭐'.repeat(parseInt(hotel.stars)) : 'לא צוינו כוכבים'})</h5>${hotelAffiliateLinksHtml.trim() !== '' ? hotelAffiliateLinksHtml : '<p>לא נמצאו קישורי הזמנה למלון זה.</p>'}</div>`;
                         }).join('');
                         packageHotelsSection.classList.remove('hidden-section');
                     }
-                     bookingHtml = `
-                        <p>לפרטים נוספים והזמנת החבילה, פנו אלינו בוואטסאפ:</p>
-                        <a href="https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${whatsappMessageBase}" target="_blank" class="button">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/2040px-WhatsApp.svg.png" alt="WhatsApp" style="width:20px; height:20px; vertical-align:middle; margin-left:8px;">
-                            שוחח איתנו בוואטסאפ
-                        </a>`;
+                    bookingHtml = `<p>לפרטים נוספים והזמנת החבילה, פנו אלינו בוואטסאפ:</p><a href="https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${whatsappMessageBase}" target="_blank" class="button"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/2040px-WhatsApp.svg.png" alt="WhatsApp" style="width:20px; height:20px; vertical-align:middle; margin-left:8px;">שוחח איתנו בוואטסאפ</a>`;
                 }
                 bookingInstructionsContainerEl.innerHTML = bookingHtml;
-
             } catch (error) {
                 console.error("Error fetching deal details:", error);
                 dealTitleEl.textContent = 'שגיאה בטעינת פרטי הדיל.';
                 dealImageEl.src = 'https://via.placeholder.com/1200x500?text=שגיאה+בטעינה';
             }
         }
-
         fetchDealDetails();
     </script>
 </body>
