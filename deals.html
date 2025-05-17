@@ -5,12 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>כל הדילים - נופש לי ולך</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* * רוב העיצוב מגיע מ-style.css החיצוני.
-         * ניתן להוסיף כאן רק סגנונות ספציפיים מאוד לדף זה אם יש צורך
-         * ולא מתאימים לקובץ הכללי. כרגע, נשאיר ריק.
-        */
-    </style>
 </head>
 <body>
     <header>
@@ -28,14 +22,9 @@
         </div>
     </header>
 
-    <section id="all-deals-page-content">
-        <div class="container">
-            <h2>כל הדילים שלנו</h2>
-            
-            <div id="top-filters-bar">
-                <h3>מצא את החופשה המושלמת עבורך</h3>
-                <div class="filters-grid-container">
-                    <div class="filter-field">
+    <section id="all-deals-page-content"> <div class="container">
+            <div id="top-filters-bar"> <h3>מצא את החופשה המושלמת עבורך</h3>
+                <div class="filters-grid-container"> <div class="filter-field">
                         <label for="filter-deal-type">מה מחפשים?</label>
                         <select id="filter-deal-type">
                             <option value="all">הכל</option>
@@ -80,7 +69,8 @@
                 </div>
             </div>
             
-            <div id="deals-list" class="deals-grid"> <p>טוען דילים...</p>
+            <h2 style="text-align: right; margin-bottom: 20px; margin-top: 40px;">תוצאות עבורך:</h2> <div id="deals-list" class="deals-grid">
+                <p>טוען דילים...</p>
             </div>
         </div>
     </section>
@@ -113,13 +103,13 @@
         function getNextMonthsAvailability(numberOfMonths = 60) {
             const months = [];
             const currentDate = new Date();
-            currentDate.setDate(1); // התחל מהראשון לחודש הנוכחי
+            currentDate.setDate(1); 
             let targetYear = currentDate.getFullYear();
             let targetMonth = currentDate.getMonth();
 
             for (let i = 0; i < numberOfMonths; i++) {
                 const date = new Date(targetYear, targetMonth + i, 1);
-                 if (date.getFullYear() > 2030 || (date.getFullYear() === 2030 && date.getMonth() > 0)) { // הגבלה עד ינואר 2030
+                 if (date.getFullYear() > 2030 || (date.getFullYear() === 2030 && date.getMonth() > 0)) { 
                     break;
                 }
                 const yearVal = date.getFullYear();
@@ -153,7 +143,7 @@
             if (!container || !displayElement) return;
             container.innerHTML = '';
             options.forEach(option => {
-                const checkboxId = `filter-deals-${groupName}-${option.value.replace(/[^a-zA-Z0-9א-ת\-_]/g, '-')}`; // ID תקין יותר
+                const checkboxId = `filter-deals-${groupName}-${option.value.replace(/[^a-zA-Z0-9א-ת\-_]/g, '-')}`;
                 const label = document.createElement('label');
                 label.htmlFor = checkboxId;
                 label.innerHTML = `<input type="checkbox" id="${checkboxId}" name="${groupName}" value="${option.value}"> ${option.label}`;
@@ -168,11 +158,11 @@
             const selectedCheckboxes = Array.from(optionsContainer.querySelectorAll('input[type="checkbox"]:checked'));
             const selectedLabels = selectedCheckboxes.map(cb => {
                                         const parentLabel = cb.closest('label');
-                                        return parentLabel ? parentLabel.textContent.trim().replace(cb.value, '').trim() : ''; // נסיר את הערך אם הוא חלק מהלייבל
+                                        return parentLabel ? cb.nextSibling.textContent.trim() : '';
                                     }).filter(text => text);
             
             if (selectedLabels.length > 0) {
-                if (selectedLabels.length === totalOptions && totalOptions > 2) { // אם כל האופציות נבחרו
+                if (selectedLabels.length === totalOptions && totalOptions > 2) {
                      displayElement.textContent = "כל האפשרויות";
                 } else if (selectedLabels.length > 2) {
                     displayElement.textContent = `${selectedLabels.slice(0, 2).join(', ')}, ועוד ${selectedLabels.length - 2}`;
@@ -191,7 +181,7 @@
 
             function closeOtherDropdowns(exceptThisOne) {
                 document.querySelectorAll('.custom-select-options.active').forEach(activeDropdown => {
-                    if (activeDropdown !== exceptThisOne && !exceptThisOne.contains(activeDropdown.parentElement)) { // Ensure not closing child dropdown
+                    if (activeDropdown !== exceptThisOne && !exceptThisOne.contains(activeDropdown.parentElement)) { 
                         activeDropdown.classList.remove('active');
                     }
                 });
@@ -208,7 +198,6 @@
                     optionsContainerElement.classList.toggle('active');
                 }
             });
-             // Prevent options click from closing parent dropdown immediately
             optionsContainerElement.addEventListener('click', (event) => {
                 event.stopPropagation();
             });
@@ -280,10 +269,11 @@
                                   selectedMonths.length > 0 || 
                                   selectedDurationRange !== "";
 
-            if (!isAnyFilterActive) {
+            if (!isAnyFilterActive && allDealsCache.length > 0) { // הצג הכל אם אין סינון ויש דילים במטמון
                  displayDeals(allDealsCache);
                  return;
             }
+            // אם אין דילים במטמון בכלל (קורה רק אם הטעינה הראשונית נכשלה), ההודעה המתאימה כבר מוצגת
 
             const filteredDeals = allDealsCache.filter(dealData => {
                 const deal = dealData.data;
@@ -309,7 +299,7 @@
                         const startDate = new Date(deal.exactDatesRange.start);
                         const endDate = new Date(deal.exactDatesRange.end);
                         if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime()) && endDate >= startDate) {
-                            const diffTime = Math.abs(endDate.getTime() - startDate.getTime()); // Use getTime() for reliable subtraction
+                            const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
                             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; 
                             const [minDaysStr, maxDaysStr] = selectedDurationRange.split('-');
                             const minDays = parseInt(minDaysStr, 10);
@@ -320,7 +310,7 @@
                         console.warn("Error parsing date for duration filter:", deal.name, e);
                         durationMatch = false; 
                     }
-                } else if (selectedDurationRange !== "") { // If duration filter is set, but deal has no dates
+                } else if (selectedDurationRange !== "") {
                     durationMatch = false;
                 }
                 
@@ -332,19 +322,12 @@
 
         function applyUrlParamsToFilters() {
             const urlParams = new URLSearchParams(window.location.search);
-            let filtersAppliedFromUrl = false;
             
             const dealTypeParam = urlParams.get('dealType');
-            if (dealTypeParam) {
-                filterDealTypeSelect.value = dealTypeParam;
-                filtersAppliedFromUrl = true;
-            }
+            if (dealTypeParam) filterDealTypeSelect.value = dealTypeParam;
 
             const durationParam = urlParams.get('duration');
-            if (durationParam) {
-                filterDurationSelect.value = durationParam;
-                filtersAppliedFromUrl = true;
-            }
+            if (durationParam) filterDurationSelect.value = durationParam;
 
             const tripTypesParam = urlParams.get('tripTypes');
             if (tripTypesParam) {
@@ -354,7 +337,6 @@
                     if (checkbox) checkbox.checked = true;
                 });
                 updateCustomDropdownDisplay(filterTripTypesContainer, tripTypesDisplayText, "בחר סוגי חופשה...", ALL_TRIP_TYPES_WITH_EMOJI.length);
-                filtersAppliedFromUrl = true;
             }
 
             const monthsParam = urlParams.get('months');
@@ -365,9 +347,7 @@
                     if (checkbox) checkbox.checked = true;
                 });
                 updateCustomDropdownDisplay(filterAvailabilityMonthsContainer, monthsDisplayText, "בחר חודשים...", AVAILABLE_MONTHS_OPTIONS.length);
-                filtersAppliedFromUrl = true;
             }
-            return filtersAppliedFromUrl;
         }
 
         applyFiltersBtn.addEventListener('click', applyAndDisplayFilters);
@@ -382,7 +362,6 @@
             filterAvailabilityMonthsContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
             updateCustomDropdownDisplay(filterAvailabilityMonthsContainer, monthsDisplayText, "בחר חודשים...", AVAILABLE_MONTHS_OPTIONS.length);
             
-            // מנקה את הפרמטרים מה-URL כדי שהאיפוס יהיה "נקי"
             if (window.history.replaceState) {
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
@@ -393,8 +372,8 @@
         async function initializeDealsPage() {
             const dealsLoadedSuccessfully = await fetchAllDealsOnce();
             if (dealsLoadedSuccessfully) {
-                applyUrlParamsToFilters(); // קודם קבע את ערכי המסננים מה-URL
-                applyAndDisplayFilters(); // ואז סנן והצג
+                applyUrlParamsToFilters();
+                applyAndDisplayFilters();
             }
         }
 
