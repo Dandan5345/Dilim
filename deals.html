@@ -6,15 +6,10 @@
     <title>כל הדילים - נופש לי ולך</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        #filters-section { background-color: #fff; padding: 25px; border-radius: 8px; margin-bottom: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
-        #filters-section h3 { margin-top: 0; color: var(--primary-color); text-align: center; margin-bottom: 20px; }
-        .filter-group { margin-bottom: 20px; }
-        .filter-group h4 { margin-bottom: 10px; color: var(--secondary-color); border-bottom: 1px solid var(--medium-gray); padding-bottom: 5px; }
-        .checkbox-options-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
-        .checkbox-options-grid label { font-weight: normal; display: flex; align-items: center; }
-        .checkbox-options-grid input[type="checkbox"] { margin-left: 8px; }
-        .filter-buttons { text-align: center; margin-top: 20px; }
-        .filter-buttons .button { margin: 0 10px; }
+        /* * רוב העיצוב מגיע מ-style.css החיצוני.
+         * ניתן להוסיף כאן רק סגנונות ספציפיים מאוד לדף זה אם יש צורך
+         * ולא מתאימים לקובץ הכללי. כרגע, נשאיר ריק.
+        */
     </style>
 </head>
 <body>
@@ -33,34 +28,65 @@
         </div>
     </header>
 
-    <section id="all-deals-page-content" class="container">
-        <h2>כל הדילים שלנו</h2>
-        
-        <div id="filters-section">
-            <h3>חיפוש וסינון דילים</h3>
-            <div class="filter-group">
-                <h4>סוגי חופשה (אפשר לבחור מספר אפשרויות):</h4>
-                <div id="filter-trip-types" class="checkbox-options-grid">
+    <section id="all-deals-page-content">
+        <div class="container">
+            <h2>כל הדילים שלנו</h2>
+            
+            <div id="top-filters-bar">
+                <h3>מצא את החופשה המושלמת עבורך</h3>
+                <div class="filters-grid-container">
+                    <div class="filter-field">
+                        <label for="filter-deal-type">מה מחפשים?</label>
+                        <select id="filter-deal-type">
+                            <option value="all">הכל</option>
+                            <option value="package">דיל משתלם (טיסה + מלון)</option>
+                            <option value="flight">טיסה בלבד</option>
+                            <option value="hotel">מלונות בלבד</option>
+                        </select>
                     </div>
-            </div>
-            <div class="filter-group">
-                <h4>חודשי זמינות (אפשר לבחור מספר אפשרויות):</h4>
-                <div id="filter-availability-months" class="checkbox-options-grid">
-                    </div>
-            </div>
-            <div class="filter-buttons">
-                <button id="apply-filters-btn" class="button">סנן דילים</button>
-                <button id="reset-filters-btn" class="button button-secondary">אפס מסננים</button>
-            </div>
-        </div>
 
-        <div id="deals-list">
-            <p>טוען דילים...</p>
+                    <div class="filter-field">
+                        <label>לאיזה חודשים?</label>
+                        <div class="custom-select-wrapper" id="months-select-wrapper-deals">
+                            <span class="custom-select-display" id="months-display-text-deals" tabindex="0">בחר חודשים...</span>
+                            <div class="custom-select-options" id="filter-availability-months-deals">
+                                </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-field">
+                        <label>איזה סוג חופשה?</label>
+                         <div class="custom-select-wrapper" id="trip-types-select-wrapper-deals">
+                            <span class="custom-select-display" id="trip-types-display-text-deals" tabindex="0">בחר סוגי חופשה...</span>
+                            <div class="custom-select-options" id="filter-trip-types-deals">
+                                </div>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-field">
+                        <label for="filter-duration">לכמה זמן?</label>
+                        <select id="filter-duration">
+                            <option value="">כל משך זמן</option>
+                            <option value="1-3">1-3 ימים</option>
+                            <option value="3-6">3-6 ימים</option>
+                            <option value="6-10">6-10 ימים</option>
+                            <option value="10-20">10-20 ימים</option>
+                        </select>
+                    </div>
+                    <div class="filter-buttons-inline">
+                        <button id="apply-filters-btn-deals" class="button">🔍 חפש</button>
+                        <button id="reset-filters-btn-deals" class="button button-secondary">🔄 אפס</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="deals-list" class="deals-grid"> <p>טוען דילים...</p>
+            </div>
         </div>
     </section>
 
     <footer>
-        <p>נופש לי ולך &copy; <span id="currentYear"></span></p>
+        <p>נופש לי ולך &copy; <span id="currentYear"></span> | כל הזכויות שמורות לדורון נקש</p>
     </footer>
 
     <script type="module">
@@ -69,65 +95,142 @@
 
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // --- קבועים ופונקציות עזר (זהים ל-index.html) ---
-        const ALL_TRIP_TYPES = [
-            "בטן גב", "נופים וטבע", "עיר אירופאית", "ארצות הברית", "מזרח רחוק", 
-            "שווקי קריסמס", "סקי", "טרקים", "קרוז", "ספארי", "ירח דבש", "משפחות"
+        const ALL_TRIP_TYPES_WITH_EMOJI = [
+            { value: "בטן גב", label: "🏖️ בטן גב" },
+            { value: "נופים וטבע", label: "🏞️ נופים וטבע" },
+            { value: "עיר אירופאית", label: "🏰 עיר אירופאית" },
+            { value: "ארצות הברית", label: "🗽 ארצות הברית" },
+            { value: "מזרח רחוק", label: "🏯 מזרח רחוק" },
+            { value: "שווקי קריסמס", label: "🎄 שווקי קריסמס" },
+            { value: "סקי", label: "⛷️ סקי" },
+            { value: "טרקים", label: "🧗 טרקים" },
+            { value: "קרוז", label: "🚢 קרוז" },
+            { value: "ספארי", label: "🦓 ספארי" },
+            { value: "ירח דבש", label: "🥂 ירח דבש" },
+            { value: "משפחות", label: "👨‍👩‍👧‍👦 משפחות" }
         ];
 
-        function getNextMonthsAvailability(numberOfMonths = 12) {
+        function getNextMonthsAvailability(numberOfMonths = 60) {
             const months = [];
-            const currentDate = new Date(); // שישי, 16 במאי 2025
+            const currentDate = new Date();
+            currentDate.setDate(1); // התחל מהראשון לחודש הנוכחי
+            let targetYear = currentDate.getFullYear();
+            let targetMonth = currentDate.getMonth();
+
             for (let i = 0; i < numberOfMonths; i++) {
-                const date = new Date(currentDate.getFullYear(), currentDate.getMonth() + i, 1);
-                const year = date.getFullYear();
-                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const date = new Date(targetYear, targetMonth + i, 1);
+                 if (date.getFullYear() > 2030 || (date.getFullYear() === 2030 && date.getMonth() > 0)) { // הגבלה עד ינואר 2030
+                    break;
+                }
+                const yearVal = date.getFullYear();
+                const monthVal = (date.getMonth() + 1).toString().padStart(2, '0');
                 const monthName = date.toLocaleString('he-IL', { month: 'long', year: 'numeric' });
-                months.push({ value: `${year}-${month}`, label: `${monthName}` });
+                months.push({ value: `${yearVal}-${monthVal}`, label: `${monthName}` });
             }
             return months;
         }
-        const AVAILABLE_MONTHS_OPTIONS = getNextMonthsAvailability(24);
+        const AVAILABLE_MONTHS_OPTIONS = getNextMonthsAvailability();
         
-        // --- איתחול אלמנטים ---
         const dealsListContainer = document.getElementById('deals-list');
-        // אין צורך ב-dealsSectionTitle כאן כי הכותרת "כל הדילים שלנו" קבועה
         
-        const filterTripTypesContainer = document.getElementById('filter-trip-types');
-        const filterAvailabilityMonthsContainer = document.getElementById('filter-availability-months');
-        const applyFiltersBtn = document.getElementById('apply-filters-btn');
-        const resetFiltersBtn = document.getElementById('reset-filters-btn');
+        const filterDealTypeSelect = document.getElementById('filter-deal-type');
+        const filterDurationSelect = document.getElementById('filter-duration');
+        
+        const monthsSelectWrapper = document.getElementById('months-select-wrapper-deals');
+        const monthsDisplayText = document.getElementById('months-display-text-deals');
+        const filterAvailabilityMonthsContainer = document.getElementById('filter-availability-months-deals');
+        
+        const tripTypesSelectWrapper = document.getElementById('trip-types-select-wrapper-deals');
+        const tripTypesDisplayText = document.getElementById('trip-types-display-text-deals');
+        const filterTripTypesContainer = document.getElementById('filter-trip-types-deals');
 
-        let allDealsCache = []; // מטמון לכל הדילים
+        const applyFiltersBtn = document.getElementById('apply-filters-btn-deals');
+        const resetFiltersBtn = document.getElementById('reset-filters-btn-deals');
 
-        // פונקציה לאכלוס Checkboxes למסננים (זהה ל-index.html)
-        function populateFilterCheckboxes(container, options, groupName) {
+        let allDealsCache = [];
+
+        function populateCustomDropdownCheckboxes(container, options, groupName, displayElement, defaultText) {
+            if (!container || !displayElement) return;
             container.innerHTML = '';
             options.forEach(option => {
-                const item = typeof option === 'string' ? { value: option, label: option } : option;
-                const checkboxId = `filter-${groupName}-${item.value.replace(/\s+/g, '-')}`; // הוספתי filter- לתחילת ה-ID כדי למנוע התנגשות עם דף הניהול אם ישתמשו באותם ID בטעות
-                const div = document.createElement('div');
-                div.innerHTML = `
-                    <label for="${checkboxId}">
-                        <input type="checkbox" id="${checkboxId}" name="${groupName}" value="${item.value}">
-                        ${item.label}
-                    </label>
-                `;
-                container.appendChild(div);
+                const checkboxId = `filter-deals-${groupName}-${option.value.replace(/[^a-zA-Z0-9א-ת\-_]/g, '-')}`; // ID תקין יותר
+                const label = document.createElement('label');
+                label.htmlFor = checkboxId;
+                label.innerHTML = `<input type="checkbox" id="${checkboxId}" name="${groupName}" value="${option.value}"> ${option.label}`;
+                container.appendChild(label);
             });
+
+            container.addEventListener('change', () => updateCustomDropdownDisplay(container, displayElement, defaultText, options.length));
+        }
+
+        function updateCustomDropdownDisplay(optionsContainer, displayElement, defaultText, totalOptions) {
+            if (!optionsContainer || !displayElement) return;
+            const selectedCheckboxes = Array.from(optionsContainer.querySelectorAll('input[type="checkbox"]:checked'));
+            const selectedLabels = selectedCheckboxes.map(cb => {
+                                        const parentLabel = cb.closest('label');
+                                        return parentLabel ? parentLabel.textContent.trim().replace(cb.value, '').trim() : ''; // נסיר את הערך אם הוא חלק מהלייבל
+                                    }).filter(text => text);
+            
+            if (selectedLabels.length > 0) {
+                if (selectedLabels.length === totalOptions && totalOptions > 2) { // אם כל האופציות נבחרו
+                     displayElement.textContent = "כל האפשרויות";
+                } else if (selectedLabels.length > 2) {
+                    displayElement.textContent = `${selectedLabels.slice(0, 2).join(', ')}, ועוד ${selectedLabels.length - 2}`;
+                } else {
+                    displayElement.textContent = selectedLabels.join(', ');
+                }
+            } else {
+                displayElement.textContent = defaultText;
+            }
         }
         
-        // אכלוס מסננים
-        populateFilterCheckboxes(filterTripTypesContainer, ALL_TRIP_TYPES, 'tripType');
-        populateFilterCheckboxes(filterAvailabilityMonthsContainer, AVAILABLE_MONTHS_OPTIONS, 'availabilityMonth');
+        function setupCustomDropdown(wrapperElement, optionsContainerElement) {
+            if (!wrapperElement || !optionsContainerElement) return;
+            const displayElement = wrapperElement.querySelector('.custom-select-display');
+            if(!displayElement) return;
 
-        // פונקציה להצגת דילים (זהה ל-index.html)
+            function closeOtherDropdowns(exceptThisOne) {
+                document.querySelectorAll('.custom-select-options.active').forEach(activeDropdown => {
+                    if (activeDropdown !== exceptThisOne && !exceptThisOne.contains(activeDropdown.parentElement)) { // Ensure not closing child dropdown
+                        activeDropdown.classList.remove('active');
+                    }
+                });
+            }
+            displayElement.addEventListener('click', (event) => {
+                event.stopPropagation();
+                closeOtherDropdowns(optionsContainerElement);
+                optionsContainerElement.classList.toggle('active');
+            });
+            displayElement.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault(); event.stopPropagation();
+                    closeOtherDropdowns(optionsContainerElement);
+                    optionsContainerElement.classList.toggle('active');
+                }
+            });
+             // Prevent options click from closing parent dropdown immediately
+            optionsContainerElement.addEventListener('click', (event) => {
+                event.stopPropagation();
+            });
+            document.addEventListener('click', (event) => {
+                if (optionsContainerElement.classList.contains('active') && !wrapperElement.contains(event.target)) {
+                    optionsContainerElement.classList.remove('active');
+                }
+            });
+        }
+
+        populateCustomDropdownCheckboxes(filterAvailabilityMonthsContainer, AVAILABLE_MONTHS_OPTIONS, 'availabilityMonthDeals', monthsDisplayText, "בחר חודשים...");
+        setupCustomDropdown(monthsSelectWrapper, filterAvailabilityMonthsContainer);
+
+        populateCustomDropdownCheckboxes(filterTripTypesContainer, ALL_TRIP_TYPES_WITH_EMOJI, 'tripTypeDeals', tripTypesDisplayText, "בחר סוגי חופשה...");
+        setupCustomDropdown(tripTypesSelectWrapper, filterTripTypesContainer);
+
         function displayDeals(dealsToDisplay) {
             if (!dealsListContainer) return;
-            dealsListContainer.innerHTML = ''; 
+            dealsListContainer.innerHTML = '';
 
             if (dealsToDisplay.length === 0) {
-                dealsListContainer.innerHTML = '<p>לא נמצאו דילים העונים לקריטריונים שנבחרו.</p>';
+                dealsListContainer.innerHTML = '<div style="text-align:center; font-size:1.3em; color:var(--secondary-color); padding: 20px; background-color: #fff; border-radius:8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"><p>לא נמצאו דילים העונים לקריטריונים שנבחרו. 😟</p><p>נסו להרחיב את החיפוש או <a href="index.html#about-contact-section" style="color:var(--accent-color); font-weight:bold;">פנו אלינו</a> לסיוע אישי!</p></div>';
                 return;
             }
 
@@ -137,76 +240,165 @@
                 const dealElement = document.createElement('div');
                 dealElement.className = 'deal-item';
                 dealElement.innerHTML = `
-                    <img src="${deal.imageUrl || 'https://via.placeholder.com/300x200?text=תמונה+חסרה'}" alt="${deal.name}">
+                    <img src="${deal.imageUrl || 'https://via.placeholder.com/350x230?text=תמונה+לא+זמינה'}" alt="${deal.name || 'דיל'}">
                     <div class="deal-item-content">
-                        <h3>${deal.name}</h3>
-                        <p class="price">${deal.price_text}</p>
-                        <p>${deal.description.substring(0, 120)}...</p>
-                        <a href="deal-details.html?dealId=${dealId}" class="button">פרטים והזמנה</a>
+                        <h3>${deal.name || 'דיל מיוחד'}</h3>
+                        <p class="price">${deal.price_text || 'פנה למחיר'}</p>
+                        <p>${deal.description ? deal.description.substring(0, 100) + (deal.description.length > 100 ? '...' : '') : 'פרטים נוספים זמינים בפנייה.'}</p>
+                        <a href="deal-details.html?dealId=${dealId}" class="button">פרטים נוספים והזמנה</a>
                     </div>
                 `;
                 dealsListContainer.appendChild(dealElement);
             });
         }
-
-        // טעינת כל הדילים (ברירת מחדל)
-        async function fetchAndDisplayAllDeals() {
-            dealsListContainer.innerHTML = '<p>טוען את כל הדילים...</p>';
-            try {
-                if (allDealsCache.length === 0) { // טען מהרשת רק אם המטמון ריק
+        
+        async function fetchAllDealsOnce() {
+            if (allDealsCache.length === 0) {
+                dealsListContainer.innerHTML = '<p style="text-align:center; font-size:1.2em; padding: 20px;">טוען דילים, אנא המתן...</p>';
+                try {
                     const dealsRef = collection(db, 'deals');
                     const q = query(dealsRef, orderBy('createdAt', 'desc'));
                     const querySnapshot = await getDocs(q);
                     allDealsCache = querySnapshot.docs.map(doc => ({ id: doc.id, data: doc.data() }));
+                } catch (error) {
+                    console.error("Error fetching all deals: ", error);
+                    dealsListContainer.innerHTML = '<p style="text-align:center; color:red; padding:20px;">שגיאה בטעינת הדילים. אנא נסה לרענן את הדף או פנה לתמיכה.</p>';
+                    return false;
                 }
-                displayDeals(allDealsCache); // הצג את כל הדילים שבמטמון
-
-            } catch (error) {
-                console.error("Error fetching all deals: ", error);
-                dealsListContainer.innerHTML = '<p>שגיאה בטעינת הדילים. אנא נסה לרענן את הדף.</p>';
             }
+            return true;
         }
         
-        // פונקציית סינון (זהה ל-index.html, רק שבאיפוס נטען את כל הדילים)
-        function filterDeals() {
-            const selectedTripTypes = Array.from(filterTripTypesContainer.querySelectorAll('input[name="tripType"]:checked')).map(cb => cb.value);
-            const selectedMonths = Array.from(filterAvailabilityMonthsContainer.querySelectorAll('input[name="availabilityMonth"]:checked')).map(cb => cb.value);
+        function applyAndDisplayFilters() {
+            const selectedDealType = filterDealTypeSelect.value;
+            const selectedDurationRange = filterDurationSelect.value;
+            const selectedTripTypes = Array.from(filterTripTypesContainer.querySelectorAll('input[name="tripTypeDeals"]:checked')).map(cb => cb.value);
+            const selectedMonths = Array.from(filterAvailabilityMonthsContainer.querySelectorAll('input[name="availabilityMonthDeals"]:checked')).map(cb => cb.value);
 
-            if (selectedTripTypes.length === 0 && selectedMonths.length === 0) {
-                displayDeals(allDealsCache); // אם לא נבחרו מסננים, הצג את כל הדילים
-                return;
+            let isAnyFilterActive = selectedDealType !== 'all' || 
+                                  selectedTripTypes.length > 0 || 
+                                  selectedMonths.length > 0 || 
+                                  selectedDurationRange !== "";
+
+            if (!isAnyFilterActive) {
+                 displayDeals(allDealsCache);
+                 return;
             }
 
             const filteredDeals = allDealsCache.filter(dealData => {
                 const deal = dealData.data;
-                let typeMatch = true;
+                let dealTypeMatch = true;
+                let tripTypeMatch = true;
                 let monthMatch = true;
+                let durationMatch = true;
+
+                if (selectedDealType !== 'all') {
+                    dealTypeMatch = deal.dealType === selectedDealType;
+                }
 
                 if (selectedTripTypes.length > 0) {
-                    typeMatch = deal.tripTypes && deal.tripTypes.some(tripType => selectedTripTypes.includes(tripType));
+                    tripTypeMatch = deal.tripTypes && Array.isArray(deal.tripTypes) && deal.tripTypes.some(tripType => selectedTripTypes.includes(tripType));
                 }
 
                 if (selectedMonths.length > 0) {
-                    monthMatch = deal.availabilityMonths && deal.availabilityMonths.some(availMonth => selectedMonths.includes(availMonth));
+                    monthMatch = deal.availabilityMonths && Array.isArray(deal.availabilityMonths) && deal.availabilityMonths.some(availMonth => selectedMonths.includes(availMonth));
                 }
                 
-                return typeMatch && monthMatch;
+                if (selectedDurationRange !== "" && deal.exactDatesRange?.start && deal.exactDatesRange?.end) {
+                    try {
+                        const startDate = new Date(deal.exactDatesRange.start);
+                        const endDate = new Date(deal.exactDatesRange.end);
+                        if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime()) && endDate >= startDate) {
+                            const diffTime = Math.abs(endDate.getTime() - startDate.getTime()); // Use getTime() for reliable subtraction
+                            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; 
+                            const [minDaysStr, maxDaysStr] = selectedDurationRange.split('-');
+                            const minDays = parseInt(minDaysStr, 10);
+                            const maxDays = parseInt(maxDaysStr, 10);
+                            durationMatch = diffDays >= minDays && diffDays <= maxDays;
+                        } else { durationMatch = false; }
+                    } catch (e) { 
+                        console.warn("Error parsing date for duration filter:", deal.name, e);
+                        durationMatch = false; 
+                    }
+                } else if (selectedDurationRange !== "") { // If duration filter is set, but deal has no dates
+                    durationMatch = false;
+                }
+                
+                return dealTypeMatch && tripTypeMatch && monthMatch && durationMatch;
             });
 
             displayDeals(filteredDeals);
         }
 
-        // Event Listeners
-        applyFiltersBtn.addEventListener('click', filterDeals);
+        function applyUrlParamsToFilters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            let filtersAppliedFromUrl = false;
+            
+            const dealTypeParam = urlParams.get('dealType');
+            if (dealTypeParam) {
+                filterDealTypeSelect.value = dealTypeParam;
+                filtersAppliedFromUrl = true;
+            }
+
+            const durationParam = urlParams.get('duration');
+            if (durationParam) {
+                filterDurationSelect.value = durationParam;
+                filtersAppliedFromUrl = true;
+            }
+
+            const tripTypesParam = urlParams.get('tripTypes');
+            if (tripTypesParam) {
+                const types = tripTypesParam.split(',');
+                types.forEach(type => {
+                    const checkbox = filterTripTypesContainer.querySelector(`input[value="${type}"]`);
+                    if (checkbox) checkbox.checked = true;
+                });
+                updateCustomDropdownDisplay(filterTripTypesContainer, tripTypesDisplayText, "בחר סוגי חופשה...", ALL_TRIP_TYPES_WITH_EMOJI.length);
+                filtersAppliedFromUrl = true;
+            }
+
+            const monthsParam = urlParams.get('months');
+            if (monthsParam) {
+                const months = monthsParam.split(',');
+                months.forEach(month => {
+                    const checkbox = filterAvailabilityMonthsContainer.querySelector(`input[value="${month}"]`);
+                    if (checkbox) checkbox.checked = true;
+                });
+                updateCustomDropdownDisplay(filterAvailabilityMonthsContainer, monthsDisplayText, "בחר חודשים...", AVAILABLE_MONTHS_OPTIONS.length);
+                filtersAppliedFromUrl = true;
+            }
+            return filtersAppliedFromUrl;
+        }
+
+        applyFiltersBtn.addEventListener('click', applyAndDisplayFilters);
         
         resetFiltersBtn.addEventListener('click', () => {
+            filterDealTypeSelect.value = 'all';
+            filterDurationSelect.value = '';
+            
             filterTripTypesContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+            updateCustomDropdownDisplay(filterTripTypesContainer, tripTypesDisplayText, "בחר סוגי חופשה...", ALL_TRIP_TYPES_WITH_EMOJI.length);
+            
             filterAvailabilityMonthsContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
-            displayDeals(allDealsCache); // חזור לתצוגת כל הדילים
+            updateCustomDropdownDisplay(filterAvailabilityMonthsContainer, monthsDisplayText, "בחר חודשים...", AVAILABLE_MONTHS_OPTIONS.length);
+            
+            // מנקה את הפרמטרים מה-URL כדי שהאיפוס יהיה "נקי"
+            if (window.history.replaceState) {
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+
+            displayDeals(allDealsCache);
         });
 
-        // טעינה ראשונית
-        fetchAndDisplayAllDeals();
+        async function initializeDealsPage() {
+            const dealsLoadedSuccessfully = await fetchAllDealsOnce();
+            if (dealsLoadedSuccessfully) {
+                applyUrlParamsToFilters(); // קודם קבע את ערכי המסננים מה-URL
+                applyAndDisplayFilters(); // ואז סנן והצג
+            }
+        }
+
+        initializeDealsPage();
     </script>
 </body>
 </html>
