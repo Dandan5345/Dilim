@@ -115,7 +115,7 @@
         .modal-form input[type="text"],
         .modal-form input[type="date"],
         .modal-form input[type="time"],
-        .modal-form input[type="url"],
+        /* .modal-form input[type="url"], -- Removed this line as type="url" specific styling might not be needed or handled by text */
         .modal-form textarea,
         .modal-form select {
             width: 100%; padding: 10px 12px; border: 1px solid #ced4da; border-radius: 5px;
@@ -239,7 +239,7 @@
                         <button type="button" id="add-package-hotel-btn" class="button button-secondary" style="margin-top:10px; width: auto; padding: 10px 20px; font-size: 1em;">+ הוסף מלון לחבילה</button>
                         <hr>
                         <div class="form-group"><label for="package-extra-addons">הוספת נושא נוסף (למשל: כרטיס למשחק, הופעה):</label><input type="text" id="package-extra-addons" placeholder="הפרד פריטים בפסיק"></div>
-                        <div class="form-group"><label for="package-image-url">קישור לתמונה ראשית לדיל (אופציונלי אם יש תמונה ממלון):</label><input type="url" id="package-image-url" placeholder="https://example.com/image.jpg"></div>
+                        <div class="form-group"><label for="package-image-url">קישור לתמונה ראשית לדיל (אופציונלי אם יש תמונה ממלון):</label><input type="text" id="package-image-url" placeholder="https://example.com/image.jpg"></div>
                         <div class="form-group">
                             <h4>בחר סוגי טיול (אפשר לבחור מספר אפשרויות):</h4>
                             <div id="package-trip-types-checkboxes" class="trip-types-container"></div>
@@ -262,7 +262,7 @@
                         <div class="form-group"><label for="flight-end-date">תאריך חזרה:</label><input type="date" id="flight-end-date" required></div>
                         <div class="form-group"><label for="flight-airline">חברת תעופה:</label><input type="text" id="flight-airline" required></div>
                         <div class="form-group"><label for="flight-price-text">מחיר החל מ:</label><input type="text" id="flight-price-text" required></div>
-                        <div class="form-group"><label for="flight-image-url">קישור לתמונה (אופציונלי):</label><input type="url" id="flight-image-url" placeholder="https://..."></div>
+                        <div class="form-group"><label for="flight-image-url">קישור לתמונה (אופציונלי):</label><input type="text" id="flight-image-url" placeholder="https://..."></div>
                         <div class="form-group"><label for="flight-notes-standalone">פרטים נוספים (אופציונלי):</label><textarea id="flight-notes-standalone" rows="2"></textarea></div>
                         <button type="submit" id="flight-save-button" class="button">שמור טיסה</button>
                     </form>
@@ -285,24 +285,24 @@
                         <div class="form-group"><label for="hotel-price-text">מחיר החל מ:</label><input type="text" id="hotel-price-text" required></div>
                         <hr>
                         <h6>Booking.com:</h6>
-                        <div class="form-group"><label for="hotel-booking-dealurl">קישור לדיל (URL):</label><input type="url" id="hotel-booking-dealurl" placeholder="https://..."></div>
-                        <div class="form-group"><label for="hotel-booking-imageurl">קישור לתמונה (URL):</label><input type="url" id="hotel-booking-imageurl" placeholder="https://..."></div>
+                        <div class="form-group"><label for="hotel-booking-dealurl">קישור לדיל (URL):</label><input type="text" id="hotel-booking-dealurl" placeholder="https://..."></div>
+                        <div class="form-group"><label for="hotel-booking-imageurl">קישור לתמונה (URL):</label><input type="text" id="hotel-booking-imageurl" placeholder="https://..."></div>
                         <div class="form-group"><label for="hotel-booking-combinedhtml">קוד HTML (קישור + תמונה):</label><textarea id="hotel-booking-combinedhtml" rows="3" placeholder="הדבק קוד HTML..."></textarea></div>
                         <div class="form-group"><label for="hotel-booking-extrahtml">קוד HTML נוסף (למפה/באנר):</label><textarea id="hotel-booking-extrahtml" rows="3" placeholder="הדבק קוד HTML..."></textarea></div>
                         <hr class="dashed">
                         <h6>Agoda:</h6>
-                        <div class="form-group"><label for="hotel-agoda-dealurl">קישור לדיל (URL):</label><input type="url" id="hotel-agoda-dealurl" placeholder="https://..."></div>
-                        <div class="form-group"><label for="hotel-agoda-imageurl">קישור לתמונה (URL):</label><input type="url" id="hotel-agoda-imageurl" placeholder="https://..."></div>
+                        <div class="form-group"><label for="hotel-agoda-dealurl">קישור לדיל (URL):</label><input type="text" id="hotel-agoda-dealurl" placeholder="https://..."></div>
+                        <div class="form-group"><label for="hotel-agoda-imageurl">קישור לתמונה (URL):</label><input type="text" id="hotel-agoda-imageurl" placeholder="https://..."></div>
                         <div class="form-group"><label for="hotel-agoda-combinedhtml">קוד HTML (קישור + תמונה):</label><textarea id="hotel-agoda-combinedhtml" rows="3" placeholder="הדבק קוד HTML..."></textarea></div>
                         <div class="form-group"><label for="hotel-agoda-extrahtml">קוד HTML נוסף (למפה/באנר):</label><textarea id="hotel-agoda-extrahtml" rows="3" placeholder="הדבק קוד HTML..."></textarea></div>
                         <hr class="dashed">
                         <h6>Expedia:</h6>
-                        <div class="form-group"><label for="hotel-expedia-dealurl">קישור לדיל (URL):</label><input type="url" id="hotel-expedia-dealurl" placeholder="https://..."></div>
-                        <div class="form-group"><label for="hotel-expedia-imageurl">קישור לתמונה (URL):</label><input type="url" id="hotel-expedia-imageurl" placeholder="https://..."></div>
+                        <div class="form-group"><label for="hotel-expedia-dealurl">קישור לדיל (URL):</label><input type="text" id="hotel-expedia-dealurl" placeholder="https://..."></div>
+                        <div class="form-group"><label for="hotel-expedia-imageurl">קישור לתמונה (URL):</label><input type="text" id="hotel-expedia-imageurl" placeholder="https://..."></div>
                         <div class="form-group"><label for="hotel-expedia-combinedhtml">קוד HTML (קישור + תמונה):</label><textarea id="hotel-expedia-combinedhtml" rows="3" placeholder="הדבק קוד HTML..."></textarea></div>
                         <div class="form-group"><label for="hotel-expedia-extrahtml">קוד HTML נוסף (למפה/באנר):</label><textarea id="hotel-expedia-extrahtml" rows="3" placeholder="הדבק קוד HTML..."></textarea></div>
                         <hr>
-                        <div class="form-group"><label for="hotel-image-url">קישור לתמונה ראשית למלון (אופציונלי אם יש תמונה מקישור שותף):</label><input type="url" id="hotel-image-url" placeholder="https://example.com/image.jpg"></div>
+                        <div class="form-group"><label for="hotel-image-url">קישור לתמונה ראשית למלון (אופציונלי אם יש תמונה מקישור שותף):</label><input type="text" id="hotel-image-url" placeholder="https://example.com/image.jpg"></div>
                         <div class="form-group">
                             <h4>בחר סוגי טיול מתאימים:</h4>
                             <div id="hotel-trip-types-checkboxes" class="trip-types-container"></div>
