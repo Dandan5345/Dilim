@@ -8,12 +8,11 @@
     <style>
         /* Admin Page Specific Styles - Building upon style.css */
         body {
-            /* Uses --font-family from style.css */
-            background-color: #f4f7f9; /* Slightly different background for admin area */
+            background-color: #f4f7f9;
         }
 
-        #admin-section { /* Renamed from .container to avoid conflict if nesting */
-            max-width: 1300px; /* Wider container for admin */
+        #admin-section {
+            max-width: 1300px;
             margin: 30px auto;
             padding: 20px;
         }
@@ -36,7 +35,7 @@
         }
         #admin-login .form-group {
             margin-bottom: 20px;
-            text-align: right; /* Align labels to the right */
+            text-align: right;
         }
         #admin-login .form-group label {
             font-weight: 500;
@@ -44,7 +43,7 @@
         }
         #admin-login input[type="email"],
         #admin-login input[type="password"] {
-            padding: 12px 15px; /* More padding */
+            padding: 12px 15px;
             font-size: 1.05em;
         }
         #admin-login #login-button {
@@ -57,7 +56,7 @@
 
         /* Dashboard Styling */
         #admin-dashboard {
-            background-color: transparent; /* Remove double background */
+            background-color: transparent;
             padding: 0;
             box-shadow: none;
         }
@@ -78,14 +77,11 @@
             font-size: 2.2em;
             font-weight: 600;
         }
-        .dashboard-header p {
-            margin:0;
-            font-size: 1.1em;
-        }
+        .dashboard-header p { margin:0; font-size: 1.1em; }
         .dashboard-header #logout-button {
             padding: 9px 18px;
             font-size: 0.95em;
-            margin-right: 0; /* RTL support */
+            margin-right: 0;
             margin-left: 10px;
         }
 
@@ -95,15 +91,15 @@
             gap: 25px;
             margin-bottom: 40px;
         }
-        .admin-actions-container .button { /* Style for action buttons */
+        .admin-actions-container .button {
             font-size: 1.2em;
-            padding: 20px 25px; /* Larger padding */
+            padding: 20px 25px;
             font-weight: 600;
-            border-radius: 8px; /* Softer corners */
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center; /* Ensure text center for single line */
+            text-align: center;
             line-height: 1.4;
             box-shadow: 0 3px 8px rgba(0,0,0,0.08);
         }
@@ -111,113 +107,158 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.12);
         }
 
-
-        /* Modal Styling (building on main style.css) */
-        .modal-content {
-            padding: 30px 35px; /* Increased padding */
-            border-radius: 10px; /* Consistent border radius */
-            max-width: 780px; /* Slightly wider modal for forms */
+        /* === CRITICAL MODAL STYLES === */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1050; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: hidden; /* Enable scroll if needed on modal-content */
+            background-color: rgba(0,0,0,0.65); /* Black w/ opacity */
+            align-items: center; /* Vertical center */
+            justify-content: center; /* Horizontal center */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.35s ease, visibility 0s linear 0.35s;
         }
+        .modal.active {
+            display: flex; /* IMPORTANT: Show and enable flex centering */
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.35s ease, visibility 0s linear 0s;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 30px 35px;
+            border-radius: 10px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            position: relative;
+            width: 92%;
+            max-width: 780px; /* Default max-width */
+            max-height: 90vh; /* Max height */
+            overflow-y: auto; /* Scroll content if too long */
+            transform: translateY(-20px) scale(0.98);
+            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .modal.active .modal-content {
+            transform: translateY(0) scale(1);
+        }
+        .close-modal-btn {
+            position: absolute;
+            top: 15px;
+            /* For RTL: close button on the left */
+            left: 20px; 
+            right: auto;
+            color: #888;
+            font-size: 32px; /* Larger close button */
+            font-weight: normal;
+            line-height: 1;
+            transition: color 0.2s ease, transform 0.2s ease;
+            padding: 5px;
+            cursor: pointer;
+            z-index: 10; /* Ensure it's above content */
+        }
+        .close-modal-btn:hover,
+        .close-modal-btn:focus {
+            color: var(--accent-color);
+            transform: rotate(90deg);
+            text-decoration: none;
+        }
+        /* === END CRITICAL MODAL STYLES === */
+
         .modal-content h3 { /* Modal Title */
-            font-size: 1.8em; /* Larger title */
-            font-weight: 600; /* Bolder */
+            font-size: 1.8em;
+            font-weight: 600;
             color: var(--primary-color);
             border-bottom: 2px solid var(--accent-color);
             padding-bottom: 15px;
             margin-bottom: 30px;
             text-align: center;
         }
-        .close-modal-btn {
-            /* Using style.css, ensure it's clearly visible */
-            top: 15px;
-            left: 20px; /* For RTL */
-            right: auto;
-        }
 
-        /* Form elements within Modals */
         .modal-form fieldset {
             border: 1px solid var(--medium-gray);
             padding: 15px 20px 20px 20px;
             border-radius: 8px;
             margin-bottom: 25px;
-            background-color: #fdfdfd; /* Subtle background for fieldset */
+            background-color: #fdfdfd;
         }
         .modal-form legend {
             font-size: 1.3em;
             font-weight: 600;
             color: var(--secondary-color);
             padding: 0 10px;
-            margin-right: 10px; /* RTL support */
+            margin-right: 10px;
         }
         .modal-form .form-group { margin-bottom: 18px; }
         .modal-form label {
-            font-weight: 500; /* Slightly less bold */
+            font-weight: 500;
             font-size: 1em;
-            color: #495057; /* Softer color */
+            color: #495057;
             margin-bottom: 6px;
         }
         .modal-form input[type="text"],
         .modal-form input[type="date"],
         .modal-form input[type="time"],
-        .modal-form input[type="url"], /* Will be type="text" */
         .modal-form textarea,
         .modal-form select {
-            padding: 10px 14px; /* Consistent padding */
+            padding: 10px 14px;
             border: 1px solid #ced4da;
-            border-radius: 6px; /* Softer corners */
+            border-radius: 6px;
             font-size: 1em;
-            background-color: #fff; /* Brighter background for inputs */
+            background-color: #fff;
         }
         .modal-form input:focus, .modal-form textarea:focus, .modal-form select:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(var(--rgb-primary-color, 0,119,204), 0.25); /* Use RGB version if defined */
+            /* Using a generic box-shadow for focus as var(--rgb-primary-color) might not be defined */
+            box-shadow: 0 0 0 0.2rem rgba(0, 119, 204, 0.25); 
         }
         .modal-form textarea { min-height: 80px; }
         .modal-form hr { border-top: 1px solid var(--medium-gray); margin: 30px 0; }
         
-        /* Specific for Trip Types Container */
         .trip-types-container {
             border: 1px solid #ced4da;
             padding: 15px;
             border-radius: 6px;
-            max-height: 180px; /* Increased height */
+            max-height: 180px;
             background-color: #fff;
-            columns: 2; /* Display checkboxes in two columns */
+            columns: 2;
             gap: 10px;
         }
-        .trip-types-container > div { /* Each checkbox + label wrapper */
-             display: block; /* Ensure it takes full width for column break */
+        .trip-types-container > div {
+             display: block;
              margin-bottom: 8px;
         }
         .trip-types-container label { font-weight: normal; color: #333; font-size: 0.95em; }
         .trip-types-container input[type="checkbox"] { margin-left: 10px; transform: scale(1.15); }
 
-        /* Hotel Entry in Package Form */
         .hotel-entry {
-            border: 1px solid #dbe4f0; /* Softer border */
-            padding: 20px 25px; /* More padding */
+            border: 1px solid #dbe4f0;
+            padding: 20px 25px;
             margin-bottom: 25px;
             border-radius: 8px;
-            background-color: #f9fcff; /* Very light blue tint */
+            background-color: #f9fcff;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
-        .hotel-entry h5 { /* Hotel X title */
+        .hotel-entry h5 {
             color: var(--secondary-color);
             font-size: 1.25em;
             margin-bottom: 15px;
             padding-bottom: 8px;
             border-bottom: 1px dotted var(--medium-gray);
         }
-        .hotel-entry h6 { /* Booking.com, Agoda titles */
+        .hotel-entry h6 {
             font-size: 1.05em;
-            color: var(--primary-color); /* Use primary color */
+            color: var(--primary-color);
             margin-top: 20px;
             margin-bottom: 10px;
             font-weight: 500;
         }
         .remove-hotel-btn {
-            /* Uses .button from style.css, can add specific class if needed */
-            background-color: #e74c3c; /* Red for delete */
+            background-color: #e74c3c;
             padding: 8px 15px;
             font-size: 0.9em;
             margin-top: 10px;
@@ -227,10 +268,9 @@
             width: auto;
             padding: 10px 20px;
             font-size: 1em;
-            margin-top: 0; /* Adjust if needed after fieldset */
+            margin-top: 0;
         }
 
-        /* Admin Deals List */
         #deals-list-admin {
             margin-top: 40px;
             background-color: #fff;
@@ -247,11 +287,11 @@
         }
         #admin-deals-output ul { list-style: none; padding: 0; }
         #admin-deals-output li {
-            background-color: #fdfdfd; /* Lighter item background */
-            padding: 18px 22px; /* More padding */
-            border: 1px solid var(--medium-gray); /* Clearer border */
+            background-color: #fdfdfd;
+            padding: 18px 22px;
+            border: 1px solid var(--medium-gray);
             border-radius: 8px;
-            margin-bottom: 15px; /* More spacing */
+            margin-bottom: 15px;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
@@ -262,31 +302,31 @@
             box-shadow: 0 5px 12px rgba(0,0,0,0.1);
             border-color: var(--primary-color);
         }
-        #admin-deals-output li div:first-child { /* Deal info */
+        #admin-deals-output li div:first-child {
             flex-grow: 1;
-            padding-left: 15px; /* RTL support for padding */
+            padding-left: 15px;
         }
         #admin-deals-output li strong { color: var(--secondary-color); font-size: 1.15em; font-weight: 600; }
         #admin-deals-output li small { color: #555; display: block; margin-top: 5px; font-size: 0.9em; line-height: 1.5; }
-        #admin-deals-output li div:last-child { /* Buttons container */
+        #admin-deals-output li div:last-child {
             display: flex;
-            gap: 10px; /* Spacing between buttons */
+            gap: 10px;
         }
         #admin-deals-output li .button,
-        #admin-deals-output li .edit-item, /* If .button is not on edit */
+        #admin-deals-output li .edit-item,
         #admin-deals-output li .delete-item {
-            margin: 0; /* Remove individual margins */
-            padding: 8px 16px; /* Consistent padding */
+            margin: 0;
+            padding: 8px 16px;
             font-size: 0.9em;
-            min-width: 80px; /* Minimum width for buttons */
+            min-width: 80px;
         }
-        #admin-deals-output li .delete-item { background-color: #dc3545; } /* Red for delete */
+        #admin-deals-output li .delete-item { background-color: #dc3545; }
         #admin-deals-output li .delete-item:hover { background-color: #c82333; }
 
-        /* AI Paste Modal */
+        #ai-paste-modal .modal-content { max-width: 650px; } /* Specific width for AI paste */
         #ai-paste-modal textarea {
-            min-height: 350px; /* Taller textarea */
-            font-size: 1em; /* Larger font for readability */
+            min-height: 350px;
+            font-size: 1em;
             padding: 15px;
             border: 1px solid #ced4da;
             border-radius: 6px;
@@ -298,7 +338,7 @@
             color: #6c757d;
         }
 
-        /* Choice Modal for Add Deal */
+        #add-deal-choice-modal .modal-content { max-width: 550px; } /* Specific width */
         .choice-modal-buttons {
             display: flex;
             justify-content: space-around;
@@ -307,14 +347,8 @@
         }
         .choice-modal-buttons .button {
             font-size: 1.15em;
-            padding: 15px 30px; /* Larger buttons */
-            flex-grow: 1; /* Make buttons take available space */
-        }
-
-        /* RTL adjustments for close button if not already handled by main CSS's direction */
-        .modal-content { position: relative; }
-        .close-modal-btn {
-             /* Using 'left' for RTL as it's usually opposite of LTR 'right' for close */
+            padding: 15px 30px;
+            flex-grow: 1;
         }
 
     </style>
@@ -349,7 +383,7 @@
             </div>
 
             <div id="add-deal-choice-modal" class="modal">
-                <div class="modal-content" style="max-width: 550px;">
+                <div class="modal-content">
                     <span class="close-modal-btn" data-modal-id="add-deal-choice-modal">&times;</span>
                     <h3>בחר שיטת הוספת דיל (חבילה)</h3>
                     <div class="choice-modal-buttons">
@@ -454,8 +488,8 @@
                             <div class="form-group"><label for="hotel-stars">כוכבים:</label><select id="hotel-stars"><option value="">לא צוין</option><option value="1">⭐</option><option value="2">⭐⭐</option><option value="3">⭐⭐⭐</option><option value="4">⭐⭐⭐⭐</option><option value="5">⭐⭐⭐⭐⭐</option></select></div>
                             <div class="form-group"><label for="hotel-country">מדינה:</label><input type="text" id="hotel-country" required></div>
                             <div class="form-group"><label for="hotel-city">עיר:</label><input type="text" id="hotel-city" required></div>
-                            <div class="form-group"><label for="hotel-start-date">תאריך זמינות החל מ (צ'ק-אין אפשרי):</label><input type="date" id="hotel-start-date" required></div>
-                            <div class="form-group"><label for="hotel-end-date">תאריך זמינות עד (צ'ק-אאוט אפשרי):</label><input type="date" id="hotel-end-date" required></div>
+                            <div class="form-group"><label for="hotel-start-date">תאריך זמינות החל מ:</label><input type="date" id="hotel-start-date" required></div>
+                            <div class="form-group"><label for="hotel-end-date">תאריך זמינות עד:</label><input type="date" id="hotel-end-date" required></div>
                             <div class="form-group"><label for="hotel-price-text">מחיר:</label><input type="text" id="hotel-price-text" required placeholder="לדוגמה: החל מ-150₪ ללילה"></div>
                              <div class="form-group"><label for="hotel-image-url">קישור לתמונה ראשית למלון:</label><input type="text" id="hotel-image-url" placeholder="https://example.com/image.jpg"></div>
                         </fieldset>
@@ -509,6 +543,5 @@
         document.getElementById('currentYear').textContent = new Date().getFullYear();
     </script>
     <script type="module" src="firebase-init.js"></script>
-    <script type="module" src="admin-script.js"></script>
-</body>
+    <script type="module" src="admin-script.js"></script> </body>
 </html>
