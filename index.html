@@ -8,229 +8,11 @@
     
     <title>נופש לי ולך - דילים שווים לחופשה המושלמת</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet"> <style>
-        /* שינויים וסגנונות חדשים לדף הבית */
-        body {
-            font-family: 'Assistant', 'Rubik', sans-serif; /* שימוש בפונט Assistant */
-        }
-
-        /* Header משופר */
-        header {
-            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
-        header .container { /* הוספתי כדי שהרוחב יהיה מוגבל גם ב-header */
-            width: 90%;
-            max-width: 1200px;
-            margin: auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        header #branding h1 {
-            font-size: 2.2em;
-            font-weight: 700;
-            letter-spacing: 1px;
-            margin: 0; /* איפוס margin של H1 */
-        }
-        header #branding a {
-            color: #fff;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-            text-decoration: none;
-        }
-        header nav ul {
-            padding: 0;
-            margin: 0;
-            list-style: none;
-        }
-        header nav li {
-            display: inline;
-            margin-left: 20px; /* קצת פחות רווח אם צריך */
-        }
-        header nav a {
-            color: #f0f0f0;
-            text-decoration: none;
-            font-size: 1.15em;
-            font-weight: 600;
-            padding: 8px 15px;
-            border-radius: 20px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        header nav a:hover, header nav a.current {
-            background-color: rgba(255,255,255,0.2);
-            color: #fff;
-        }
-
-        /* באנר חיפוש חדש */
-        #search-banner-container { /* ה-container של הבאנר */
-             margin-top: 30px; /* רווח מה-showcase */
-        }
-        #search-banner {
-            background-color: rgba(0, 0, 0, 0.03);
-            padding: 30px 25px; /* קצת יותר פדינג פנימי */
-            border-radius: 12px;
-            border: 1px solid var(--medium-gray);
-            margin-bottom: 40px;
-        }
-        #search-banner > h2 { /* החל על H2 ישירות בתוך search-banner */
-            text-align: center;
-            color: var(--primary-color);
-            margin-top: 0; /* הסרת margin עליון אם יש */
-            margin-bottom: 30px; /* רווח גדול יותר אחרי הכותרת */
-            font-size: 2.2em; /* כותרת גדולה יותר */
-            font-weight: 700;
-        }
-        .search-form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); /* מינימום רוחב גדול יותר */
-            gap: 25px; /* רווח גדול יותר */
-            align-items: end; 
-        }
-        .search-field {
-            display: flex;
-            flex-direction: column;
-        }
-        .search-field label {
-            font-weight: 600;
-            color: var(--secondary-color);
-            margin-bottom: 10px; /* רווח גדול יותר מה-input */
-            font-size: 1.1em; /* פונט גדול יותר ל-label */
-        }
-        .search-field select,
-        .custom-select-wrapper {
-            width: 100%;
-            padding: 14px; /* פדינג גדול יותר */
-            border: 1px solid #ccc;
-            border-radius: 8px; /* פינות מעוגלות יותר */
-            font-size: 1em;
-            font-family: 'Assistant', sans-serif;
-            background-color: #fff;
-            cursor: pointer;
-            box-sizing: border-box; /* חשוב כדי שה-padding לא ירחיב מעבר ל-100% */
-            -webkit-appearance: none; /* הסרת מראה ברירת מחדל של דפדפן */
-            -moz-appearance: none;
-            appearance: none;
-            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%230077CC%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E'); /* חץ מותאם */
-            background-repeat: no-repeat;
-            background-position: left 15px center; /* שינוי ל-left עבור RTL */
-            background-size: 12px;
-            padding-left: 40px; /* מקום לחץ משמאל */
-        }
-        .custom-select-wrapper { 
-            position: relative; 
-            padding: 0; /* האיפוס של הפדינג על ה-wrapper, הפדינג יהיה על ה-display */
-            background-image: none; /* הסרת תמונת רקע מה-wrapper */
-        } 
-        .custom-select-display { 
-            display: block; 
-            padding: 14px;
-            padding-left: 40px; /* פדינג שמאלי עבור החץ ב-display */
-            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%230077CC%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E');
-            background-repeat: no-repeat;
-            background-position: left 15px center;
-            background-size: 12px;
-        }
-        .custom-select-options {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-top: none;
-            border-radius: 0 0 8px 8px; /* התאמת רדיוס */
-            z-index: 100;
-            max-height: 220px; /* גובה מקסימלי גדול יותר */
-            overflow-y: auto;
-            padding: 8px 0; /* פדינג פנימי */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        .custom-select-options.active { display: block; }
-        .custom-select-options label { /* עיצוב האופציות בתוך ה-dropdown */
-            display: block;
-            padding: 10px 15px; /* פדינג גדול יותר לאופציות */
-            cursor: pointer;
-            font-weight: normal;
-            color: var(--text-color);
-            margin-bottom: 0;
-            transition: background-color 0.2s ease;
-        }
-        .custom-select-options label:hover { background-color: var(--medium-gray); } /* שינוי צבע רקע במעבר */
-        .custom-select-options input[type="checkbox"] { margin-left: 10px; transform: scale(1.1); }
-
-
-        .search-buttons-inline {
-            display: flex;
-            gap: 15px; /* רווח גדול יותר בין הכפתורים */
-            align-items: flex-end; 
-            padding-bottom: 0;
-        }
-        .search-buttons-inline .button {
-             margin-top: 0; 
-             flex-grow:1; 
-             padding: 14px 20px; /* פדינג אחיד לכפתורים */
-             font-size: 1.1em; /* פונט גדול יותר לכפתורים */
-             font-weight: 700;
-        }
-
-
-        /* סקשן אודות ויצירת קשר */
-        #about-contact-section {
-            background-color: #fff;
-            padding: 50px 25px; /* פדינג גדול יותר */
-            border-radius: 12px; /* פינות מעוגלות יותר */
-            margin-top: 50px; /* רווח גדול יותר */
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        }
-        #about-contact-section h2 {
-            color: var(--primary-color);
-            margin-bottom: 20px; /* רווח גדול יותר */
-            font-size: 2.3em; /* כותרת גדולה יותר */
-            font-weight: 700;
-        }
-         #about-contact-section h3 {
-            color: var(--secondary-color);
-            margin-top: 30px;
-            margin-bottom: 15px;
-            font-size: 1.6em;
-            font-weight: 600;
-        }
-        #about-contact-section p {
-            font-size: 1.15em; /* פונט גדול יותר לפסקאות */
-            line-height: 1.9; /* ריווח שורות גדול יותר */
-            max-width: 750px; /* רוחב מקסימלי גדול יותר */
-            margin: 0 auto 25px auto; /* רווח תחתון גדול יותר */
-        }
-        .contact-links a {
-            display: inline-flex; /* שימוש ב-flex ליישור אייקון וטקסט */
-            align-items: center; /* יישור אנכי */
-            gap: 8px; /* רווח בין אייקון לטקסט */
-            margin: 10px 12px; /* רווח קטן יותר בין הכפתורים עצמם */
-            padding: 12px 25px; /* פדינג מעודכן */
-            border-radius: 30px; /* רדיוס גדול יותר */
-            text-decoration: none;
-            font-weight: 700; /* פונט מודגש יותר */
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            font-size: 1.15em; /* פונט גדול יותר */
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .contact-links a:hover { 
-            transform: translateY(-2px) scale(1.03); 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        }
-        .whatsapp-link { background-color: #25D366; color: white; }
-        .instagram-link { background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); color: white; }
-        
-        /* שיפור קל לכרטיסי הדילים */
-        .deal-item h3 { font-size: 1.4em; font-weight: 600; }
-        #deals-section-title { font-size: 2.3em; font-weight: 700; }
-
+    <style>
+        /* * רוב העיצוב מגיע מ-style.css החיצוני.
+         * הסגנונות שהיו כאן קודם עבור header, search-banner וכו' הועברו ל-style.css הראשי.
+         * ניתן להשאיר כאן רק סגנונות סופר-ספציפיים לדף זה אם יש צורך, אך כרגע אין.
+        */
     </style>
 </head>
 <body>
@@ -253,7 +35,7 @@
         <div class="container">
             <h1>חופשה בתקציב שלך, בלי להתפשר על החלום!</h1>
             <p>דורון נקש, המומחה שלכם לדילים, ימצא עבורכם את הטיסות, המלונות והחבילות המשתלמות ביותר.</p>
-            <a href="#search-banner-container" class="button" style="font-size: 1.2em; padding: 15px 30px;">מצא את הדיל הבא שלך 👇</a>
+            <a href="#search-banner-container" class="button">מצא את הדיל הבא שלך 👇</a>
         </div>
     </section>
 
@@ -300,35 +82,37 @@
                     </select>
                 </div>
                 <div class="search-buttons-inline">
-                    <button id="apply-filters-btn" class="button">🔍 חפש</button>
-                    <button id="reset-filters-btn" class="button button-secondary">🔄 אפס</button>
+                    <button id="apply-search-btn" class="button">🔍 חפש</button>
+                    <button id="reset-search-btn" class="button button-secondary">🔄 אפס</button>
                 </div>
             </div>
         </div>
     </div>
 
-
-    <section id="deals-display-section" class="container">
-        <h2 id="deals-section-title">דילים מומלצים 🔥</h2>
-        <div id="deals-list" class="deals-grid">
-            <p>טוען דילים...</p>
+    <section id="deals-display-section">
+        <div class="container">
+            <h2 id="deals-section-title">דילים מומלצים 🔥</h2>
+            <div id="deals-list" class="deals-grid">
+                <p>טוען דילים...</p>
+            </div>
         </div>
     </section>
     
-    <section id="about-contact-section" class="container">
-        <h2>מי אני ולמה כדאי לכם לדבר איתי?</h2>
-        <p>
-            היי, אני דורון נקש, והתשוקה שלי היא למצוא את הדילים הכי שווים שיש ולהפוך את החופשה הבאה שלכם לחלומית - ובלי לקרוע את הכיס! 
-            עם ניסיון של שנים באיתור הזדמנויות ומבצעים נסתרים, אני כאן כדי לעזור לכם לתכנן כל פרט, לחסוך לכם זמן יקר והרבה כסף, והכי חשוב - לגרום לכם להנות מחופשה מושלמת בראש שקט.
-        </p>
-        <h3>מעדיפים ליווי אישי או שיש לכם שאלה? דברו איתי!</h3>
-        <div class="contact-links">
-            <a href="https://wa.me/972584593847?text=היי%20דורון,%20אשמח%20לסיוע%20במציאת%20דיל%20לחופשה" target="_blank" class="whatsapp-link"><span>שלח הודעה בוואטסאפ</span> 🟢</a>
-            <a href="https://www.instagram.com/nofesh_li?igsh=NjYzMWd6a21tbWdm&utm_source=qr" target="_blank" class="instagram-link"><span>עקבו אחרי באינסטגרם</span> 📸</a>
+    <section id="about-contact-section">
+        <div class="container" style="background-color: #fff; padding: 40px 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); text-align:center;">
+            <h2>מי אני ולמה כדאי לכם לדבר איתי?</h2>
+            <p style="font-size: 1.15em; line-height: 1.9; max-width: 750px; margin: 0 auto 25px auto;">
+                היי, אני דורון נקש, והתשוקה שלי היא למצוא את הדילים הכי שווים שיש ולהפוך את החופשה הבאה שלכם לחלומית - ובלי לקרוע את הכיס! 
+                עם ניסיון של שנים באיתור הזדמנויות ומבצעים נסתרים, אני כאן כדי לעזור לכם לתכנן כל פרט, לחסוך לכם זמן יקר והרבה כסף, והכי חשוב - לגרום לכם להנות מחופשה מושלמת בראש שקט.
+            </p>
+            <h3 style="color: var(--secondary-color); margin-top: 30px; margin-bottom: 15px; font-size: 1.6em; font-weight: 600;">מעדיפים ליווי אישי או שיש לכם שאלה? דברו איתי!</h3>
+            <div class="contact-links" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
+                <a href="https://wa.me/972584593847?text=היי%20דורון,%20אשמח%20לסיוע%20במציאת%20דיל%20לחופשה" target="_blank" class="button" style="background-color: #25D366; display: inline-flex; align-items: center; gap: 8px; font-size:1.1em !important; padding:12px 25px !important;"><span>שלח הודעה בוואטסאפ</span> 🟢</a>
+                <a href="https://www.instagram.com/nofesh_li?igsh=NjYzMWd6a21tbWdm&utm_source=qr" target="_blank" class="button" style="background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); display: inline-flex; align-items: center; gap: 8px; font-size:1.1em !important; padding:12px 25px !important;"><span>עקבו אחרי באינסטגרם</span> 📸</a>
+            </div>
+            <p style="font-size:1.1em; margin-top:25px; font-weight:600;">טלפון ליצירת קשר: 058-4593847</p>
         </div>
-        <p style="font-size:1.1em; margin-top:20px; font-weight:600;">טלפון ליצירת קשר: 058-4593847</p>
     </section>
-
 
     <footer>
         <p>נופש לי ולך &copy; <span id="currentYear"></span> | כל הזכויות שמורות לדורון נקש</p>
@@ -340,7 +124,6 @@
 
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // --- קבועים ופונקציות עזר ---
         const ALL_TRIP_TYPES_WITH_EMOJI = [
             { value: "בטן גב", label: "🏖️ בטן גב" },
             { value: "נופים וטבע", label: "🏞️ נופים וטבע" },
@@ -356,15 +139,16 @@
             { value: "משפחות", label: "👨‍👩‍👧‍👦 משפחות" }
         ];
 
-        function getNextMonthsAvailability(numberOfMonths = 60) { // עד 5 שנים קדימה
+        function getNextMonthsAvailability(numberOfMonths = 60) {
             const months = [];
             const currentDate = new Date();
+            currentDate.setDate(1);
             let targetYear = currentDate.getFullYear();
             let targetMonth = currentDate.getMonth();
 
             for (let i = 0; i < numberOfMonths; i++) {
                 const date = new Date(targetYear, targetMonth + i, 1);
-                if (date.getFullYear() > 2030 || (date.getFullYear() === 2030 && date.getMonth() > 0)) { // עצור בינואר 2030 (חודש 0)
+                if (date.getFullYear() > 2030 || (date.getFullYear() === 2030 && date.getMonth() > 0)) {
                     break;
                 }
                 const yearVal = date.getFullYear();
@@ -376,7 +160,6 @@
         }
         const AVAILABLE_MONTHS_OPTIONS = getNextMonthsAvailability();
         
-        // --- איתחול אלמנטים ---
         const dealsListContainer = document.getElementById('deals-list');
         const dealsSectionTitle = document.getElementById('deals-section-title');
         
@@ -391,70 +174,72 @@
         const tripTypesDisplayText = document.getElementById('trip-types-display-text');
         const filterTripTypesContainer = document.getElementById('filter-trip-types');
 
-        const applyFiltersBtn = document.getElementById('apply-filters-btn');
-        const resetFiltersBtn = document.getElementById('reset-filters-btn');
+        const applySearchBtn = document.getElementById('apply-search-btn'); // ID שונה מכפתור ב-deals.html
+        const resetSearchBtn = document.getElementById('reset-search-btn'); // ID שונה מכפתור ב-deals.html
 
-        let allDealsCache = [];
+        let allDealsCache = []; // משמש לטעינה ראשונית ואיפוס
 
-        // פונקציה לאכלוס Checkboxes למסננים (עבור dropdowns מותאמים)
         function populateCustomDropdownCheckboxes(container, options, groupName, displayElement, defaultText) {
-            container.innerHTML = ''; // נקה תוכן קודם
+            if (!container || !displayElement) return;
+            container.innerHTML = '';
             options.forEach(option => {
-                const checkboxId = `filter-${groupName}-${option.value.replace(/[\s🏖️🏞️🏰🗽🏯🎄⛷️🧗🚢🦓🥂👨‍👩‍👧‍👦]+/g, '-')}`; // ID ייחודי יותר
+                const checkboxId = `filter-index-${groupName}-${option.value.replace(/[^a-zA-Z0-9א-ת\-_]/g, '-')}`;
                 const label = document.createElement('label');
-                label.htmlFor = checkboxId; // שימוש ב-htmlFor
+                label.htmlFor = checkboxId;
                 label.innerHTML = `<input type="checkbox" id="${checkboxId}" name="${groupName}" value="${option.value}"> ${option.label}`;
                 container.appendChild(label);
             });
+            container.addEventListener('change', () => updateCustomDropdownDisplay(container, displayElement, defaultText, options.length));
+        }
 
-            container.addEventListener('change', () => {
-                const selected = Array.from(container.querySelectorAll('input[type="checkbox"]:checked'))
-                                    .map(cb => {
+        function updateCustomDropdownDisplay(optionsContainer, displayElement, defaultText, totalOptions) {
+            if (!optionsContainer || !displayElement) return;
+            const selectedCheckboxes = Array.from(optionsContainer.querySelectorAll('input[type="checkbox"]:checked'));
+            const selectedLabels = selectedCheckboxes.map(cb => {
                                         const parentLabel = cb.closest('label');
-                                        return parentLabel ? parentLabel.textContent.trim() : '';
-                                    }).filter(text => text); // סנן תוויות ריקות אם יש
-                if (selected.length > 0) {
-                    displayElement.textContent = selected.join(', ');
-                    if (selected.length > 2) { // קצר את התצוגה אם נבחרו יותר מ-2
-                        displayElement.textContent = `${selected.slice(0, 2).join(', ')}, ועוד ${selected.length - 2}`;
-                    }
+                                        return parentLabel ? parentLabel.textContent.trim().replace(cb.value, '').trim() : '';
+                                    }).filter(text => text);
+
+            if (selectedLabels.length > 0) {
+                 if (selectedLabels.length === totalOptions && totalOptions > 2) {
+                     displayElement.textContent = "כל האפשרויות";
+                } else if (selectedLabels.length > 2) {
+                    displayElement.textContent = `${selectedLabels.slice(0, 2).join(', ')}, ועוד ${selectedLabels.length - 2}`;
                 } else {
-                    displayElement.textContent = defaultText;
+                    displayElement.textContent = selectedLabels.join(', ');
                 }
-            });
+            } else {
+                displayElement.textContent = defaultText;
+            }
         }
         
         function setupCustomDropdown(wrapperElement, optionsContainerElement) {
             if (!wrapperElement || !optionsContainerElement) return;
-            
             const displayElement = wrapperElement.querySelector('.custom-select-display');
             if(!displayElement) return;
 
-            // סגירת כל ה-dropdowns האחרים
             function closeOtherDropdowns(exceptThisOne) {
-                document.querySelectorAll('.custom-select-options.active').forEach(activeDropdown => {
-                    if (activeDropdown !== exceptThisOne) {
+                 document.querySelectorAll('.custom-select-options.active').forEach(activeDropdown => {
+                    if (activeDropdown !== exceptThisOne && !exceptThisOne.contains(activeDropdown.parentElement)) {
                         activeDropdown.classList.remove('active');
                     }
                 });
             }
-
             displayElement.addEventListener('click', (event) => {
                 event.stopPropagation();
                 closeOtherDropdowns(optionsContainerElement);
                 optionsContainerElement.classList.toggle('active');
             });
-             // לאפשר פתיחה גם עם Enter/Space כשה-span בפוקוס
             displayElement.addEventListener('keydown', (event) => {
                 if (event.key === 'Enter' || event.key === ' ') {
-                    event.preventDefault();
-                    event.stopPropagation();
+                    event.preventDefault(); event.stopPropagation();
                     closeOtherDropdowns(optionsContainerElement);
                     optionsContainerElement.classList.toggle('active');
                 }
             });
-            
-            // סגירת ה-dropdown אם לוחצים מחוץ לו
+            optionsContainerElement.addEventListener('click', (event) => {
+                event.stopPropagation();
+            });
             document.addEventListener('click', (event) => {
                 if (optionsContainerElement.classList.contains('active') && !wrapperElement.contains(event.target)) {
                     optionsContainerElement.classList.remove('active');
@@ -462,20 +247,19 @@
             });
         }
 
-
-        populateCustomDropdownCheckboxes(filterAvailabilityMonthsContainer, AVAILABLE_MONTHS_OPTIONS, 'availabilityMonth', monthsDisplayText, "בחר חודשים...");
+        populateCustomDropdownCheckboxes(filterAvailabilityMonthsContainer, AVAILABLE_MONTHS_OPTIONS, 'availabilityMonthIndex', monthsDisplayText, "בחר חודשים...");
         setupCustomDropdown(monthsSelectWrapper, filterAvailabilityMonthsContainer);
 
-        populateCustomDropdownCheckboxes(filterTripTypesContainer, ALL_TRIP_TYPES_WITH_EMOJI, 'tripType', tripTypesDisplayText, "בחר סוגי חופשה...");
+        populateCustomDropdownCheckboxes(filterTripTypesContainer, ALL_TRIP_TYPES_WITH_EMOJI, 'tripTypeIndex', tripTypesDisplayText, "בחר סוגי חופשה...");
         setupCustomDropdown(tripTypesSelectWrapper, filterTripTypesContainer);
 
-        function displayDeals(dealsToDisplay, isFilteredResult = false) {
+        function displayDeals(dealsToDisplay) { // פונקציה זו מציגה דילים, ללא קשר אם הם מסוננים או מומלצים
             if (!dealsListContainer) return;
             dealsListContainer.innerHTML = '';
 
             if (dealsToDisplay.length === 0) {
-                dealsListContainer.innerHTML = '<p style="text-align:center; font-size:1.2em; color:var(--secondary-color);">לא נמצאו דילים העונים לקריטריונים שנבחרו. נסו להרחיב את החיפוש או <a href="#about-contact-section">פנו אלינו</a> לסיוע אישי!</p>';
-                dealsSectionTitle.textContent = "לא נמצאו דילים";
+                dealsListContainer.innerHTML = '<p style="text-align:center; font-size:1.2em; color:var(--secondary-color);">לא נמצאו דילים כרגע. נסו שוב מאוחר יותר!</p>';
+                dealsSectionTitle.textContent = "אין דילים מומלצים כרגע";
                 return;
             }
 
@@ -485,7 +269,7 @@
                 const dealElement = document.createElement('div');
                 dealElement.className = 'deal-item';
                 dealElement.innerHTML = `
-                    <img src="${deal.imageUrl || 'https://via.placeholder.com/350x220?text=תמונה+לא+זמינה'}" alt="${deal.name || 'דיל'}">
+                    <img src="${deal.imageUrl || 'https://via.placeholder.com/350x230?text=תמונה+לא+זמינה'}" alt="${deal.name || 'דיל'}">
                     <div class="deal-item-content">
                         <h3>${deal.name || 'דיל מיוחד'}</h3>
                         <p class="price">${deal.price_text || 'פנה למחיר'}</p>
@@ -495,107 +279,74 @@
                 `;
                 dealsListContainer.appendChild(dealElement);
             });
-            dealsSectionTitle.textContent = isFilteredResult ? `נמצאו ${dealsToDisplay.length} דילים עבורך:` : "דילים מומלצים 🔥";
+             // הכותרת נשארת "דילים מומלצים 🔥" ולא משתנה לפי תוצאות סינון כי הסינון מפנה
+            dealsSectionTitle.textContent = "דילים מומלצים 🔥";
         }
         
         async function fetchAndDisplayInitialDeals() {
-            dealsListContainer.innerHTML = '<p style="text-align:center; font-size:1.2em;">טוען דילים...</p>';
+            dealsListContainer.innerHTML = '<p style="text-align:center; font-size:1.2em;">טוען דילים מומלצים...</p>';
             try {
-                if (allDealsCache.length === 0) {
+                if (allDealsCache.length === 0) { // טען פעם אחת את כל הדילים ושמור במטמון
                     const dealsRef = collection(db, 'deals');
-                    const q = query(dealsRef, orderBy('createdAt', 'desc')); // המיון כאן הוא רק לבחירת ה"מומלצים"
+                    const q = query(dealsRef, orderBy('createdAt', 'desc')); 
                     const querySnapshot = await getDocs(q);
                     allDealsCache = querySnapshot.docs.map(doc => ({ id: doc.id, data: doc.data() }));
                 }
-                // דילים מומלצים: בשלב זה, פשוט ניקח את 6 הראשונים (הכי חדשים)
-                // בעתיד אפשר להוסיף שדה isFeatured לדילים
-                const featuredDeals = allDealsCache.slice(0, 6);
-                displayDeals(featuredDeals, false);
+                // הצג את 5 הדילים הראשונים (הכי חדשים) כדילים מומלצים
+                const featuredDeals = allDealsCache.slice(0, 5);
+                displayDeals(featuredDeals);
 
             } catch (error) {
                 console.error("Error fetching initial deals: ", error);
                 dealsListContainer.innerHTML = '<p style="text-align:center; color:red;">שגיאה בטעינת הדילים. אנא רענן את הדף או פנה אלינו.</p>';
+                dealsSectionTitle.textContent = "שגיאה בטעינה";
             }
         }
         
-        function filterDeals() {
+        applySearchBtn.addEventListener('click', () => {
             const selectedDealType = filterDealTypeSelect.value;
             const selectedDurationRange = filterDurationSelect.value;
             
-            const selectedTripTypes = Array.from(filterTripTypesContainer.querySelectorAll('input[name="tripType"]:checked')).map(cb => cb.value);
-            const selectedMonths = Array.from(filterAvailabilityMonthsContainer.querySelectorAll('input[name="availabilityMonth"]:checked')).map(cb => cb.value);
+            const selectedTripTypes = Array.from(filterTripTypesContainer.querySelectorAll('input[name="tripTypeIndex"]:checked')).map(cb => cb.value);
+            const selectedMonths = Array.from(filterAvailabilityMonthsContainer.querySelectorAll('input[name="availabilityMonthIndex"]:checked')).map(cb => cb.value);
 
-            if (selectedDealType === 'all' && selectedTripTypes.length === 0 && selectedMonths.length === 0 && selectedDurationRange === "") {
-                 fetchAndDisplayInitialDeals();
-                 return;
+            const params = new URLSearchParams();
+            if (selectedDealType && selectedDealType !== 'all') {
+                params.append('dealType', selectedDealType);
             }
-
-            const filteredDeals = allDealsCache.filter(dealData => {
-                const deal = dealData.data;
-                let dealTypeMatch = true;
-                let tripTypeMatch = true;
-                let monthMatch = true;
-                let durationMatch = true;
-
-                if (selectedDealType !== 'all') {
-                    dealTypeMatch = deal.dealType === selectedDealType;
-                }
-
-                if (selectedTripTypes.length > 0) {
-                    tripTypeMatch = deal.tripTypes && deal.tripTypes.some(tripType => selectedTripTypes.includes(tripType));
-                }
-
-                if (selectedMonths.length > 0) {
-                    monthMatch = deal.availabilityMonths && deal.availabilityMonths.some(availMonth => selectedMonths.includes(availMonth));
-                }
-                
-                if (selectedDurationRange !== "" && deal.exactDatesRange?.start && deal.exactDatesRange?.end) {
-                    try {
-                        const startDate = new Date(deal.exactDatesRange.start);
-                        const endDate = new Date(deal.exactDatesRange.end);
-                        // ודא שהתאריכים תקינים לפני חישוב ההפרש
-                        if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime()) && endDate >= startDate) {
-                            const diffTime = Math.abs(endDate - startDate);
-                            // +1 כדי לכלול גם את יום ההתחלה וגם את יום הסיום בספירת הימים הכוללת של החופשה
-                            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; 
-
-                            const [minDaysStr, maxDaysStr] = selectedDurationRange.split('-');
-                            const minDays = parseInt(minDaysStr, 10);
-                            const maxDays = parseInt(maxDaysStr, 10);
-                            
-                            durationMatch = diffDays >= minDays && diffDays <= maxDays;
-                        } else {
-                            durationMatch = false; // תאריכים לא תקינים בדיל
-                        }
-                    } catch (e) {
-                        console.warn("Could not parse dates for duration filter on deal:", deal.name, deal.exactDatesRange);
-                        durationMatch = false; // אם יש שגיאה בניתוח התאריכים
-                    }
-                } else if (selectedDurationRange !== "") {
-                    durationMatch = false; // אם נבחר משך אך לדיל אין תאריכים מדויקים
-                }
-                
-                return dealTypeMatch && tripTypeMatch && monthMatch && durationMatch;
-            });
-
-            displayDeals(filteredDeals, true);
-        }
-
-        applyFiltersBtn.addEventListener('click', filterDeals);
+            if (selectedDurationRange) {
+                params.append('duration', selectedDurationRange);
+            }
+            if (selectedTripTypes.length > 0) {
+                params.append('tripTypes', selectedTripTypes.join(','));
+            }
+            if (selectedMonths.length > 0) {
+                params.append('months', selectedMonths.join(','));
+            }
+            
+            if (params.toString() === "") { // אם לא נבחרו מסננים כלל
+                 // אפשר להציג הודעה למשתמש לבחור מסננים או פשוט להפנות לדף הדילים הכללי
+                 window.location.href = 'deals.html'; 
+            } else {
+                window.location.href = `deals.html?${params.toString()}`;
+            }
+        });
         
-        resetFiltersBtn.addEventListener('click', () => {
+        resetSearchBtn.addEventListener('click', () => {
             filterDealTypeSelect.value = 'all';
             filterDurationSelect.value = '';
             
             filterTripTypesContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
-            tripTypesDisplayText.textContent = "בחר סוגי חופשה...";
+            updateCustomDropdownDisplay(filterTripTypesContainer, tripTypesDisplayText, "בחר סוגי חופשה...", ALL_TRIP_TYPES_WITH_EMOJI.length);
             
             filterAvailabilityMonthsContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
-            monthsDisplayText.textContent = "בחר חודשים...";
+            updateCustomDropdownDisplay(filterAvailabilityMonthsContainer, monthsDisplayText, "בחר חודשים...", AVAILABLE_MONTHS_OPTIONS.length);
             
-            fetchAndDisplayInitialDeals();
+            // אין צורך לטעון מחדש את הדילים המומלצים כאן, הם כבר מוצגים. 
+            // האיפוס הוא רק של שדות החיפוש.
         });
 
+        // טעינה ראשונית של הדילים המומלצים
         fetchAndDisplayInitialDeals();
 
     </script>
